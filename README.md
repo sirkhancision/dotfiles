@@ -25,3 +25,11 @@ A set of configuration files for my personal system using KDE Plasma DE.
 **Iosevka Font:** Monospaced font with ligatures and various modes.
 
 >``pcaman -S ttf-iosevka``
+
+**Pure:** ZSH prompt with a minimal appearance.
+
+>https://github.com/sindresorhus/pure
+
+**.zshrc:** ZSH's main file with general configurations and aliases.
+
+>``~/.zshrc``
