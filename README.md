@@ -8,14 +8,20 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 >``~/.config``
 
-**Cyberpunk Neon-Red:** Plasma color scheme based on _Cyberpunk Neon_, changing purple colors to red.
+**Wayward ext:** Plasma color theme with a blue color palette.
 
->``~/.local/share/color-schemes/``
+>In KDE Store
 
-**KDE-Story[BlueRed]**: Konsole/Yakuake color scheme based on _KDE-Story_, focusing on blue and red colors.
+**Tango+Solarized Dark:** Konsole/Yakuake color scheme based on _Solarized_ theme. Small modification on background color so as to make it darker.
 
->``~/.local/share/konsole/``
+>In KDE Store
 
-**REDical:** Kate color scheme based on _Radical_, changing purple colors to red.
+**Solar Dark:** Kate color scheme based on _Solarized_ theme. Comes with Kate.
 
->``~/.local/share/org.kde.syntax-highlighting/themes``
+**Inter Font:** General UI font with a multitude of different characters and modes.
+
+>``pacman -S inter-font``
+
+**Iosevka Font:** Monospaced font with ligatures and various modes.
+
+>``pcaman -S ttf-iosevka``
