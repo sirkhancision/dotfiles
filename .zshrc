@@ -92,6 +92,8 @@ prompt pure
 
 PURE_CMD_MAX_EXEC_TIME=1
 
+zstyle :prompt:pure:prompt:success color green
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -146,7 +148,7 @@ alias un-l="bat -l bash /run/media/bruh/succ/Linux/unixcmd_list.lexp"
 alias zsh-l="bat -l bash /run/media/bruh/succ/Linux/ohmyzsh_list.lexp"
 
 # personal programs aliases
-alias fw="python ~/succ/Programas_aleatorios/Python/fullwidth.py"
+alias fw="echo $1 | python ~/succ/Programas_aleatorios/Python/fullwidth.py"
 alias rs="/run/media/bruh/succ/Programas_aleatorios/C/ram_speed"
 alias rc="/run/media/bruh/succ/Programas_aleatorios/C/randomcase"
 alias fs="/run/media/bruh/succ/Programas_aleatorios/C/fracsimp"
@@ -232,7 +234,7 @@ flash() {
         return 0
     fi
     
-	sudo dd bs=4M if=$1 of=$2 status=progress oflag=sync
+	sudo dd if=$1 of=$2 status=progress bs=4M; sync
 }
 
 # l1 and l2 are variables that use the command "sed"

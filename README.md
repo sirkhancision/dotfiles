@@ -2,9 +2,9 @@
 
 A set of configuration files for my personal system using KDE Plasma DE.
 
-**Breeze (GRUB Theme):** Just the _Breeze_ GRUB theme with minor modifications.
+**Vimix (GRUB Theme):** Just the _Vimix_ GRUB theme with a different background.
 
-**Breezerc**: Breeze's window configuration file with minor modifications.
+**Breezerc**: Breeze's window configuration file with minor modifications, for no title bar in windows.
 
 >``~/.config``
 
@@ -33,3 +33,7 @@ A set of configuration files for my personal system using KDE Plasma DE.
 **.zshrc:** ZSH's main file with general configurations and aliases.
 
 >``~/.zshrc``
+
+**.nanorc:** Nano's configuration file with my settings.
+
+>``~/.nanorc``
