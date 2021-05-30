@@ -71,7 +71,6 @@ ZSH_THEME=""
 plugins=(git
 catimg
 safe-paste
-common-aliases
 zsh-interactive-cd
 rand-quote
 zsh-syntax-highlighting)
@@ -125,13 +124,11 @@ export EDITOR='kate'
 # pacman aliases
 alias pac="sudo pacman -S"
 alias pacrm="sudo pacman -R"
+alias pacrms="sudo pacman -Rs"
 alias pacinfo="pacman -Qi"
 alias pacup="sudo pacman -Syu"
 alias paclean="paccache -rk1"
-
-# powerpill aliases
-alias pill="sudo powerpill -S"
-alias pillup="sudo powerpill -Syu"
+alias pacsearch="pacman -Ss"
 
 # youtube-dl aliases
 alias ytdl="youtube-dl --cookies /run/media/bruh/succ/cookies.txt"
@@ -145,7 +142,6 @@ alias reload="source ~/.zshrc"
 # command listing aliases
 alias al-l="tail -n +109 ~/.zshrc | bat -l bash"
 alias un-l="bat -l bash /run/media/bruh/succ/Linux/unixcmd_list.lexp"
-alias zsh-l="bat -l bash /run/media/bruh/succ/Linux/ohmyzsh_list.lexp"
 
 # personal programs aliases
 alias fw="echo $1 | python ~/succ/Programas_aleatorios/Python/fullwidth.py"
@@ -153,6 +149,28 @@ alias rs="/run/media/bruh/succ/Programas_aleatorios/C/ram_speed"
 alias rc="/run/media/bruh/succ/Programas_aleatorios/C/randomcase"
 alias fs="/run/media/bruh/succ/Programas_aleatorios/C/fracsimp"
 alias mdc="/run/media/bruh/succ/Programas_aleatorios/C/mdc"
+
+# common-aliases plugin
+alias l='ls -lFh' # size,show type,human readable
+alias la='ls -lAFh' # long list,show almost all,show type,human readable
+alias lr='ls -tRFh' # sorted by date,recursive,show type,human readable
+alias lt='ls -ltFh' # long list,sorted by date,show type,human readable
+alias ll='ls -l' # long list
+alias ldot='ls -ld .*'
+alias lS='ls -1FSsh'
+alias lart='ls -1Fcart'
+alias lrt='ls -1Fcrt'
+alias zshrc='kate ~/.zshrc' # Quick access to the .zshrc file
+alias grep='grep --color'
+alias ff='find . -type f -name'
+alias h='history'
+alias help='man'
+alias p='ps -f'
+alias sortnr='sort -n -r'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias cproton='/run/media/bruh/succ/Github/update-proton-ge/./update-proton-ge'
 
 # FUNCTION ALIASES
 
@@ -184,7 +202,7 @@ compc() {
     
 	lame -b $kbps $1 $2.mp3
 	
-	if [[ $(ls | grep .mp3.mp3) ]]; then
+	if [[ $(ls | rg .mp3.mp3) ]]; then
         rename .mp3.mp3 .mp3 *.mp3.mp3
     fi
     
