@@ -92,6 +92,7 @@ prompt pure
 PURE_CMD_MAX_EXEC_TIME=1
 
 zstyle :prompt:pure:prompt:success color green
+zstyle :prompt:pure:path color cyan
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -132,12 +133,13 @@ alias pacsearch="pacman -Ss"
 
 # youtube-dl aliases
 alias ytdl="youtube-dl --cookies /run/media/bruh/succ/cookies.txt"
-alias ytdl-mp3="youtube-dl --cookies /run/media/bruh/succ/cookies.txt --extract-audio --audio-format mp3"
-alias ytdl-getlink="youtube-dl --cookies /run/media/bruh/succ/cookies.txt --youtube-skip-dash-manifest -g"
+alias ytdl-mp3="ytdl --extract-audio --audio-format mp3"
+alias ytdl-getlink="ytdl --youtube-skip-dash-manifest -g"
 
 # aliases for general commands
 alias cl="clear"
 alias reload="source ~/.zshrc"
+alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
 
 # command listing aliases
 alias al-l="tail -n +109 ~/.zshrc | bat -l bash"
@@ -149,6 +151,7 @@ alias rs="/run/media/bruh/succ/Programas_aleatorios/C/ram_speed"
 alias rc="/run/media/bruh/succ/Programas_aleatorios/C/randomcase"
 alias fs="/run/media/bruh/succ/Programas_aleatorios/C/fracsimp"
 alias mdc="/run/media/bruh/succ/Programas_aleatorios/C/mdc"
+alias cproton='/run/media/bruh/succ/Github/update-proton-ge/./update-proton-ge'
 
 # common-aliases plugin
 alias l='ls -lFh' # size,show type,human readable
@@ -170,89 +173,88 @@ alias sortnr='sort -n -r'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias cproton='/run/media/bruh/succ/Github/update-proton-ge/./update-proton-ge'
 
 # FUNCTION ALIASES
 
 # use gcc to compile a .c file
 compc() {
-    if [[ $# == 0 ]]; then
-        echo "Alias for gcc compiler"
-        echo "Example: compc file1.c (input) file2 (output)"
-        return 0
-    elif [[ ! $1 == *".c"* ]]; then
-        echo "Input file $1 is not a valid .c file"
-        return 1
-    fi
-    
-	gcc -O2 -o $2 $1 -ansi -Wall -pedantic -lm
+  if [[ $# == 0 ]]; then
+    echo "Alias for gcc compiler"
+    echo "Example: compc file1.c (input) file2 (output)"
+    return 0
+  elif [[ ! $1 == *".c"* ]]; then
+    echo "Input file $1 is not a valid .c file"
+    return 1
+  fi
+
+  gcc -O2 -o $2 $1 -ansi -Wall -pedantic -lm
 }
 
 # use LAME to convert some audio file to MP3
 2mp3() {
-    kbps=128
-    
-    if [[ $# == 0 ]]; then
-        echo "Alias to use LAME to convert an audio file to MP3"
-        echo "Example: 2mp3 file1 (input) [file 2 (output)] [kbps]"
-        return 0
-    elif [[ -n $3 ]]; then
-        kbps=$3
-    fi
-    
-	lame -b $kbps $1 $2.mp3
-	
-	if [[ $(ls | rg .mp3.mp3) ]]; then
-        rename .mp3.mp3 .mp3 *.mp3.mp3
-    fi
-    
-	cl
+  kbps=128
+
+  if [[ $# == 0 ]]; then
+    echo "Alias to use LAME to convert an audio file to MP3"
+    echo "Example: 2mp3 file1 (input) [file 2 (output)] [kbps]"
+    return 0
+  elif [[ -n $3 ]]; then
+    kbps=$3
+  fi
+
+  lame -b $kbps $1 $2.mp3
+
+  if [[ $(ls | rg .mp3.mp3) ]]; then
+    rename .mp3.mp3 .mp3 *.mp3.mp3
+  fi
+
+  cl
 }
 
 # modified script from https://gist.github.com/kroger/6211862
 # uses fluidsynth and lame to convert midi to mp3
 midi2mp3() {
-    SOUNDFONT=/run/media/bruh/succ/Downloads/Soundfonts/OmegaGMGS2.sf2
-    TMPDIR=.
-    kbps=128
+  SOUNDFONT=/run/media/bruh/succ/Downloads/Soundfonts/OmegaGMGS2.sf2
+  TMPDIR=.
+  kbps=128
 
-    if [[ ! -f $SOUNDFONT ]]; then
-        echo "Couldn't find the soundfont: $SOUNDFONT"
-        return 1
+  if [[ ! -f $SOUNDFONT ]]; then
+    echo "Couldn't find the soundfont: $SOUNDFONT"
+    return 1
+  fi
+
+  if [[ $# == 0 ]]; then
+    echo "Converts MIDI files to MP3"
+    echo "Example: midi2mp3 file1.mid {file2.mid, file3.mid, ...}"
+    return 0
+  else
+    if [[ -n $2 ]]; then
+      kbps=$2
     fi
 
-    if [[ $# == 0 ]]; then
-        echo "Converts MIDI files to MP3"
-        echo "Example: midi2mp3 file1.mid {file2.mid, file3.mid, ...}"
-        return 0
-    else
-        if [[ -n $2 ]]; then
-            kbps=$2
-        fi
-        
-        for filename in "$@"
-        do
-            echo "${filename}"
-            WAVFILE="$TMPDIR/${filename%.*}"
+    for filename in "$@"
+    do
+      echo "${filename}"
+      WAVFILE="$TMPDIR/${filename%.*}"
 
-            fluidsynth -F "${WAVFILE}" $SOUNDFONT "${filename}" && \
-                lame -b $kbps "${WAVFILE}" && \
-                rm -f "${WAVFILE}"
-        done
-    fi
-    
-    cl
+      fluidsynth -F "${WAVFILE}" $SOUNDFONT "${filename}" && \
+        lame -b $kbps "${WAVFILE}" && \
+        rm -f "${WAVFILE}"
+    done
+  fi
+
+  cl
 }
 
 # flash some connected removable drive with an iso
 flash() {
-    if [[ $# == 0 ]]; then
-        echo "Flashes a bootable removable device with an iso file"
-        echo "Example: flash (iso file) (device path)"
-        return 0
-    fi
-    
-	sudo dd if=$1 of=$2 status=progress bs=4M; sync
+  if [[ $# == 0 ]]; then
+    echo "Flashes a bootable removable device with an iso file"
+    echo "Example: flash (iso file) (device path)"
+    return 0
+  fi
+
+  sudo dd if=$1 of=$2 status=progress bs=4M; sync
 }
 
 # l1 and l2 are variables that use the command "sed"
@@ -262,18 +264,18 @@ flash() {
 # "-t" argument using a time calculation with "qalc" in order to
 # stop exactly where you want in the video
 ytmkvcrop() {
-    if [[ $# == 0 ]]; then
-        echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of a video, producing a .mkv video file"
-        echo "Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video ending point i.e 15:00) filename"
-        return 0
-        
-    elif [[ -z $4 ]] && [[ $# -ne 4 ]]; then
-        echo "Missing output file name"
-        return 1
-    fi
-    
-    l1=$(ytdl-getlink $1 | sed -n 1p)
-    l2=$(ytdl-getlink $1 | sed -n 2p)
-    
-    ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t $3 - $2 to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
+  if [[ $# == 0 ]]; then
+    echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of a video, producing a .mkv video file"
+    echo "Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video ending point i.e 15:00) filename"
+    return 0
+
+  elif [[ -z $4 ]] && [[ $# -ne 4 ]]; then
+    echo "Missing output file name"
+    return 1
+  fi
+
+  l1=$(ytdl-getlink $1 | sed -n 1p)
+  l2=$(ytdl-getlink $1 | sed -n 2p)
+
+  ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t $3 - $2 to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
 }
