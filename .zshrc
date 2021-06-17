@@ -81,7 +81,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Bat configs
 
-export BAT_THEME="Solarized (dark)"
+export BAT_THEME="base16"
 export BAT_PAGER=""
 
 # Pure theme
@@ -90,9 +90,6 @@ autoload -U promptinit; promptinit
 prompt pure
 
 PURE_CMD_MAX_EXEC_TIME=1
-
-zstyle :prompt:pure:prompt:success color green
-zstyle :prompt:pure:path color cyan
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -127,7 +124,7 @@ alias pac="sudo pacman -S"
 alias pacrm="sudo pacman -R"
 alias pacrms="sudo pacman -Rs"
 alias pacinfo="pacman -Qi"
-alias pacup="sudo pacman -Syu"
+alias pacup="sudo pacman -Syu && yay -Sua"
 alias paclean="paccache -rk1"
 alias pacsearch="pacman -Ss"
 
@@ -146,7 +143,7 @@ alias al-l="tail -n +109 ~/.zshrc | bat -l bash"
 alias un-l="bat -l bash /run/media/bruh/succ/Linux/unixcmd_list.lexp"
 
 # personal programs aliases
-alias fw="echo $1 | python ~/succ/Programas_aleatorios/Python/fullwidth.py"
+alias fw="~/succ/Programas_aleatorios/Python/./fullwidth.py"
 alias rs="/run/media/bruh/succ/Programas_aleatorios/C/ram_speed"
 alias rc="/run/media/bruh/succ/Programas_aleatorios/C/randomcase"
 alias fs="/run/media/bruh/succ/Programas_aleatorios/C/fracsimp"

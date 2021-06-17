@@ -1,9 +1,3 @@
-[Common]
-OutlineCloseButton=false
-
-[Windeco]
-DrawBackgroundGradient=true
-
 [Windeco Exception 0]
 BorderSize=0
 Enabled=true

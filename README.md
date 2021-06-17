@@ -4,19 +4,35 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 **Vimix (GRUB Theme):** Just the _Vimix_ GRUB theme with a different background.
 
-**Breezerc**: Breeze's window configuration file with minor modifications, for no title bar in windows.
+**lightlyrc**: Plasma's Lightly window configuration file with minor modifications, removing title bar in windows.
 
 > `~/.config`
 
-**Wayward ext:** Plasma color theme with a blue color palette.
+**Lightly**: QT Application Style for Plasma.
 
-> In KDE Store
+> [Link for download](https://github.com/Luwx/Lightly/)
 
-**Tango+Solarized Dark:** Konsole/Yakuake color scheme based on _Solarized_ theme. Small modification on background color so as to make it darker.
+**DarkWarmth.colors:** Plasma color theme with an orange color palette. Slightly modified for better contrast between colors.
 
-> In KDE Store
+> `~/.local/share/color-schemes`
 
-**Solar Dark:** Kate color scheme based on _Solarized_ theme. Comes with Kate.
+**Dark-Warmth.colorscheme:** Konsole/Yakuake color scheme based on [_Dark Warmth_](https://store.kde.org/p/1283955/) theme. Slightly modified for better contrast between colors.
+
+> `~/.local/share/konsole/`
+
+**orange-dark:** Kate color scheme based on [_Dark Warmth_](https://store.kde.org/p/1283955/) and _Gruvbox Dark_ themes.
+
+> `~/.local/share/org.kde.syntax-highlighting/themes`
+
+**orange-vallhalla.png**: Wallpaper edited by me with characters from the game VA-11 HALL-A.
+
+**orange-vallhalla-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
+
+**oomox-Dark-Warmth**: GTK 3/4 themes from Dark Warth color scheme.
+
+> `/usr/share/themes`
+
+**papirus-folders**: Yaru theme used.
 
 **Inter Font:** General UI font with a multitude of different characters and modes.
 
