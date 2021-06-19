@@ -28,7 +28,7 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 **orange-vallhalla-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
 
-**oomox-Dark-Warmth**: GTK 3/4 themes from Dark Warth color scheme.
+**oomox-Dark Warmth**: GTK 3/4 themes from Dark Warmth color scheme. Modified by me.
 
 > `/usr/share/themes`
 
