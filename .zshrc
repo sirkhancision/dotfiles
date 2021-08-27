@@ -128,6 +128,7 @@ succ="/run/media/bruh/succ"
 
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
+alias uprpcs3="curl -JLO https://rpcs3.net/latest-appimage"
 
 # command listing aliases
 alias al-l="tail -n +128 ~/.zshrc | bat -l bash"
@@ -207,7 +208,7 @@ compc() {
 		return 1
 	fi
 
-	gcc -o $2 $1 -ansi -lm -march=native -O2 -pedantic -Wall
+	gcc -o $2 $1 -lm -march=native -O2 -pedantic -pipe -Wall
 }
 
 # flash some connected removable drive with an iso
