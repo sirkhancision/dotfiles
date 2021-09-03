@@ -92,9 +92,9 @@ export BAT_PAGER=""
 
 # Pure prompt
 
-autoload -U promptinit; promptinit
+autoload -Uz promptinit
+promptinit
 prompt pure
-
 PURE_CMD_MAX_EXEC_TIME=0
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -128,7 +128,6 @@ succ="/run/media/bruh/succ"
 
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
-alias uprpcs3="curl -JLO https://rpcs3.net/latest-appimage"
 
 # command listing aliases
 alias al-l="tail -n +128 ~/.zshrc | bat -l bash"
@@ -203,12 +202,15 @@ compc() {
 		echo "Alias for gcc compiler"
 		echo "Example: compc file1.c (input) file2 (output)"
 		return 0
+    elif [[ $# < 2 ]]; then
+        echo "Missing output file"
+        return 2
 	elif [[ ! $1 == *".c"* ]]; then
 		echo "Input file $1 is not a .c file"
 		return 1
 	fi
 
-	gcc -o $2 $1 -lm -march=native -O2 -pedantic -pipe -Wall
+	gcc -o $2 $1 -march=native -lm -O2 -pedantic -pipe -Wall
 }
 
 # flash some connected removable drive with an iso
