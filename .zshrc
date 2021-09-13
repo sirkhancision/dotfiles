@@ -68,17 +68,18 @@ ZSH_THEME=""
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git
-safe-paste
-zsh-interactive-cd
-colored-man-pages
+plugins=(colored-man-pages
+common-aliases
 dirhistory
-genpass
-kate
-sudo
-zsh_reload
-universalarchive
 extract
+genpass
+git
+kate
+safe-paste
+sudo
+universalarchive
+zsh-interactive-cd
+zsh_reload
 zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
@@ -128,31 +129,11 @@ succ="/run/media/bruh/succ"
 
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
+alias zshrc="kate $HOME/.zshrc"
 
 # command listing aliases
 alias al-l="tail -n +128 ~/.zshrc | bat -l bash"
 alias un-l="bat -l bash $succ/Linux/unixcmd_list.lexp"
-
-# common-aliases plugin
-alias cp='cp -i'
-alias ff='find . -type f -name'
-alias grep='grep --color'
-alias help='man'
-alias h='history'
-alias la='ls -lAFh' # long list,show almost all,show type,human readable
-alias lart='ls -1Fcart'
-alias ldot='ls -ld .*'
-alias ll='ls -l' # long list
-alias l='ls -lFh' # size,show type,human readable
-alias lr='ls -tRFh' # sorted by date,recursive,show type,human readable
-alias lrt='ls -1Fcrt'
-alias lS='ls -1FSsh'
-alias lt='ls -ltFh' # long list,sorted by date,show type,human readable
-alias mv='mv -i'
-alias p='ps -f'
-alias rm='rm -i'
-alias sortnr='sort -n -r'
-alias zshrc='kate ~/.zshrc' # Quick access to the .zshrc file
 
 # pacman/yay aliases
 alias pacinfo="pacman -Qi"
@@ -207,10 +188,10 @@ compc() {
         return 2
 	elif [[ ! $1 == *".c"* ]]; then
 		echo "Input file $1 is not a .c file"
-		return 1
+		return 3
 	fi
 
-	gcc -o $2 $1 -march=native -lm -O2 -pedantic -pipe -Wall
+	gcc -o $2 $1 -march=native -lm -O2 -pedantic -pipe -Wall -Werror
 }
 
 # flash some connected removable drive with an iso
