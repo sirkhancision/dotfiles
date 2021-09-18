@@ -71,9 +71,9 @@ ZSH_THEME=""
 plugins=(colored-man-pages
 common-aliases
 dirhistory
-extract
 genpass
 git
+gitignore
 kate
 safe-paste
 sudo
@@ -125,7 +125,7 @@ export EDITOR='kate'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # SIMPLE ALIASES
-succ="/run/media/bruh/succ"
+SUCC="/run/media/bruh/succ"
 
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
@@ -133,7 +133,7 @@ alias zshrc="kate $HOME/.zshrc"
 
 # command listing aliases
 alias al-l="tail -n +128 ~/.zshrc | bat -l bash"
-alias un-l="bat -l bash $succ/Linux/unixcmd_list.lexp"
+alias un-l="bat -l bash $SUCC/Linux/unixcmd_list.lexp"
 
 # pacman/yay aliases
 alias pacinfo="pacman -Qi"
@@ -149,18 +149,18 @@ alias fw="$HOME/.local/bin/./fullwidth.py"
 alias mdc="$HOME/.local/bin/./mdc"
 alias rc="$HOME/.local/bin/./randomcase"
 alias rs="$HOME/.local/bin/./ram_speed"
-alias uproton="sh $succ/Github/update-proton-ge/update-proton-ge"
-alias upcitra="sh $succ/Github/Small\ utilities/update-citra-nightly.sh"
+alias uproton="sh $SUCC/Github/update-proton-ge/update-proton-ge"
+alias upcitra="sh $SUCC/Github/Small\ utilities/update-citra-nightly.sh"
 
 # youtube-dl aliases
-alias ytdl="youtube-dl --cookies $succ/cookies.txt"
+alias ytdl="youtube-dl --cookies $SUCC/cookies.txt"
 alias ytdl-mp3="ytdl --extract-audio --audio-format mp3"
 alias ytdl-getlink="ytdl --youtube-skip-dash-manifest -g"
 
 # FUNCTION ALIASES
 
 # use LAME to convert some audio file to MP3
-2mp3() {
+function 2mp3() {
 	kbps=128
 
 	if [[ $# == 0 ]]; then
@@ -178,37 +178,26 @@ alias ytdl-getlink="ytdl --youtube-skip-dash-manifest -g"
 }
 
 # use gcc to compile a .c file
-compc() {
+function compc() {
 	if [[ $# == 0 ]]; then
 		echo "Alias for gcc compiler"
 		echo "Example: compc file1.c (input) file2 (output)"
 		return 0
     elif [[ $# < 2 ]]; then
         echo "Missing output file"
-        return 2
+        return 1
 	elif [[ ! $1 == *".c"* ]]; then
 		echo "Input file $1 is not a .c file"
-		return 3
+		return 2
 	fi
 
 	gcc -o $2 $1 -march=native -lm -O2 -pedantic -pipe -Wall -Werror
 }
 
-# flash some connected removable drive with an iso
-flash() {
-	if [[ $# == 0 ]]; then
-		echo "Flashes a bootable removable device with an iso file"
-		echo "Example: flash (iso file) (device path)"
-		return 0
-	fi
-
-	sudo dd if=$1 of=$2 status=progress bs=4M; sync
-}
-
 # modified script from https://gist.github.com/kroger/6211862
 # uses fluidsynth and lame to convert midi to mp3
-midi2mp3() {
-	SOUNDFONT=$succ/Downloads/Soundfonts/OmegaGMGS2.sf2
+function midi2mp3() {
+	SOUNDFONT=$SUCC/Downloads/Soundfonts/OmegaGMGS2.sf2
 	TMPDIR=.
 	kbps=128
 
@@ -243,10 +232,12 @@ midi2mp3() {
 # then, it uses ffmpeg to actually download the video, with the
 # "-t" argument using a time calculation with "qalc" in order to
 # stop exactly where you want in the video
-ytmkvcrop() {
+function ytmkvcrop() {
 	if [[ $# == 0 ]]; then
-		echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of a video, producing a .mkv video file"
-		echo "Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video ending point i.e 15:00) filename"
+		echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of"
+        echo "a video, producing a .mkv video file"
+		echo "Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video"
+        echo "ending point i.e 15:00) filename"
 		return 0
 	elif [[ -z $4 ]] && [[ $# -ne 4 ]]; then
 		echo "Missing output file name"
@@ -256,5 +247,6 @@ ytmkvcrop() {
 	l1=$(ytdl-getlink $1 | sed -n 1p)
 	l2=$(ytdl-getlink $1 | sed -n 2p)
 
-	ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
+	ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264
+        -c:a aac $4.mkv
 }
