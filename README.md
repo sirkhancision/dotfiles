@@ -4,14 +4,6 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 **Vimix (GRUB Theme):** Just the _Vimix_ GRUB theme with a different background.
 
-**lightlyrc**: Plasma's Lightly window configuration file with minor modifications, removing title bar in windows.
-
-> `~/.config`
-
-**Lightly**: QT Application Style for Plasma.
-
-> [Link for download](https://github.com/Luwx/Lightly/)
-
 **DarkWarmth.colors:** Plasma color theme with an orange color palette. Slightly modified for better contrast between colors.
 
 > `~/.local/share/color-schemes`
@@ -53,3 +45,7 @@ A set of configuration files for my personal system using KDE Plasma DE.
 **.nanorc:** Nano's configuration file with my settings.
 
 > `~/.nanorc`
+
+**init.vim:** Neovim's configuration file with my settings.
+
+> `~/.config/nvim`

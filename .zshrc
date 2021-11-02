@@ -79,7 +79,6 @@ safe-paste
 sudo
 universalarchive
 zsh-interactive-cd
-zsh_reload
 zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
@@ -110,7 +109,7 @@ PURE_CMD_MAX_EXEC_TIME=0
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='kate'
+export EDITOR='nvim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -129,11 +128,10 @@ SUCC="/run/media/bruh/succ"
 
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
-alias zshrc="kate $HOME/.zshrc"
+alias zshrc="$EDITOR $HOME/.zshrc"
 
 # command listing aliases
-alias al-l="tail -n +128 ~/.zshrc | bat -l bash"
-alias un-l="bat -l bash $SUCC/Linux/unixcmd_list.lexp"
+alias al-l="tail -n +127 ~/.zshrc | bat -l bash"
 
 # pacman/yay aliases
 alias pacinfo="pacman -Qi"
@@ -144,13 +142,12 @@ alias pac="yay -S"
 alias pacup="yay -Syu && paclean"
 
 # personal programs aliases
-alias fs="$HOME/.local/bin/./fracsimp"
-alias fw="$HOME/.local/bin/./fullwidth.py"
+alias fs="$HOME/.local/bin/./fraction_simplifier"
+alias fw="$HOME/.local/bin/./fullwidth_converter"
 alias mdc="$HOME/.local/bin/./mdc"
 alias rc="$HOME/.local/bin/./randomcase"
-alias rs="$HOME/.local/bin/./ram_speed"
 alias uproton="sh $SUCC/Github/update-proton-ge/update-proton-ge"
-alias upcitra="sh $SUCC/Github/Small\ utilities/update-citra-nightly.sh"
+alias upcitra="sh $SUCC/Github/Small\ utilities/sh/update-citra-nightly.sh"
 
 # youtube-dl aliases
 alias ytdl="youtube-dl --cookies $SUCC/cookies.txt"
@@ -191,7 +188,21 @@ function compc() {
 		return 2
 	fi
 
-	gcc -o $2 $1 -march=native -lm -O2 -pedantic -pipe -Wall -Werror
+	gcc -o $2 $1 -march=native -O2 -pedantic -pipe -Wall -Werror -lm -lgmp
+}
+
+# use curl and bsdtar to download and extract a compressed archive
+function curltar() {
+    if [[ $# == 0 ]]; then
+		echo "Alias to use curl and bsdtar to download and extract a compressed archive"
+		echo "Example: curltar (url) (output-directory)"
+		return 0
+    elif [[ $# < 2 ]]; then
+        echo "Missing output directory"
+        return 1
+	fi
+    
+    curl -Lo /dev/stdout $1 | bsdtar -xf /dev/stdin --directory $2
 }
 
 # modified script from https://gist.github.com/kroger/6211862
@@ -247,6 +258,8 @@ function ytmkvcrop() {
 	l1=$(ytdl-getlink $1 | sed -n 1p)
 	l2=$(ytdl-getlink $1 | sed -n 2p)
 
-	ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264
+	ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 \
         -c:a aac $4.mkv
 }
+
+export PATH="$PATH:$HOME/.local/bin"
