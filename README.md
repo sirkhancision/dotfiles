@@ -8,7 +8,7 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 > `~/.local/share/color-schemes`
 
-**Dark-Warmth.colorscheme:** Konsole/Yakuake color scheme based on [_Dark Warmth_](https://store.kde.org/p/1283955/) theme. Slightly modified for better contrast between colors.
+**Eonyze.colorscheme:** Konsole/Yakuake color scheme, modified from [_Moe-Dark_](https://store.kde.org/p/1378415) and my custom version of [_Dark Warmth_](https://store.kde.org/p/1283955/) theme.
 
 > `~/.local/share/konsole/`
 
