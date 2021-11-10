@@ -1,11 +1,11 @@
 [Desktop Entry]
 Type=X-GNOME-Metatheme
-Name=oomox-Eonyze
-Comment=A partially sexual act; when a female (of any species; mostly humanoids) rubs the ears/lobes of a male Ferengi, creating sensual emotions and chemical reactions in the male (and sometimes in the female).
+Name=Eonyze
+Comment=A color scheme focusing on a black, white, and red color palette, along with good contrast and legibility. The white colors aren't too bright, either, being closer to a lighter shade of gray.
 Encoding=UTF-8
 
 [X-GNOME-Metatheme]
-Name=oomox-Eonyze
-GtkTheme=oomox-Eonyze
-IconTheme=oomox-Eonyze
-MetacityTheme=oomox-Eonyze
+Name=Eonyze
+GtkTheme=Eonyze
+IconTheme=Eonyze
+MetacityTheme=Eonyze
