@@ -17,13 +17,13 @@ Color=43,43,43
 Color=38,38,38
 
 [Color1]
-Color=203,65,65
+Color=149,48,41
 
 [Color1Faint]
-Color=203,92,84
+Color=113,53,47
 
 [Color1Intense]
-Color=182,72,72
+Color=131,43,43
 
 [Color2]
 Color=81,127,86
@@ -44,13 +44,13 @@ Color=105,120,147
 Color=55,93,144
 
 [Color4]
-Color=203,65,65
+Color=149,48,41
 
 [Color4Faint]
-Color=203,92,84
+Color=113,53,47
 
 [Color4Intense]
-Color=182,72,72
+Color=131,43,43
 
 [Color5]
 Color=206,119,48
@@ -65,7 +65,7 @@ Color=214,113,12
 Color=0,159,159
 
 [Color6Faint]
-Color=24,94,88
+Color=68,165,162
 
 [Color6Intense]
 Color=38,182,184
@@ -89,7 +89,7 @@ Color=202,208,212
 Color=179,185,188
 
 [General]
-Blur=true
+Blur=false
 ColorRandomization=false
 Description=Eonyze
 Opacity=0.95
