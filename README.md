@@ -4,7 +4,7 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 **Vimix (GRUB Theme):** Just the _Vimix_ GRUB theme with a different background.
 
-**DarkWarmth.colors:** Plasma color theme with an orange color palette. Slightly modified for better contrast between colors.
+**Eonyze.colors:** Plasma color theme with a black-and-white-and-red color palette.
 
 > `~/.local/share/color-schemes`
 
@@ -16,11 +16,11 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 > `~/.local/share/org.kde.syntax-highlighting/themes`
 
-**orange-vallhalla.png**: Wallpaper edited by me with characters from the game VA-11 HALL-A.
+**lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
-**orange-vallhalla-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
+**lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
 
-**oomox-Dark Warmth**: GTK 3/4 themes from Dark Warmth color scheme. Modified by me.
+**oomox-Eonyze**: GTK 3/4 themes from Eonyze color scheme. Made by me.
 
 > `/usr/share/themes`
 
