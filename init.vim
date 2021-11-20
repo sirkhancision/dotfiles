@@ -12,7 +12,8 @@ set wrap " enables word wrapping
 set titlestring=%t
 syntax enable
 filetype plugin indent on
-
+set clipboard=unnamedplus
+set list listchars=tab:»\ ,eol:↴,nbsp:␣,trail:⋅,extends:›,precedes:‹
 nnoremap <F5> :CHADopen<CR>
 
 " }}}
@@ -89,21 +90,19 @@ call plug#end()
 " REQUESTING LUA MODULES {{{
 
 lua << EOF
-    vim.opt.list = true
-    vim.opt.listchars:append("space:⋅")
-
-	require'lspconfig'.bashls.setup{}
-	require'lspconfig'.ccls.setup{}
-	require'lspconfig'.gdscript.setup{}
-	require'lspconfig'.pyright.setup{}
-	require'lspconfig'.rust_analyzer.setup{}
+    require'lspconfig'.bashls.setup{}
+    require'lspconfig'.ccls.setup{}
+    require'lspconfig'.gdscript.setup{}
+    require'lspconfig'.pyright.setup{}
+    require'lspconfig'.rust_analyzer.setup{}
     require'lspconfig'.html.setup{}
-	require'lualine'.setup {
+    require'lualine'.setup {
         options = { theme = 'gruvbox',
-			section_separators = { left = '', right = ''},
-  			component_separators = { left = '', right = ''}
-		}
-	}
+            section_separators = { left = '', right = ''},
+            component_separators = { left = '', right = ''},
+            disabled_filetypes = {'CHADTree'}
+        }
+    }
 
     require'nvim-treesitter.configs'.setup {
         highlight = {
@@ -115,9 +114,13 @@ lua << EOF
     }
 
     require'indent_blankline'.setup {
-        space_char_blankline = " ",
+        use_treesitter = true,
+        filetype_exclude = {'text', 'help', 'CHADTree'},
+        space_char_blankline = ' ',
+        show_end_of_line = true,
         show_current_context = true,
-        buftype_exclude = {"terminal"}
+        show_current_context_start = true,
+        buftype_exclude = {'terminal'}
     }
 EOF
 
