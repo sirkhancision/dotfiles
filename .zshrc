@@ -87,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Bat configs
 
-export BAT_THEME="base16"
+export BAT_THEME="gruvbox-dark"
 export BAT_PAGER=""
 
 # Pure prompt
@@ -129,17 +129,18 @@ SUCC="/run/media/bruh/succ"
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
 alias zshrc="$EDITOR $HOME/.zshrc"
+alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
 
 # command listing aliases
 alias al-l="tail -n +127 ~/.zshrc | bat -l bash"
 
-# pacman/yay aliases
+# pacman/paru aliases
 alias pacinfo="pacman -Qi"
 alias paclean="paccache -rk1"
 alias pacrm="sudo pacman -R"
-alias pacsearch="yay -Ss"
-alias pac="yay -S"
-alias pacup="yay -Syu && paclean"
+alias pacsearch="paru -Ss --bottomup"
+alias pac="paru -S --useask"
+alias pacup="paru && paclean"
 
 # personal programs aliases
 alias fs="$HOME/.local/bin/./fraction_simplifier"
@@ -148,11 +149,12 @@ alias mdc="$HOME/.local/bin/./mdc"
 alias rc="$HOME/.local/bin/./randomcase"
 alias uproton="sh $SUCC/Github/update-proton-ge/update-proton-ge"
 alias upcitra="sh $SUCC/Github/Small\ utilities/sh/update-citra-nightly.sh"
+alias kegel="$HOME/.local/bin/./kegel_routine"
 
 # youtube-dl aliases
-alias ytdl="youtube-dl --cookies $SUCC/cookies.txt"
-alias ytdl-mp3="ytdl --extract-audio --audio-format mp3"
-alias ytdl-getlink="ytdl --youtube-skip-dash-manifest -g"
+alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
+alias ytdlp-mp3="yt-dlp --extract-audio --audio-format mp3"
+alias ytdlp-getlink="yt-dlp -g"
 
 # FUNCTION ALIASES
 
@@ -245,21 +247,22 @@ function midi2mp3() {
 # stop exactly where you want in the video
 function ytmkvcrop() {
 	if [[ $# == 0 ]]; then
-		echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of"
-        echo "a video, producing a .mkv video file"
-		echo "Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video"
-        echo "ending point i.e 15:00) filename"
+		echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of\n\
+a video, producing a .mkv video file\n\
+Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video\n\
+ending point i.e 15:00) filename"
 		return 0
 	elif [[ -z $4 ]] && [[ $# -ne 4 ]]; then
 		echo "Missing output file name"
 		return 1
 	fi
 
-	l1=$(ytdl-getlink $1 | sed -n 1p)
-	l2=$(ytdl-getlink $1 | sed -n 2p)
+	l1=$(ytdlp-getlink $1 | sed -n 1p)
+	l2=$(ytdlp-getlink $1 | sed -n 2p)
 
 	ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 \
         -c:a aac $4.mkv
 }
 
 export PATH="$PATH:$HOME/.local/bin"
+unset fd

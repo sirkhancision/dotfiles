@@ -6,13 +6,10 @@ set shiftwidth=4 " shift with 4 spaces
 set number " show line numbers
 set cursorline " highlight cursor line
 set autoindent " auto indent as per line
-" set spell spelllang+=pt " enable spell-checker
 set termguicolors " enable true-color
-set wrap " enables word wrapping
-set titlestring=%t
 syntax enable
 filetype plugin indent on
-set clipboard=unnamedplus
+set clipboard=unnamedplus " set clipboard as the one used in the system
 set list listchars=tab:»\ ,eol:↴,nbsp:␣,trail:⋅,extends:›,precedes:‹
 nnoremap <F5> :CHADopen<CR>
 
