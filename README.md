@@ -49,3 +49,7 @@ A set of configuration files for my personal system using KDE Plasma DE.
 **init.vim:** Neovim's configuration file with my settings.
 
 > `~/.config/nvim`
+
+**ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
+
+> `~/.oh-my-zsh/custom`
