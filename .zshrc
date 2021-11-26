@@ -107,6 +107,9 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#595959"
 # Aliases to not be expanded
 GLOBALIAS_FILTER_VALUES=($(cat $ZSH/custom/ignored-aliases.txt))
 
+# Specify which highlighters should be active
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp brackets pattern)
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment

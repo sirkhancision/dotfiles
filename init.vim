@@ -11,7 +11,12 @@ syntax enable
 filetype plugin indent on
 set clipboard=unnamedplus " set clipboard as the one used in the system
 set list listchars=tab:»\ ,eol:↴,nbsp:␣,trail:⋅,extends:›,precedes:‹
+set mouse=a " enable use of mouse
+
+" shortcut to open CHADTree ↓
 nnoremap <F5> :CHADopen<CR>
+
+command Trim %s/\s\+$// " command to trim trailing whitespace in files
 
 " }}}
 
@@ -80,6 +85,10 @@ Plug 'plasticboy/vim-markdown'
 " editing proper cargo.toml files
 Plug 'mhinz/vim-crates'
 
+" have tabs for the files being edited
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'akinsho/bufferline.nvim'
+
 call plug#end()
 
 " }}}
@@ -92,12 +101,15 @@ lua << EOF
     require'lspconfig'.gdscript.setup{}
     require'lspconfig'.pyright.setup{}
     require'lspconfig'.rust_analyzer.setup{}
-    require'lspconfig'.html.setup{}
+    require'lspconfig'.html.setup{
+        cmd = { "vscode-html-languageserver", "--stdio" }
+    }
+    require'lspconfig'.vimls.setup{}
     require'lualine'.setup {
         options = { theme = 'gruvbox',
             section_separators = { left = '', right = ''},
             component_separators = { left = '', right = ''},
-            disabled_filetypes = {'CHADTree'}
+            disabled_filetypes = {'CHADTree', 'vim-plug'}
         }
     }
 
@@ -112,19 +124,35 @@ lua << EOF
 
     require'indent_blankline'.setup {
         use_treesitter = true,
-        filetype_exclude = {'text', 'help', 'CHADTree'},
+        filetype_exclude = {'text', 'help', 'CHADTree', 'vim-plug'},
         space_char_blankline = ' ',
         show_end_of_line = true,
         show_current_context = true,
         show_current_context_start = true,
         buftype_exclude = {'terminal'}
     }
+
+    require'bufferline'.setup{
+        options = {
+            separator_style = "padded_slant",
+            diagnostics = "nvim_lsp",
+            diagnostics_indicator = function(count, level, diagnostics_dict, context)
+              local icon = level:match("error") and " " or " "
+              return " " .. icon .. count
+            end,
+            custom_filter = function(buf_number)
+              -- filter out filetypes you don't want to see
+              if vim.bo[buf_number].filetype ~= "qf" then
+                return true
+              end
+            end
+        }
+    }
 EOF
 
 " }}}
 
 colo melange " set the color-scheme
-hi Normal guibg=NONE ctermbg=NONE " set transparent bg
 
 " run commands after startup
 autocmd VimEnter * COQnow -s
