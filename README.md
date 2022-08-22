@@ -42,10 +42,6 @@ A set of configuration files for my personal system using KDE Plasma DE.
 
 > `~/.zshrc`
 
-**.nanorc:** Nano's configuration file with my settings.
-
-> `~/.nanorc`
-
 **init.vim:** Neovim's configuration file with my settings.
 
 > `~/.config/nvim`

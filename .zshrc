@@ -69,23 +69,22 @@ ZSH_THEME=""
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(aliases
-cargo
+rust
 colored-man-pages
-copybuffer
-copydir
 common-aliases
-fd
+copybuffer
+copypath
 dirhistory
+fd
 genpass
 git
 gitignore
 globalias
 kate
-safe-paste
 ripgrep
+safe-paste
 sudo
 universalarchive
-zsh-autosuggestions
 zsh-interactive-cd
 zsh-syntax-highlighting)
 
@@ -137,21 +136,19 @@ export EDITOR='nvim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # ALIASES
-SUCC="/run/media/bruh/succ"
+SUCC="/mnt/succ"
 
 # aliases for general commands
 alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
+alias ignored-aliases="$EDITOR $ZSH/custom/ignored-aliases.txt"
+alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
-alias emby-start="systemctl start emby-server.service"
-alias emby-stop="systemctl stop emby-server.service"
-alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
-alias ignored-aliases="$EDITOR $ZSH/custom/ignored-aliases.txt"
 
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
 alias paruss="paru -Ss --bottomup"
-alias parup="paru && paru -c && paccache -rk1"
+alias parup="paru; paccache -rk1"
 
 # personal programs aliases
 alias fs="$HOME/.local/bin/./fraction_simplifier"
@@ -159,6 +156,7 @@ alias fw="$HOME/.local/bin/./fullwidth_converter"
 alias mdc="$HOME/.local/bin/./mdc"
 alias rc="$HOME/.local/bin/./randomcase"
 alias kegel="$HOME/.local/bin/./kegel_routine"
+alias upcitra="$HOME/.local/bin/./update-citra-nightly.sh"
 
 # youtube-dl aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
