@@ -2,8 +2,6 @@
 
 A set of configuration files for my personal system using KDE Plasma DE.
 
-**Vimix (GRUB Theme):** Just the _Vimix_ GRUB theme with a different background.
-
 **Eonyze.colors:** Plasma color theme with a black-and-white-and-red color palette.
 
 > `~/.local/share/color-schemes`
@@ -11,10 +9,6 @@ A set of configuration files for my personal system using KDE Plasma DE.
 **Eonyze.colorscheme:** Konsole/Yakuake color scheme, modified from [_Moe-Dark_](https://store.kde.org/p/1378415) and my custom version of [_Dark Warmth_](https://store.kde.org/p/1283955/) theme.
 
 > `~/.local/share/konsole/`
-
-**orange-dark:** Kate color scheme based on [_Dark Warmth_](https://store.kde.org/p/1283955/) and _Gruvbox Dark_ themes.
-
-> `~/.local/share/org.kde.syntax-highlighting/themes`
 
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
