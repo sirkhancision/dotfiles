@@ -1,6 +1,6 @@
-## KDE Plasma Customization Files
+## dotfiles
 
-A set of configuration files for my personal system using KDE Plasma DE.
+A set of configuration files for my personal system.
 
 **Eonyze.colors:** Plasma color theme with a black-and-white-and-red color palette.
 
