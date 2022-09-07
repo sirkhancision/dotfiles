@@ -43,3 +43,19 @@ A set of configuration files for my personal system using KDE Plasma DE.
 **ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
 
 > `~/.oh-my-zsh/custom`
+
+**alacritty.yml:** Alacritty terminal configuration file.
+
+> `~/.config/alacritty`
+
+**config:** Sway's configuration file.
+
+> `~/.config/sway`
+
+**waybar:** Directory containing Waybar's configuration files.
+
+> `~/.config/waybar`
+
+**Scripts:** Directory containing scripts used in my desktop session.
+
+> `~/Documents/Scripts`

@@ -99,6 +99,8 @@ export BAT_THEME="gruvbox-dark"
 autoload -Uz promptinit
 promptinit
 prompt pure
+zstyle :prompt:pure:prompt:success color white
+zstyle :prompt:pure:path color red
 
 # zsh-autosuggestions configs
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#595959"
@@ -144,6 +146,8 @@ alias ignored-aliases="$EDITOR $ZSH/custom/ignored-aliases.txt"
 alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
+alias swaycfg="$EDITOR $HOME/.config/sway/config"
+alias alacfg="$EDITOR $HOME/.config/alacritty/alacritty.yml"
 
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
