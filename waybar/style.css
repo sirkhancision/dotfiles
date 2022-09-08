@@ -40,7 +40,7 @@ window#waybar.solo {
     color:      rgba(238, 46, 36, 1);
 }
 
-#mode, #battery, #cpu, #memory, #network, #pulseaudio, #clock {
+#mode, #battery, #cpu, #memory, #network, #pulseaudio, #custom-playerctl, #clock {
     padding:    0 5px;
     margin:     0 5px;
 }
