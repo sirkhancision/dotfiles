@@ -2,6 +2,13 @@
 
 A set of configuration files for my personal system.
 
+**alacritty.yml:** Alacritty terminal configuration file.
+
+> `~/.config/alacritty`
+
+**cz-Hickson (Black):** Cursor theme used.
+> <https://www.pling.com/p/1503665>
+
 **Eonyze.colors:** Plasma color theme with a black-and-white-and-red color palette.
 
 > `~/.local/share/color-schemes`
@@ -9,6 +16,22 @@ A set of configuration files for my personal system.
 **Eonyze.colorscheme:** Konsole/Yakuake color scheme, modified from [_Moe-Dark_](https://store.kde.org/p/1378415) and my custom version of [_Dark Warmth_](https://store.kde.org/p/1283955/) theme.
 
 > `~/.local/share/konsole/`
+
+**ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
+
+> `~/.oh-my-zsh/custom`
+
+**init.vim:** Neovim's configuration file with my settings.
+
+> `~/.config/nvim`
+
+**Inter Font:** General UI font with a multitude of different characters and modes.
+
+> `pacman -S inter-font`
+
+**Iosevka Font:** Monospaced font with ligatures and various modes.
+
+> `pcaman -S ttf-iosevka`
 
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
@@ -20,35 +43,21 @@ A set of configuration files for my personal system.
 
 **papirus-folders**: Yaru theme used.
 
-**Inter Font:** General UI font with a multitude of different characters and modes.
-
-> `pacman -S inter-font`
-
-**Iosevka Font:** Monospaced font with ligatures and various modes.
-
-> `pcaman -S ttf-iosevka`
-
 **Pure:** ZSH prompt with a minimal appearance.
 
 > <https://github.com/sindresorhus/pure>
 
-**.zshrc:** ZSH's main file with general configurations and aliases.
+**Scripts:** Directory containing scripts used in my desktop session.
 
-> `~/.zshrc`
+> `~/Documents/Scripts`
 
-**init.vim:** Neovim's configuration file with my settings.
+**Sugar Candy:** SDDM theme used.
+> <https://www.gnome-look.org/p/1312658>
 
-> `~/.config/nvim`
+**(Sugar Candy) theme.conf:** Configuration file for Sugar Candy.
+> `/usr/share/sddm/themes/sugar-candy`
 
-**ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
-
-> `~/.oh-my-zsh/custom`
-
-**alacritty.yml:** Alacritty terminal configuration file.
-
-> `~/.config/alacritty`
-
-**config:** Sway's configuration file.
+**(Sway) config:** Sway's configuration file.
 
 > `~/.config/sway`
 
@@ -56,6 +65,6 @@ A set of configuration files for my personal system.
 
 > `~/.config/waybar`
 
-**Scripts:** Directory containing scripts used in my desktop session.
+**.zshrc:** ZSH's main file with general configurations and aliases.
 
-> `~/Documents/Scripts`
+> `~/.zshrc`
