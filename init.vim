@@ -18,6 +18,9 @@ nnoremap <F5> :CHADopen<CR>
 
 command Trim %s/\s\+$// " command to trim trailing whitespace in files
 
+" prevent nvim's window from incorrectly resizing
+autocmd VimEnter * :silent exec "!kill -s SIGWINCH $PPID"
+
 " }}}
 
 " VIMSCRIPT {{{
