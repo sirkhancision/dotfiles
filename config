@@ -284,8 +284,4 @@ exec wl-paste -t text --watch clipman store --no-persist
 for_window [app_id="firefox" title="^Picture-in-Picture$"] \
     floating enable, move position 877 450, sticky enable, resize set 852 480
 
-# Configure feh to float
-for_window [app_id="feh"] \
-    floating enable, sticky enable
-
 include /etc/sway/config.d/*
