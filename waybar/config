@@ -25,7 +25,7 @@
         "format": "{usage}% "
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}%⏲"
     },
     "battery": {
         "format": "{capacity}% {icon}",
@@ -74,8 +74,8 @@
 	"return-type": "json",
 	"format" : "{icon}",
 	"format-icons": {
-		"Playing": "喇",
-		"Paused": ""
+		"Playing": "⏵",
+		"Paused": "⏸"
 	},
 	"exec": "status=$(playerctl status) && title=$(playerctl metadata title) && artist=$(playerctl metadata artist) && echo {'\"alt\"':'\"'$status'\"', '\"tooltip\"':'\"'$title - $artist'\"'}",
 	"on-click": "playerctl play-pause",
