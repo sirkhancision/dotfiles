@@ -99,6 +99,7 @@ export BAT_THEME="gruvbox-dark"
 autoload -Uz promptinit
 promptinit
 prompt pure
+PURE_PROMPT_SYMBOL=⁖
 zstyle :prompt:pure:prompt:success color white
 zstyle :prompt:pure:path color red
 

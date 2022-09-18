@@ -3,7 +3,7 @@ swaylock -f -c 000000 \
     --effect-blur 2x5 \
     --effect-vignette 0.4:0.9 \
     --fade-in 0.2 \
-    --font Inter \
+    --font "Sarasa Gothic CL" \
     --grace 5 \
     --hide-keyboard-layout \
     --indicator \

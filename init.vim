@@ -12,6 +12,7 @@ filetype plugin indent on
 set clipboard=unnamedplus " set clipboard as the one used in the system
 set list listchars=tab:»\ ,eol:↴,nbsp:␣,trail:⋅,extends:›,precedes:‹
 set mouse=a " enable use of mouse
+set guicursor=
 
 " shortcut to open CHADTree ↓
 nnoremap <F5> :CHADopen<CR>
@@ -35,7 +36,6 @@ augroup END
 if has('nvim')
   autocmd BufRead Cargo.toml call crates#toggle()
 endif
-
 " }}}
 
 " PLUGINS {{{
@@ -99,8 +99,8 @@ call plug#end()
 " REQUESTING LUA MODULES {{{
 
 lua << EOF
+    require'lspconfig'.clangd.setup{}
     require'lspconfig'.bashls.setup{}
-    require'lspconfig'.ccls.setup{}
     require'lspconfig'.gdscript.setup{}
     require'lspconfig'.pyright.setup{}
     require'lspconfig'.rust_analyzer.setup{}
