@@ -4,17 +4,20 @@ set $mod Mod4
 set $term alacritty
 set $calculator qalculate-gtk
 set $filemanager nemo
-set $lock $HOME/Documents/Scripts/screen-lock.sh
-set $screenshot $HOME/Documents/Scripts/screenshot.sh
-set $windowshot $HOME/Documents/Scripts/windowshot.sh
-set $screenclip $HOME/Documents/Scripts/screenclip.sh
-set $import-settings $HOME/Documents/Scripts/import-settings.sh
+set $lock $HOME/Documentos/Scripts/screen-lock.sh
+set $screenshot $HOME/Documentos/Scripts/screenshot.sh
+set $windowshot $HOME/Documentos/Scripts/windowshot.sh
+set $screenclip $HOME/Documentos/Scripts/screenclip.sh
+set $volume-increase $HOME/Documentos/Scripts/volume-increase.sh
+set $volume-decrease $HOME/Documentos/Scripts/volume-decrease.sh
+set $volume-mute $HOME/Documentos/Scripts/volume-mute.sh
+set $import-settings $HOME/Documentos/Scripts/import-settings.sh
 set $cl_high #832b2b
 set $cl_indi #bdc3c7
 set $cl_back #2b2b2b
 set $cl_fore #bdc3c7
 set $cl_urge #ce7730
-font pango:Sarasa Gothic CL 10
+font pango:Inter Regular 10
 # Wallpaper
 output * bg $HOME/Github/dotfiles/lain-red.png fill
 
@@ -33,7 +36,7 @@ client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 ### Autostart
 # Autostart mako (notification manager)
-exec --no-startup-id mako --font "Sarasa Gothic CL" 10 \
+exec --no-startup-id mako --font "Inter Regular" 10 \
     --text-color "#bdc3c7" --background-color "#71352f" \
     --border-color "#953029" --progress-color "#b3b9bc" \
     --icon-path /usr/share/icons/Papirus-Dark
@@ -51,7 +54,7 @@ exec swayidle -w \
 ### Input configuration
 input * {
     xkb_layout "br, us"
-    xkb_model "pc86"
+    xkb_model "pc105"
     repeat_delay "600"
     repeat_rate "25"
 }
@@ -155,9 +158,9 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Multimedia
-bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym --locked XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym --locked XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioRaiseVolume exec --no-startup-id $volume-increase
+bindsym --locked XF86AudioLowerVolume exec --no-startup-id $volume-decrease
+bindsym --locked XF86AudioMute exec --no-startup-id $volume-mute
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
@@ -196,12 +199,13 @@ bar {
 # Starts clipman (a clipboard manager) with Sway
 exec wl-paste -t text --watch clipman store --no-persist
 # Auto-connects to known wireless networks at boot
-exec nm-applet --indicator
+# exec nm-applet --indicator
 # Configure Firefox's Picture-in-Picture mode
 for_window [app_id="firefox" title="^Picture-in-Picture$"] \
-    floating enable, move position 877 450, sticky enable, resize set 852 480
+    floating enable, move position 877 450, sticky enable, resize set 854 480
 # Configure sway-launcher-desktop
-for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+for_window [app_id="^launcher$"] \
+    floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 set $menu exec $term --class=launcher -e sway-launcher-desktop
 
 include /etc/sway/config.d/*

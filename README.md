@@ -29,9 +29,9 @@ A set of configuration files for my personal system.
 
 > `pacman -S inter-font`
 
-**Iosevka Font:** Monospaced font with ligatures and various modes.
+**Iosevka Nerd Font:** Monospaced font with ligatures and various modes.
 
-> `pcaman -S ttf-iosevka`
+> `pcaman -S ttf-iosevka-nerd`
 
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
@@ -57,7 +57,7 @@ A set of configuration files for my personal system.
 **(Sugar Candy) theme.conf:** Configuration file for Sugar Candy.
 > `/usr/share/sddm/themes/sugar-candy`
 
-**(Sway) config:** Sway's configuration file.
+**Sway config:** Sway's configuration directory.
 
 > `~/.config/sway`
 

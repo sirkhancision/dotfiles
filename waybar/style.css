@@ -1,21 +1,15 @@
 * {
-    border:        none;
-    border-radius: 0;
-    font-family:   "Sarasa Gothic CL";
-    font-size:     14px;
-    box-shadow:    none;
-    text-shadow:   none;
+    color:               #bdc3c7;
+    border:              none;
+    border-radius:       0;
+    font-family:         "Iosevka Nerd Font";
+    font-size:           14px;
     transition-duration: 0s;
 }
 
-window {
-    color:      rgba(217, 216, 216, 1);
-    background: rgba(35, 31, 32, 0.00);
-}
-
-window#waybar.solo {
-    color:      rgba(217, 216, 216, 1);
-    background: rgba(35, 31, 32, 0.85);
+window#waybar {
+    background: transparent;
+    color: #bdc3c7;
 }
 
 #workspaces {
@@ -23,36 +17,38 @@ window#waybar.solo {
 }
 
 #workspaces button {
-    padding:    0 5px;
-    color:      rgba(217, 216, 216, 0.4);
-}
-
-#workspaces button.visible {
-    color:      rgba(217, 216, 216, 1);
+    padding: 0 5px;
+    background: transparent;
+    color: #bdc3c7;
+    border-top: 2px solid transparent;
 }
 
 #workspaces button.focused {
-    border-top: 3px solid rgba(217, 216, 216, 1);
-    border-bottom: 3px solid rgba(217, 216, 216, 0);
+    color: #953029;
+    border-top: 2px solid #953029;
 }
 
-#workspaces button.urgent {
-    color:      rgba(238, 46, 36, 1);
+#tray, #mode, #battery, #cpu, #memory, #network, #pulseaudio, #custom-playerctl, #clock {
+    padding:    0 6px;
+    margin:     0 6px;
 }
 
-#mode, #battery, #cpu, #memory, #network, #pulseaudio, #custom-playerctl, #clock {
-    padding:    0 5px;
-    margin:     0 5px;
+#clock {
+    font-weight: bold;
+}
+
+#battery icon {
+    color: #517f56;
 }
 
 #battery.warning {
-   color:       rgba(255, 210, 4, 1);
-}
+   color:       #d6710c;
+   }
 
 #battery.critical {
-    color:      rgba(238, 46, 36, 1);
+    color:      #953029;
 }
 
 #battery.charging {
-    color:      rgba(217, 216, 216, 1);
+    color:      #26b6b8;
 }

@@ -1,7 +1,7 @@
 {
-    "layer": "bottom",
+    "layer": "top",
     "position": "top",
-    "height": 30,
+    "height": 24,
 
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
@@ -18,8 +18,7 @@
         "tooltip": false
     },
     "clock": {
-        "format": "{:%d/%m/%y | %H:%M}",
-        "tooltip": false
+        "format-alt": "{:%d/%m/%y | %H:%M}",
     },
     "cpu": {
         "format": "{usage}% "
@@ -66,7 +65,8 @@
         "on-click": "pavucontrol"
     },
     "tray": {
-        "icon-size": 18
+        "icon-size": 18,
+        "spacing": 3
     },
     "custom/playerctl": {
 	"interval": 1,
