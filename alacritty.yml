@@ -8,19 +8,19 @@ window:
 
 font:
   normal:
-    family: Sarasa Mono CL
+    family: Iosevka Nerd Font Mono
     style: Regular
 
   bold:
-    family: Sarasa Mono CL
+    family: Iosevka Nerd Font Mono
     style: Bold
 
   italic:
-    family: Sarasa Mono CL
+    family: Iosevka Nerd Font Mono
     style: Italic
 
   bold_italic:
-    family: Sarasa Mono CL
+    family: Iosevka Nerd Font Mono
     style: Bold Italic
 
   size: 10.5
