@@ -4,14 +4,14 @@ set $mod Mod4
 set $term alacritty
 set $calculator qalculate-gtk
 set $filemanager nemo
-set $lock $HOME/Documentos/Scripts/screen-lock.sh
-set $screenshot $HOME/Documentos/Scripts/screenshot.sh
-set $windowshot $HOME/Documentos/Scripts/windowshot.sh
-set $screenclip $HOME/Documentos/Scripts/screenclip.sh
-set $volume-increase $HOME/Documentos/Scripts/volume-increase.sh
-set $volume-decrease $HOME/Documentos/Scripts/volume-decrease.sh
-set $volume-mute $HOME/Documentos/Scripts/volume-mute.sh
-set $import-settings $HOME/Documentos/Scripts/import-settings.sh
+set $lock $HOME/.config/sway/scripts/screen-lock.sh
+set $screenshot $HOME/.config/sway/scripts/screenshot.sh
+set $windowshot $HOME/.config/sway/scripts/windowshot.sh
+set $screenclip $HOME/.config/sway/scripts/screenclip.sh
+set $volume-increase $HOME/.config/sway/scripts/volume-increase.sh
+set $volume-decrease $HOME/.config/sway/scripts/volume-decrease.sh
+set $volume-mute $HOME/.config/sway/scripts/volume-mute.sh
+set $import-settings $HOME/.config/sway/scripts/import-settings.sh
 set $cl_high #832b2b
 set $cl_indi #bdc3c7
 set $cl_back #2b2b2b
@@ -176,14 +176,12 @@ bindsym Control+Space exec makoctl dismiss
 bindsym Control+Shift+Space exec makoctl dismiss --all
 
 ### Modes
-set $mode_system System: (l)ock|(e) logout|(s)uspend|(r)eboot|(S)hutdown|(R) UEFI
+set $mode_system ⏻ (L)ogout | (R)eboot | (S)hutdown | (U)EFI
 mode "$mode_system" {
-    bindsym l exec $lock, mode "default"
-    bindsym e exit
-    bindsym s exec --no-startup-id systemctl suspend, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+l exit
+    bindsym Shift+r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
-    bindsym Shift+r exec --no-startup-id systemctl reboot --firmware-setup, mode "default"
+    bindsym Shift+u exec --no-startup-id systemctl reboot --firmware-setup, mode "default"
     # return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -206,6 +204,8 @@ for_window [app_id="firefox" title="^Picture-in-Picture$"] \
 # Configure sway-launcher-desktop
 for_window [app_id="^launcher$"] \
     floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
-set $menu exec $term --class=launcher -e sway-launcher-desktop
+set $menu exec $term --class=launcher -e env TERMINAL_COMMAND=alacritty sway-launcher-desktop
+for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
+for_window [app_id="mpv"] floating enable
 
 include /etc/sway/config.d/*
