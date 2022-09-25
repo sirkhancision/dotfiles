@@ -7,6 +7,7 @@ A set of configuration files for my personal system.
 > `~/.config/alacritty`
 
 **cz-Hickson (Black):** Cursor theme used.
+
 > <https://www.pling.com/p/1503665>
 
 **Eonyze.colors:** Plasma color theme with a black-and-white-and-red color palette.
@@ -31,7 +32,7 @@ A set of configuration files for my personal system.
 
 **Iosevka Nerd Font:** Monospaced font with ligatures and various modes.
 
-> `pcaman -S ttf-iosevka-nerd`
+> `pacman -S ttf-iosevka-nerd`
 
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
@@ -47,14 +48,22 @@ A set of configuration files for my personal system.
 
 > <https://github.com/sindresorhus/pure>
 
-**Scripts:** Directory containing scripts used in my desktop session.
+**qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 
-> `~/Documents/Scripts`
+> `~/.config/qt5ct/colors/`
+> `~/.config/qt6ct/colors/`
+
+**scripts:** Directory containing scripts used in my desktop session.
+
+> `~/.config/sway/scripts`
 
 **Sugar Candy:** SDDM theme used.
+
 > <https://www.gnome-look.org/p/1312658>
+> `/usr/share/sddm/themes/`
 
 **(Sugar Candy) theme.conf:** Configuration file for Sugar Candy.
+
 > `/usr/share/sddm/themes/sugar-candy`
 
 **Sway config:** Sway's configuration directory.
