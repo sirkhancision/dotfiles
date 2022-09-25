@@ -63,6 +63,8 @@
 #backlight,
 #mode,
 #tray,
+#custom-pacman,
+#custom-weather,
 #custom-media,
 #network {
 	background: @bgcolor;

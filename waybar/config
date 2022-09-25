@@ -4,17 +4,28 @@
 {
     "layer": "top",
     "position": "top",
-    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "backlight", "battery", "pulseaudio", "custom/cap-left"],
+    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "backlight", "battery", "pulseaudio", "custom/cap-left"],
     "modules-center": ["sway/workspaces"],
-    "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "clock"],
-    "sway/mode": {
-        "max-length": 50
+    "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
+    "custom/cap-left": {
+        "tooltip": false,
+        "format": "",
     },
-    "backlight": {
-        // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
-        "states": [0,50],
-        "format-icons": ["", ""]
+    "custom/cap-right": {
+        "tooltip": false,
+        "format": "",
+    },
+    "custom/weather": {
+        "tooltip": false,
+        "exec": "curl 'https://wttr.in/?format=1'",
+        "interval": 3600
+    },
+    "custom/pacman": {
+        "tooltip": false,
+        "format": "{} ",
+        "interval": 3600,
+        "exec": "checkupdates | wc -l",
+        "exec-if": "exit 0",
     },
     "custom/media": {
         "format": " {}",
@@ -28,89 +39,88 @@
         "on-scroll-down": "playerctl previous",
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null",
     },
+    "sway/workspaces": {
+        "tooltip": false,
+        "disable-scroll": true,
+    },
+    "sway/mode": {
+        "max-length": 50
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "states": [0,50],
+        "format-icons": ["", ""]
+    },
     "tray": {
         "icon-size": 21,
         "spacing": 10
     },
     "battery": {
-      "min-length": 5,
-      "states": {
-          "full": 90,
-          "warning": 30,
-          "critical": 15,
-      },
-      "tooltip": false,
-      "full-at": 90,
-      "format-plugged": "{icon} {capacity}%",
-      "format-charging": "{icon} {capacity}%",
-      "format": "{icon} {capacity}%",
-      "format-icons": ["", "", "", "", "", "", "", "", "", ""],
+        "min-length": 5,
+        "states": {
+            "full": 90,
+            "warning": 30,
+            "critical": 15,
+        },
+        "tooltip": false,
+        "full-at": 90,
+        "format-plugged": "{icon} {capacity}%",
+        "format-charging": "{icon} {capacity}%",
+        "format": "{icon} {capacity}%",
+        "format-icons": ["", "", "", "", "", "", "", "", "", ""],
     },
     "clock": {
-      "format": " {:%a %b %d %H:%M}",
-      "format-alt": " {:%d/%m/%Y %H:%M:%S}",
-      "tooltip": false,
-      "min-length": 18,
-      "interval": 1,
+        "format": " {:%a %b %d %H:%M}",
+        "format-alt": " {:%d/%m/%Y %H:%M:%S}",
+        "tooltip": false,
+        "min-length": 18,
+        "interval": 1,
     },
     "network": {
-      "interval": 2,
-      "format-wifi": " {essid}",
-      "format-ethernet": " {ifname}",
-      "format-disconnected": " Disconnected",
-      "format-disabled": "",
-      "tooltip": false,
-      "max-length": 20,
-      "min-length": 6,
+        "interval": 2,
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ifname}",
+        "format-disconnected": " Disconnected",
+        "format-disabled": "",
+        "tooltip": false,
+        "max-length": 20,
+        "min-length": 6,
     },
     "pulseaudio": {
-      "tooltip": false,
-      "min-length": 5,
-      "format": "{icon} {volume}%",
-      "format-bluetooth": "{icon} {volume}%",
-      "format-muted": "MUTE",
-      "format-icons": {
-      "headphone": "",
-      "headset": "",
-      "default": ["", "", ""],
-      },
+        "tooltip": false,
+        "min-length": 5,
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-muted": "MUTE",
+        "format-icons": {
+            "headphone": "",
+            "headset": "",
+            "default": ["", "", ""],
+        },
     },
     "idle_inhibitor": {
-      "tooltip": false,
+        "tooltip": false,
         "format": "{icon}",
         "format-icons": {
             "activated": "",
             "deactivated": "",
-      },
+        },
     },
     "cpu": {
-      "interval": 4,
-      "min-length": 6,
-      "format": " {usage}%",
-      "tooltip": false,
-      "states": {
-          "critical": 90,
-      },
+        "interval": 4,
+        "min-length": 6,
+        "format": " {usage}%",
+        "tooltip": false,
+        "states": {
+            "critical": 90,
+        },
     },
     "memory": {
-      "tooltip": false,
-      "format": " {percentage}%",
-      "states": {
-        "critical":90,
-      },
-      "min-length": 5,
-    },
-    "sway/workspaces": {
-      "tooltip": false,
-      "disable-scroll": true,
-    },
-    "custom/cap-left": {
-      "tooltip": false,
-        "format": "",
-    },
-    "custom/cap-right": {
-      "tooltip": false,
-        "format": "",
+        "format": " {percentage}%",
+        "states": {
+            "critical":90,
+        },
+        "min-length": 5,
     },
 }
-
