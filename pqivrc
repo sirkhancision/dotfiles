@@ -1,0 +1,10 @@
+[options]
+hide-info-box=1
+
+[keybindings]
+q { goto_file_relative(-1); }
+w { goto_file_relative(1); }
+x { send_keys(#1); }
+<numbersign>1 { set_scale_level_absolute(1.); bind_key(x { send_keys(#2\); }); }
+<numbersign>2 { set_scale_level_absolute(.5); bind_key(x { send_keys(#3\); }); }
+<numbersign>3 { set_scale_level_absolute(0.25); bind_key(x { send_keys(#1\); }); }

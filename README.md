@@ -18,6 +18,10 @@ A set of configuration files for my personal system.
 
 > `~/.local/share/konsole/`
 
+**fontconfig/fonts.conf:** Configuration file for system-wide fonts.
+
+> `~/.config/fontconfig/`
+
 **ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
 
 > `~/.oh-my-zsh/custom`
@@ -47,6 +51,10 @@ A set of configuration files for my personal system.
 **Pure:** ZSH prompt with a minimal appearance.
 
 > <https://github.com/sindresorhus/pure>
+
+**pqivrc:** Configuration file for pqi image viewer.
+
+> `~/.config/`
 
 **qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 
