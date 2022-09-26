@@ -28,7 +28,7 @@
         "exec-if": "exit 0",
     },
     "custom/media": {
-        "format": " {}",
+        "format": "{}",
         "escape": true,
         "return-type": "json",
         "max-length": 40,
