@@ -7,28 +7,7 @@
     "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "backlight", "battery", "pulseaudio", "custom/cap-left"],
     "modules-center": ["sway/workspaces"],
     "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
-    "custom/cap-left": {
-        "tooltip": false,
-        "format": "",
-    },
-    "custom/cap-right": {
-        "tooltip": false,
-        "format": "",
-    },
-    "custom/weather": {
-        "tooltip": false,
-        "exec": "curl 'https://wttr.in/?format=1'",
-        "interval": 3600
-    },
-    "custom/pacman": {
-        "tooltip": false,
-        "format": "{} ",
-        "interval": 3600,
-        "exec": "checkupdates | wc -l",
-        "exec-if": "exit 0",
-    },
     "custom/media": {
-        "format": "{}",
         "escape": true,
         "return-type": "json",
         "max-length": 40,
@@ -39,6 +18,26 @@
         "on-scroll-down": "playerctl previous",
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null",
     },
+    "custom/cap-left": {
+        "tooltip": false,
+        "format": "",
+    },
+    "custom/cap-right": {
+        "tooltip": false,
+        "format": "",
+    },
+    "custom/weather": {
+        "tooltip": false,
+        "exec": "curl 'https://wttr.in/?format=1' | sed 's/ //g'",
+        "interval": 3600
+    },
+    "custom/pacman": {
+        "tooltip": false,
+        "format": "{} ",
+        "interval": 3600,
+        "exec": "checkupdates | wc -l",
+        "exec-if": "exit 0",
+    },
     "sway/workspaces": {
         "tooltip": false,
         "disable-scroll": true,
@@ -47,7 +46,6 @@
         "max-length": 50
     },
     "backlight": {
-        // "device": "acpi_video1",
         "format": "{percent}% {icon}",
         "states": [0,50],
         "format-icons": ["", ""]
