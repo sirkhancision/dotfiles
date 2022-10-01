@@ -6,6 +6,10 @@ A set of configuration files for my personal system.
 
 > `~/.config/alacritty`
 
+**cmus:** Configuration files for cmus music player.
+
+> `~/.config/cmus/`
+
 **cz-Hickson (Black):** Cursor theme used.
 
 > <https://www.pling.com/p/1503665>
