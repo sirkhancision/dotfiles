@@ -47,7 +47,8 @@ exec swayidle -w \
 
 ### Input configuration
 input * {
-    xkb_layout "br, us"
+    xkb_layout "br,br(nodeadkeys)"
+    xkb_options "grp:rctrl_toggle"
     xkb_model "pc105"
     repeat_delay "600"
     repeat_rate "25"

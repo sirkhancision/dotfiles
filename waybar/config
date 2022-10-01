@@ -5,9 +5,10 @@
     "layer": "top",
     "position": "top",
     "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "backlight", "battery", "pulseaudio", "custom/cap-left"],
-    "modules-center": ["sway/workspaces"],
+    "modules-center": ["sway/language", "sway/workspaces"],
     "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
     "custom/dunst": {
+        "tooltip": false,
         "exec": "~/.config/waybar/scripts/dunst.sh",
         "on-click": "dunstctl set-paused toggle",
         "restart-interval": 1,
@@ -18,9 +19,6 @@
         "max-length": 40,
         "on-click": "playerctl play-pause",
         "on-click-right": "playerctl stop",
-        "smooth-scrolling-threshold": 10,
-        "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous",
         "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null",
     },
     "custom/cap-left": {
@@ -38,7 +36,7 @@
     },
     "custom/pacman": {
         "tooltip": false,
-        "format": "{} ",
+        "format": " {}",
         "interval": 3600,
         "exec": "checkupdates | wc -l",
         "exec-if": "exit 0",
@@ -48,7 +46,11 @@
         "disable-scroll": true,
     },
     "sway/mode": {
+        "tooltip": false,
         "max-length": 50
+    },
+    "sway/language": {
+        "format": "{} {variant}",
     },
     "backlight": {
         "format": "{percent}% {icon}",
@@ -82,11 +84,13 @@
     },
     "network": {
         "interval": 2,
-        "format-wifi": " {essid}",
-        "format-ethernet": " {ifname}",
+        "format-wifi": "",
+        "format-ethernet": "",
         "format-disconnected": " Disconnected",
         "format-disabled": "",
-        "tooltip": false,
+        "tooltip-format-wifi": "{essid}",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "",
         "max-length": 20,
         "min-length": 6,
     },
