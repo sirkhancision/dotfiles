@@ -32,11 +32,8 @@ client.unfocused        $cl_back $cl_back $cl_fore $cl_back $cl_back
 client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 ### Autostart
-# Autostart mako (notification manager)
-exec --no-startup-id mako --font "Inter Regular" 10 \
-    --text-color "#bdc3c7" --background-color "#71352f" \
-    --border-color "#953029" --progress-color "#b3b9bc" \
-    --icon-path /usr/share/icons/Papirus-Dark
+# Autostart dunst (notification manager)
+exec dunst
 # Autostart polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Workaround for GTK theme
@@ -169,8 +166,8 @@ bindsym XF86Mail exec thunderbird -compose
 # Open calculator
 bindsym XF86Calculator exec $calculator
 # Notifications
-bindsym Control+Space exec makoctl dismiss
-bindsym Control+Shift+Space exec makoctl dismiss --all
+bindsym Control+Space exec dunstctl close
+bindsym Control+Shift+Space exec dunstctl close-all
 
 ### Modes
 set $mode_system ⏻ (L)ogout | (R)eboot | (S)hutdown | (U)EFI
@@ -204,5 +201,6 @@ for_window [app_id="^launcher$"] \
 set $menu exec $term --class=launcher -e env TERMINAL_COMMAND=alacritty sway-launcher-desktop
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [app_id="mpv"] floating enable
+for_window [app_id="pqiv"] floating enable
 
 include /etc/sway/config.d/*

@@ -4,9 +4,14 @@
 {
     "layer": "top",
     "position": "top",
-    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "backlight", "battery", "pulseaudio", "custom/cap-left"],
+    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "backlight", "battery", "pulseaudio", "custom/cap-left"],
     "modules-center": ["sway/workspaces"],
     "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
+    "custom/dunst": {
+        "exec": "~/.config/waybar/scripts/dunst.sh",
+        "on-click": "dunstctl set-paused toggle",
+        "restart-interval": 1,
+    },
     "custom/media": {
         "escape": true,
         "return-type": "json",
@@ -16,7 +21,7 @@
         "smooth-scrolling-threshold": 10,
         "on-scroll-up": "playerctl next",
         "on-scroll-down": "playerctl previous",
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null",
+        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null",
     },
     "custom/cap-left": {
         "tooltip": false,
@@ -28,7 +33,7 @@
     },
     "custom/weather": {
         "tooltip": false,
-        "exec": "curl 'https://wttr.in/?format=1' | sed 's/ //g'",
+        "exec": "curl 'https://wttr.in/?format=1' | sed 's/  / /g'",
         "interval": 3600
     },
     "custom/pacman": {

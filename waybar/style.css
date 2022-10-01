@@ -66,6 +66,7 @@
 #custom-pacman,
 #custom-weather,
 #custom-media,
+#custom-dunst,
 #network {
 	background: @bgcolor;
 	padding-left: 10px;
