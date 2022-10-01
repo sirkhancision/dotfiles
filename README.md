@@ -18,6 +18,10 @@ A set of configuration files for my personal system.
 
 > `~/.local/share/konsole/`
 
+**dunst:** Configuration for the dunst notification manager.
+
+> `~/.config/dunst`
+
 **fontconfig/fonts.conf:** Configuration file for system-wide fonts.
 
 > `~/.config/fontconfig/`
@@ -60,10 +64,6 @@ A set of configuration files for my personal system.
 
 > `~/.config/qt5ct/colors/`
 > `~/.config/qt6ct/colors/`
-
-**scripts:** Directory containing scripts used in my desktop session.
-
-> `~/.config/sway/scripts`
 
 **Sugar Candy:** SDDM theme used.
 
