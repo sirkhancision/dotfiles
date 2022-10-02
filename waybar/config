@@ -4,12 +4,19 @@
 {
     "layer": "top",
     "position": "top",
-    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "backlight", "battery", "pulseaudio", "custom/cap-left"],
+    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "backlight", "battery", "custom/pipewire", "custom/cap-left"],
     "modules-center": ["sway/language", "sway/workspaces"],
     "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
+    "custom/pipewire": {
+        "tooltip": false,
+        "max-length": 6,
+        "signal": 8,
+        "restart-interval": 1,
+        "exec": "$HOME/.config/waybar/scripts/pipewire.sh"
+    },
     "custom/dunst": {
         "tooltip": false,
-        "exec": "~/.config/waybar/scripts/dunst.sh",
+        "exec": "$HOME/.config/waybar/scripts/dunst.sh",
         "on-click": "dunstctl set-paused toggle",
         "restart-interval": 1,
     },
@@ -93,18 +100,6 @@
         "tooltip-format-disconnected": "",
         "max-length": 20,
         "min-length": 6,
-    },
-    "pulseaudio": {
-        "tooltip": false,
-        "min-length": 5,
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "{icon} {volume}%",
-        "format-muted": "MUTE",
-        "format-icons": {
-            "headphone": "",
-            "headset": "",
-            "default": ["", "", ""],
-        },
     },
     "idle_inhibitor": {
         "tooltip": false,
