@@ -205,5 +205,6 @@ set $menu exec $term --class=launcher -e env TERMINAL_COMMAND=alacritty sway-lau
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [app_id="mpv"] floating enable
 for_window [app_id="pqiv"] floating enable
+for_window [class="^steam_app_\d{1,}$"] floating enable
 
 include /etc/sway/config.d/*
