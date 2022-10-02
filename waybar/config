@@ -11,7 +11,7 @@
         "tooltip": false,
         "max-length": 6,
         "signal": 8,
-        "restart-interval": 1,
+        "restart-interval": 0,
         "exec": "$HOME/.config/waybar/scripts/pipewire.sh"
     },
     "custom/dunst": {
