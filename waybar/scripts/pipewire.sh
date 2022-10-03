@@ -1,5 +1,5 @@
 ##!/bin/zsh
-
+
 volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | \
     sed 's/Volume: //' | \
     xargs -I {} $SHELL -c 'printf "%0.0f\n" "{} * 100"')
