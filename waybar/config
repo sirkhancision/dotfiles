@@ -68,7 +68,7 @@
         "format": "{} {variant}",
     },
     "backlight": {
-        "format": "{percent}% {icon}",
+        "format": "{icon} {percent}%",
         "states": [0,50],
         "format-icons": ["", ""]
     },
@@ -134,3 +134,4 @@
         "min-length": 5,
     },
 }
+
