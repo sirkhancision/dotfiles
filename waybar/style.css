@@ -62,17 +62,22 @@
 #backlight,
 #mode,
 #tray,
-#language,
 #custom-pipewire,
 #custom-pacman,
 #custom-weather,
 #custom-media,
 #custom-dunst,
-#custom-scratchpad_indicator,
-#network {
+#custom-scratchpad_indicator {
 	background: @bgcolor;
 	padding-left: 10px;
 	padding-right: 10px;
+}
+
+#network {
+    background: @bgcolor;
+	padding-left: 10px;
+	padding-right: 10px;
+    font-size: 24px;
 }
 
 #cpu.critical {
