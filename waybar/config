@@ -47,6 +47,7 @@
     "custom/weather": {
         "tooltip": false,
         "exec": "curl 'https://wttr.in/?format=1' | sed 's/  / /g'",
+        "on-click": "exec $TERM -t 'wttr-forecast' --hold -e curl https://wttr.in/Rio+de+Janeiro?format=v2",
         "interval": 3600
     },
     "custom/pacman": {

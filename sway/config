@@ -203,6 +203,7 @@ for_window [app_id="^launcher$"] \
     floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 set $menu exec $term --class=launcher -e env TERMINAL_COMMAND=alacritty sway-launcher-desktop
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
+for_window [title="wttr-forecast"] floating enable, resize set 40 ppt 100 ppt
 for_window [app_id="mpv"] floating enable
 for_window [app_id="pqiv"] floating enable
 for_window [class="^steam_app_\d{1,}$"] floating enable
