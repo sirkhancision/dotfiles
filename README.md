@@ -1,10 +1,14 @@
 ## dotfiles
 
+![Empty desktop](https://imgur.com/DVIS7AN.png)
+
 A set of configuration files for my personal system.
 
 **alacritty.yml:** Alacritty terminal configuration file.
 
 > `~/.config/alacritty`
+
+![cmus theme](https://imgur.com/BEFggPY.png)
 
 **cmus:** Configuration files for cmus music player.
 
@@ -49,6 +53,8 @@ A set of configuration files for my personal system.
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
 **lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
+
+![oomox-Eonyze theme](https://imgur.com/21HmcpD.png)
 
 **oomox-Eonyze**: GTK 3/4 themes from Eonyze color scheme. Made by me.
 
