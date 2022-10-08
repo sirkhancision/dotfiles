@@ -66,7 +66,7 @@ Plug 'ellisonleao/glow.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 
 " melange (orange-based) color-scheme
-Plug 'savq/melange'
+Plug 'AlessandroYorba/Sierra'
 
 " treesitter highlighter and stuff
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -109,7 +109,7 @@ lua << EOF
     }
     require'lspconfig'.vimls.setup{}
     require'lualine'.setup {
-        options = { theme = 'gruvbox',
+        options = { theme = 'codedark',
             section_separators = { left = '', right = ''},
             component_separators = { left = '', right = ''},
             disabled_filetypes = {'CHADTree', 'vim-plug'}
@@ -155,7 +155,7 @@ EOF
 
 " }}}
 
-colo melange " set the color-scheme
+colo sierra " set the color-scheme
 
 " run commands after startup
 autocmd VimEnter * COQnow -s
