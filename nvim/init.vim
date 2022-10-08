@@ -110,8 +110,8 @@ lua << EOF
     require'lspconfig'.vimls.setup{}
     require'lualine'.setup {
         options = { theme = 'gruvbox',
-            section_separators = { left = '', right = ''},
-            component_separators = { left = '', right = ''},
+            section_separators = { left = '', right = ''},
+            component_separators = { left = '', right = ''},
             disabled_filetypes = {'CHADTree', 'vim-plug'}
         }
     }

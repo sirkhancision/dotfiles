@@ -1,7 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env zsh 
 
-COUNT=$(dunstctl count waiting)
+set -e
+
 ENABLED=
 DISABLED=
-if [ $COUNT != 0 ]; then DISABLED=" $COUNT"; fi
-if dunstctl is-paused | grep -q "false" ; then echo $ENABLED; else echo $DISABLED; fi
+DELAY=0.2
+
+while sleep $DELAY; do
+    COUNT=$(dunstctl count waiting)
+    if [ $COUNT -ne 0 ]; then 
+        DISABLED=" $COUNT"
+    fi
+
+    STATUS=$(dunstctl is-paused)
+    if [[ $STATUS = "false" ]]; then 
+        printf "$ENABLED\n"
+    else 
+        printf "$DISABLED\n"
+    fi
+done
+
+exit 0

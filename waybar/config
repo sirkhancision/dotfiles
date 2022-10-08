@@ -18,15 +18,12 @@
     "custom/pipewire": {
         "tooltip": false,
         "max-length": 6,
-        "signal": 8,
-        "restart-interval": 0,
         "exec": "$HOME/.config/waybar/scripts/pipewire.sh"
     },
     "custom/dunst": {
         "tooltip": false,
         "exec": "$HOME/.config/waybar/scripts/dunst.sh",
         "on-click": "dunstctl set-paused toggle",
-        "restart-interval": 1,
     },
     "custom/media": {
         "escape": true,
@@ -38,16 +35,16 @@
     },
     "custom/cap-left": {
         "tooltip": false,
-        "format": "",
+        "format": "",
     },
     "custom/cap-right": {
         "tooltip": false,
-        "format": "",
+        "format": "",
     },
     "custom/weather": {
         "tooltip": false,
         "exec": "curl 'https://wttr.in/?format=1' | sed 's/  / /g'",
-        "on-click": "exec $TERM -t 'wttr-forecast' --hold -e curl https://wttr.in/Rio+de+Janeiro?format=v2",
+        "on-click": "exec alacritty -t 'wttr-forecast' --hold -e curl https://wttr.in/Rio+de+Janeiro?format=v2",
         "interval": 3600
     },
     "custom/pacman": {
@@ -67,6 +64,7 @@
     },
     "sway/language": {
         "format": "{} {variant}",
+        "tooltip": false
     },
     "backlight": {
         "format": "{icon} {percent}%",
@@ -78,7 +76,6 @@
         "spacing": 10
     },
     "battery": {
-        "min-length": 5,
         "states": {
             "full": 90,
             "warning": 30,
@@ -94,8 +91,8 @@
     "clock": {
         "format": " {:%a %b %d %H:%M}",
         "format-alt": " {:%d/%m/%Y %H:%M:%S}",
-        "tooltip": false,
-        "min-length": 18,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "locale": "pt_BR.UTF-8",
         "interval": 1,
     },
     "network": {
@@ -108,7 +105,6 @@
         "tooltip-format-ethernet": "{ifname}",
         "tooltip-format-disconnected": "",
         "max-length": 20,
-        "min-length": 6,
     },
     "idle_inhibitor": {
         "tooltip": false,
@@ -120,7 +116,6 @@
     },
     "cpu": {
         "interval": 4,
-        "min-length": 6,
         "format": " {usage}%",
         "tooltip": false,
         "states": {
@@ -132,7 +127,5 @@
         "states": {
             "critical":90,
         },
-        "min-length": 5,
     },
 }
-

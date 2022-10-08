@@ -1,148 +1,57 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME=""
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(aliases
 rust
 colored-man-pages
+command-not-found
 common-aliases
 copybuffer
 copypath
 dirhistory
 fd
-genpass
 git
 gitignore
 globalias
-kate
 ripgrep
 safe-paste
 sudo
+systemd
 universalarchive
 zsh-interactive-cd
 zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# Bat configs
+source /usr/share/doc/pkgfile/command-not-found.zsh
 export BAT_THEME="gruvbox-dark"
 
 # Pure prompt
 autoload -Uz promptinit
 promptinit
 prompt pure
-PURE_PROMPT_SYMBOL=⁖
 zstyle :prompt:pure:prompt:success color white
 zstyle :prompt:pure:path color red
 
-# zsh-autosuggestions configs
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#595959"
-
 # Aliases to not be expanded
 GLOBALIAS_FILTER_VALUES=($(cat $ZSH/custom/ignored-aliases.txt))
-
 # Specify which highlighters should be active
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp brackets pattern)
+export LANG=pt_BR.UTF-8
 
-# export MANPATH="/usr/local/man:$MANPATH"
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    export EDITOR='nvim'
+fi
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-export EDITOR='nvim'
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# ALIASES
 SUCC="/mnt/succ"
 
+# ALIASES
+
 # aliases for general commands
-alias asf="/opt/ArchiSteamFarm-bin/./ArchiSteamFarm"
+alias asf="$SHELL /opt/ArchiSteamFarm-bin/ArchiSteamFarm"
 alias ignored-aliases="$EDITOR $ZSH/custom/ignored-aliases.txt"
 alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
@@ -153,26 +62,18 @@ alias alacfg="$EDITOR $HOME/.config/alacritty/alacritty.yml"
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
 alias paruss="paru -Ss --bottomup"
-alias parup="paru; paccache -rk1"
-
-# personal programs aliases
-alias fs="$HOME/.local/bin/./fraction_simplifier"
-alias fw="$HOME/.local/bin/./fullwidth_converter"
-alias mdc="$HOME/.local/bin/./mdc"
-alias rc="$HOME/.local/bin/./randomcase"
-alias kegel="$HOME/.local/bin/./kegel_routine"
-alias upcitra="$HOME/.local/bin/./update-citra-nightly.sh"
+alias parup="paru && paccache -rk1"
 
 # youtube-dl aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
 alias ytdlp-mp3="yt-dlp --extract-audio --audio-format mp3"
 alias ytdlp-getlink="yt-dlp -g"
 
-# FUNCTION ALIASES
+# FUNCTIONS
 
 # use LAME to convert some audio file to MP3
 function 2mp3() {
-    kbps=128
+    KBPS=128
 
     if [[ $# == 0 ]]; then
         echo "Alias to use LAME to convert an audio file to MP3"
@@ -182,10 +83,10 @@ function 2mp3() {
         echo "File is already a MP3 file"
         return 1
     elif [[ -n $3 ]]; then
-        kbps=$3
+        KBPS=$3
     fi
 
-    lame -b $kbps $1 $2.mp3
+    lame -b $KBPS $1 $2.mp3
 }
 
 # use gcc to compile a .c file
@@ -224,7 +125,7 @@ function curltar() {
 function midi2mp3() {
     SOUNDFONT=$SUCC/Downloads/Soundfonts/OmegaGMGS2.sf2
     TMPDIR=.
-    kbps=128
+    KBPS=128
 
     if [[ ! -f $SOUNDFONT ]]; then
         echo "Couldn't find the soundfont: $SOUNDFONT"
@@ -237,7 +138,7 @@ function midi2mp3() {
         return 0
     else
         if [[ -n $2 ]]; then
-            kbps=$2
+            KBPS=$2
         fi
         for filename in "$@"
         do
@@ -245,7 +146,7 @@ function midi2mp3() {
             WAVFILE="$TMPDIR/${filename%.*}"
 
             fluidsynth -F "${WAVFILE}" $SOUNDFONT "${filename}" && \
-            lame -b $kbps "${WAVFILE}" && \
+            lame -b $KBPS "${WAVFILE}" && \
             rm -f "${WAVFILE}"
         done
     fi
@@ -269,11 +170,12 @@ ending point i.e 15:00) filename"
         return 1
     fi
 
-    l1=$(ytdlp-getlink $1 | sed -n 1p)
-    l2=$(ytdlp-getlink $1 | sed -n 2p)
+    LINKS=$(ytdlp-getlink $1)
+    VIDEO_LINK=$(sed -n 1p <<< $LINKS)
+    AUDIO_LINK=$(sed -n 2p <<< $LINKS)
 
-    ffmpeg -ss $2 -i $l1 -ss $2 -i $l2 -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 \
-        -c:a aac $4.mkv
+    ffmpeg -ss $2 -i $VIDEO_LINK -ss $2 -i $AUDIO_LINK \
+        -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
 }
 
 export PATH="$PATH:$HOME/.local/bin"

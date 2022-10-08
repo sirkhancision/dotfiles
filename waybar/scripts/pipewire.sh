@@ -1,17 +1,28 @@
-##!/bin/zsh
+#!/usr/bin/env zsh
 
-volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | \
-    sed 's/Volume: //' | \
-    xargs -I {} $SHELL -c 'printf "%0.0f\n" "{} * 100"')
+zmodload zsh/regex
+set -e
 
-if [ ! case $volume in *MUTED* ] || [ $volume -ne 0 ]; then 
-    if [[ $volume -gt 50 ]]; then
-        echo " $volume%"
-    elif [[ $volume -gt 25 ]]; then
-        echo " $volume%"
-    elif [[ $volume -gt 0 ]]; then
-        echo " $volume%"
+DELAY=0.2
+
+while sleep $DELAY; do
+    wp_output=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+    if [[ $wp_output =~ ^Volume:[[:blank:]]([0-9]+)\.([0-9]{2})([[:blank:]].MUTED.)?$ ]]; then
+        if [[ -n ${match[3]} ]]; then
+            printf "MUTE\n"
+        else
+            volume=$(( ${match[1]}${match[2]} ))
+            if [[ $volume -gt 50 ]]; then
+                printf " $volume%%\n"
+            elif [[ $volume -gt 25 ]]; then
+                printf " $volume%%\n"
+            elif [[ $volume -gt 0 ]]; then
+                printf " $volume%%\n"
+            else
+                printf "---\n"
+            fi
+        fi
     fi
-else
-    echo "MUTE"
-fi
+done
+
+exit 0

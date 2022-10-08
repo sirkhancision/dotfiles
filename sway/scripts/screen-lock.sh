@@ -1,9 +1,11 @@
+#!/usr/bin/env zsh
+
 swaylock -f -c 000000 \
     --clock \
     --effect-blur 2x5 \
     --effect-vignette 0.4:0.9 \
     --fade-in 0.2 \
-    --font "Inter Regular" \
+    --font "sans-serif" \
     --grace 5 \
     --hide-keyboard-layout \
     --indicator \

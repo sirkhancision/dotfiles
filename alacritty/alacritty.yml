@@ -8,19 +8,19 @@ window:
 
 font:
   normal:
-    family: Iosevka Nerd Font Mono
+    family: monospace
     style: Regular
 
   bold:
-    family: Iosevka Nerd Font Mono
+    family: monospace
     style: Bold
 
   italic:
-    family: Iosevka Nerd Font Mono
+    family: monospace
     style: Italic
 
   bold_italic:
-    family: Iosevka Nerd Font Mono
+    family: monospace
     style: Bold Italic
 
   size: 10.5
