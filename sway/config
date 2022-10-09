@@ -1,7 +1,7 @@
 ### Variables
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
-set $term alacritty
+set $term kitty
 set $calculator qalculate-gtk
 set $filemanager nemo
 set $lock $HOME/.config/sway/scripts/screen-lock.sh
@@ -14,7 +14,6 @@ set $cl_indi #bdc3c7
 set $cl_back #2b2b2b
 set $cl_fore #bdc3c7
 set $cl_urge #ce7730
-font pango:Inter Regular 10
 # Wallpaper
 output * bg $HOME/Github/dotfiles/lain-red.png fill
 
@@ -201,11 +200,14 @@ for_window [app_id="firefox" title="^Picture-in-Picture$"] \
 # Configure sway-launcher-desktop
 for_window [app_id="^launcher$"] \
     floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
-set $menu exec $term --class=launcher -e env TERMINAL_COMMAND=alacritty sway-launcher-desktop
+set $menu exec $term --class=launcher env GLYPH_DESKTOP="  " GLYPH_COMMAND="⎽ " \
+    GLYPH_PROMPT="$ " sway-launcher-desktop
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
-for_window [title="wttr-forecast"] floating enable, resize set 40 ppt 100 ppt
 for_window [app_id="mpv"] floating enable
 for_window [app_id="pqiv"] floating enable
-for_window [class="^steam_app_\d{1,}$"] floating enable
+for_window [app_id="engrampa"] floating enable
+for_window [class="vlc"] floating enable
+for_window [class="^steam_app_[0-9]+$"] floating enable
+for_window [class="^.+\.exe$"] floating enable
 
 include /etc/sway/config.d/*
