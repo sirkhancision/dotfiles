@@ -205,11 +205,15 @@ set $menu exec $term --class=launcher env GLYPH_DESKTOP="ï€‰  " GLYPH_COMMAND="ï
 for_window [app_id="clipboard"] \
     floating enable, move position 18 40, resize set 30 ppt 60 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
+# nemo file properties window
+for_window [title="^Propriedades de.+$"] floating enable
 for_window [app_id="mpv"] floating enable
 for_window [app_id="pqiv"] floating enable
 for_window [app_id="engrampa"] floating enable
 for_window [class="vlc"] floating enable
+# steam games
 for_window [class="^steam_app_[0-9]+$"] floating enable
+# wine programs
 for_window [class="^.+\.exe$"] floating enable
 
 include /etc/sway/config.d/*
