@@ -55,30 +55,31 @@
 	padding-right: 10px;
 }
 
-#cpu,
-#memory,
-#battery,
-#language,
-#clock,
-#backlight,
-#mode,
-#tray,
-#custom-pipewire,
-#custom-pacman,
-#custom-weather,
-#custom-media,
-#custom-dunst,
-#custom-scratchpad_indicator {
-	background: @bgcolor;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
 #network {
     background: @bgcolor;
 	padding-left: 10px;
 	padding-right: 10px;
     font-size: 24px;
+}
+
+#cpu,
+#memory,
+#battery,
+#language,
+#clock,
+#tray,
+#backlight,
+#mode,
+#custom-pipewire,
+#custom-pacman,
+#custom-weather,
+#custom-media,
+#custom-dunst,
+#custom-clipboard,
+#custom-scratchpad_indicator {
+	background: @bgcolor;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 #cpu.critical {

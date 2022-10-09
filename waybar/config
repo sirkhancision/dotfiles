@@ -4,7 +4,7 @@
 {
     "layer": "top",
     "position": "top",
-    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "backlight", "battery", "custom/pipewire", "custom/cap-left"],
+    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "custom/clipboard", "backlight", "battery", "custom/pipewire", "custom/cap-left"],
     "modules-center": ["sway/language", "sway/workspaces", "custom/scratchpad_indicator"],
     "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
     "custom/scratchpad_indicator": {
@@ -19,6 +19,12 @@
         "tooltip": false,
         "max-length": 6,
         "exec": "$HOME/.config/waybar/scripts/pipewire.sh"
+    },
+    "custom/clipboard": {
+        "tooltip": false,
+        "format": "",
+        "on-click": "exec kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
+        "on-click-right": "clipman clear --all"
     },
     "custom/dunst": {
         "tooltip": false,
