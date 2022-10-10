@@ -31,11 +31,6 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-
-" run cratestoggle when opening cargo.toml files
-if has('nvim')
-  autocmd BufRead Cargo.toml call crates#toggle()
-endif
 " }}}
 
 " PLUGINS {{{
@@ -85,8 +80,9 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
 " get crates from crates.io when
-" editing proper cargo.toml files
-Plug 'mhinz/vim-crates'
+" editing cargo.toml files
+Plug 'nvim-lua/plenary.nvim'
+Plug 'saecki/crates.nvim', { 'tag': 'v0.3.0' }
 
 " have tabs for the files being edited
 Plug 'kyazdani42/nvim-web-devicons'
@@ -150,6 +146,15 @@ lua << EOF
               end
             end
         }
+    }
+
+    require'crates'.setup{
+        src = {
+            coq = {
+                enabled = true,
+                name = "crates.nvim",
+            },
+        },
     }
 EOF
 
