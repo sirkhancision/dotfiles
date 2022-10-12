@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -e
+
 swaylock -f -c 000000 \
     --clock \
     --effect-blur 2x5 \
@@ -33,4 +35,6 @@ swaylock -f -c 000000 \
     --text-clear-color bdc3c7 \
     --text-color bdc3c7 \
     --text-ver-color bdc3c7 \
-    --text-wrong-color bdc3c7 \
+    --text-wrong-color bdc3c7
+
+exit 0

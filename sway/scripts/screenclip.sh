@@ -1,8 +1,13 @@
 #!/usr/bin/env zsh
 
-PIC_DIR=$(xdg-user-dir PICTURES)
+set -e
 
-slurp | grim -g - $PIC_DIR/Screenshots/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png \
+PIC_DIR=$(xdg-user-dir PICTURES)
+IMAGE_NAME=$(date +"%Y-%m-%d-%H-%M-%S").png
+SCREENSHOTS_DIR=$PIC_DIR/Screenshots
+
+slurp | grim -g - $SCREENSHOTS_DIR/$IMAGE_NAME \
     && paplay $HOME/.config/sway/audio/screen-capture.ogg
-image_path=$(echo -n "$PIC_DIR/Screenshots/" && ls -Art $PIC_DIR/Screenshots/ | tail -n 1)
-wl-copy < $image_path
+wl-copy < $SCREENSHOTS_DIR/$IMAGE_NAME
+
+exit 0
