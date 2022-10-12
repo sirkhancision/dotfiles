@@ -73,11 +73,13 @@ A set of configuration files for my personal system.
 **qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 
 > `~/.config/qt5ct/colors/`
+
 > `~/.config/qt6ct/colors/`
 
 **Sugar Candy:** SDDM theme used.
 
 > <https://www.gnome-look.org/p/1312658>
+
 > `/usr/share/sddm/themes/`
 
 **(Sugar Candy) theme.conf:** Configuration file for Sugar Candy.

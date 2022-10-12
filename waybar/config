@@ -49,7 +49,7 @@
     },
     "custom/weather": {
         "tooltip": false,
-        "exec": "curl 'https://wttr.in/?format=1' | sed 's/  / /g'",
+        "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | sed 's/  / /g'",
         "on-click": "exec xdg-open 'https://wttr.in/Rio+de+Janeiro'",
         "interval": 3600
     },
@@ -105,11 +105,11 @@
         "interval": 2,
         "format-wifi": "",
         "format-ethernet": "",
-        "format-disconnected": " Disconnected",
+        "format-disconnected": "",
         "format-disabled": "",
         "tooltip-format-wifi": "{essid}",
         "tooltip-format-ethernet": "{ifname}",
-        "tooltip-format-disconnected": "",
+        "tooltip-format-disconnected": "Disconnected",
         "max-length": 20,
     },
     "idle_inhibitor": {
