@@ -37,13 +37,17 @@ client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 ### Autostart
 # Autostart dunst (notification manager)
-exec dunst
+exec --no-startup-id dunst
 # Autostart polkit-gnome
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Autostart EasyEffects
-exec easyeffects --gapplication-service
+exec --no-startup-id easyeffects --gapplication-service
 # Workaround for GTK theme
-exec_always $import-settings
+exec_always --no-startup-id $import-settings
+# Starts clipman (a clipboard manager) with Sway
+exec --no-startup-id wl-paste -t text --watch clipman store --no-persist
+# Auto-connects to known wireless networks at boot
+# exec --no-startup-id nm-applet --indicator
 
 ### Idle configuration
 exec swayidle -w \
@@ -162,9 +166,9 @@ bindsym $mod+r mode "resize"
 bindsym --locked XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 bindsym --locked XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym --locked XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-bindsym --locked XF86AudioPlay exec playerctl play-pause
-bindsym --locked XF86AudioNext exec playerctl next
-bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym --locked XF86AudioNext exec --no-startup-id playerctl next
+bindsym --locked XF86AudioPrev exec --no-startup-id playerctl previous
 # Brightness controls
 bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10
 bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10
@@ -173,8 +177,8 @@ bindsym XF86Mail exec thunderbird -compose
 # Open calculator
 bindsym XF86Calculator exec $calculator
 # Notifications
-bindsym Control+Space exec dunstctl close
-bindsym Control+Shift+Space exec dunstctl close-all
+bindsym Control+Space exec --no-startup-id dunstctl close
+bindsym Control+Shift+Space exec --no-startup-id dunstctl close-all
 
 ### Modes
 set $mode_system ⏻ (L)ogout | (R)eboot | (S)hutdown | (U)EFI
@@ -195,10 +199,6 @@ bar {
 }
 
 # Misc. settings
-# Starts clipman (a clipboard manager) with Sway
-exec wl-paste -t text --watch clipman store --no-persist
-# Auto-connects to known wireless networks at boot
-# exec nm-applet --indicator
 # Configure Firefox's Picture-in-Picture mode
 for_window [app_id="firefox" title="^Picture-in-Picture$"] \
     floating enable, move position 877 450, sticky enable, resize set 854 480
@@ -207,15 +207,15 @@ for_window [app_id="^launcher$"] \
     floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 set $menu exec $term --class=launcher env GLYPH_DESKTOP="  " GLYPH_COMMAND="⎽ " \
     GLYPH_PROMPT="$ " sway-launcher-desktop
-for_window [app_id="clipboard"] \
+for_window [app_id="(clipboard|pacman_module)"] \
     floating enable, move position 18 40, resize set 30 ppt 60 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
+for_window [app_id="firefox" title="Firefox - Indicador de compartilhamento"] \
+    floating enable, move position 900 0
 # nemo file properties window
 for_window [app_id="nemo" title="^Propriedades de.+$"] floating enable
-for_window [app_id="mpv"] floating enable
-for_window [app_id="pqiv"] floating enable
-for_window [app_id="engrampa"] floating enable
-for_window [class="vlc"] floating enable
+for_window [app_id="Steam" title="Steam — Novidades"] floating enable
+for_window [app_id="(mpv|pqiv|engrampa|vlc|gamescope)"] floating enable
 # steam games
 for_window [class="^steam_app_[0-9]+$"] floating enable
 # wine programs

@@ -56,13 +56,11 @@ SUCC="/mnt/succ"
 # ALIASES
 
 # aliases for general commands
-alias asf="$SHELL /opt/ArchiSteamFarm-bin/ArchiSteamFarm"
 alias ignored-aliases="$EDITOR $ZSH/custom/ignored-aliases.txt"
 alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
 alias swaycfg="$EDITOR $HOME/.config/sway/config"
-alias alacfg="$EDITOR $HOME/.config/alacritty/alacritty.yml"
 
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
@@ -73,6 +71,11 @@ alias parup="paru && paccache -rk1"
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
 alias ytdlp-mp3="yt-dlp --extract-audio --audio-format mp3"
 alias ytdlp-getlink="yt-dlp -g"
+
+# exa aliases
+alias e="exa --icons --group-directories-first"
+alias exl="exa --icons -lgh --octal-permissions --group-directories-first"
+alias exd="exa -a --icons --group-directories-first"
 
 # FUNCTIONS
 

@@ -22,18 +22,20 @@
     "custom/pipewire": {
         "tooltip": false,
         "max-length": 6,
-        "exec": "$HOME/.config/waybar/scripts/pipewire.sh"
+        "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
+        "on-click": "pavucontrol",
+        "on-click-right": "qpwgraph"
     },
     "custom/clipboard": {
         "tooltip": false,
         "format": "",
         "on-click": "exec kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
-        "on-click-right": "clipman clear --all"
+        "on-click-right": "$HOME/.config/waybar/scripts/clipboard_clear.sh"
     },
     "custom/dunst": {
         "tooltip": false,
         "exec": "$HOME/.config/waybar/scripts/dunst.sh",
-        "on-click": "dunstctl set-paused toggle",
+        "on-click": "dunstctl set-paused toggle"
     },
     "custom/media": {
         "escape": true,
@@ -41,19 +43,19 @@
         "max-length": 40,
         "on-click": "playerctl play-pause",
         "on-click-right": "playerctl stop",
-        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null",
+        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
     },
     "custom/cap-left": {
         "tooltip": false,
-        "format": "",
+        "format": ""
     },
     "custom/cap-right": {
         "tooltip": false,
-        "format": "",
+        "format": ""
     },
     "custom/weather": {
         "tooltip": false,
-        "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | sed 's/  / /g'",
+        "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | sd '  ' ' '",
         "on-click": "exec xdg-open 'https://wttr.in/Rio+de+Janeiro'",
         "interval": 3600
     },
@@ -62,11 +64,11 @@
         "format": " {}",
         "interval": 3600,
         "exec": "checkupdates | wc -l",
-        "exec-if": "exit 0",
+        "exec-if": "exit 0"
     },
     "sway/workspaces": {
         "tooltip": false,
-        "disable-scroll": true,
+        "disable-scroll": true
     },
     "sway/mode": {
         "tooltip": false,
@@ -89,21 +91,21 @@
         "states": {
             "full": 90,
             "warning": 30,
-            "critical": 15,
+            "critical": 15
         },
         "tooltip": false,
         "full-at": 90,
         "format-plugged": "{icon} {capacity}%",
         "format-charging": "{icon} {capacity}%",
         "format": "{icon} {capacity}%",
-        "format-icons": ["", "", "", "", "", "", "", "", "", ""],
+        "format-icons": ["", "", "", "", "", "", "", "", "", ""]
     },
     "clock": {
         "format": " {:%a %b %d %H:%M}",
         "format-alt": " {:%d/%m/%Y %H:%M:%S}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "locale": "pt_BR.UTF-8",
-        "interval": 1,
+        "interval": 1
     },
     "network": {
         "interval": 2,
@@ -114,28 +116,28 @@
         "tooltip-format-wifi": "{essid}",
         "tooltip-format-ethernet": "{ifname}",
         "tooltip-format-disconnected": "Disconnected",
-        "max-length": 20,
+        "max-length": 20
     },
     "idle_inhibitor": {
         "tooltip": false,
         "format": "{icon}",
         "format-icons": {
             "activated": "",
-            "deactivated": "",
-        },
+            "deactivated": ""
+        }
     },
     "cpu": {
         "interval": 4,
         "format": " {usage}%",
         "tooltip": false,
         "states": {
-            "critical": 90,
-        },
+            "critical": 90
+        }
     },
     "memory": {
         "format": " {percentage}%",
         "states": {
-            "critical":90,
-        },
-    },
+            "critical":90
+        }
+    }
 }

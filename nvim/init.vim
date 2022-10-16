@@ -1,3 +1,4 @@
+scriptencoding utf-8
 " ░░░░░░░ ░░ ░░░░░░  ░░   ░░ ░░   ░░  ░░░░░  ░░░    ░░  ░░░░░░ ░░ ░░░░░░░ ░░  ░░░░░░  ░░░    ░░
 " ▒▒      ▒▒ ▒▒   ▒▒ ▒▒  ▒▒  ▒▒   ▒▒ ▒▒   ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒      ▒▒ ▒▒    ▒▒ ▒▒▒▒   ▒▒
 " ▒▒▒▒▒▒▒ ▒▒ ▒▒▒▒▒▒  ▒▒▒▒▒   ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒  ▒▒ ▒▒      ▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒    ▒▒ ▒▒ ▒▒  ▒▒
@@ -18,6 +19,7 @@ set clipboard=unnamedplus " set clipboard as the one used in the system
 set list listchars=tab:»\ ,eol:↴,nbsp:␣,trail:⋅,extends:›,precedes:‹
 set mouse=a " enable use of mouse
 set guicursor=
+autocmd BufNewFile,BufRead */waybar/config set syntax=json
 
 " shortcut to open CHADTree ↓
 nnoremap <F5> :CHADopen<CR>
@@ -50,14 +52,18 @@ Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
 Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
 
 " syntax checking
-Plug 'scrooloose/syntastic'
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+Plug 'dense-analysis/ale'
+let g:ale_completion_enabled = 1
+let g:ale_lsp_suggestions = 1
+let g:ale_set_balloons = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_linters = {'c': ['clangd'], 'vim': ['vint'], 'sh': ['shellcheck'], 
+                    \ 'rust': ['rust_analyzer'], 'python': ['flake8'], 'ccs': ['prettier'],
+                    \ 'html': ['prettier'], 'markdown': ['prettier'], 'yaml': ['prettier'],
+                    \ 'javascript': ['prettier'], 'json': ['prettier'], 'systemd': ['systemd-analyze']}
+let g:ale_fixers = {'python': ['black', 'isort', 'autopep8'], 'sh': ['shfmt']}
 
 " markdown previewer with glow
 Plug 'ellisonleao/glow.nvim'
@@ -108,7 +114,6 @@ lua << EOF
     require'lspconfig'.html.setup{
         cmd = { "vscode-html-languageserver", "--stdio" }
     }
-    require'lspconfig'.vimls.setup{}
     require'lualine'.setup {
         options = { theme = 'codedark',
             section_separators = { left = '', right = ''},
@@ -168,4 +173,7 @@ EOF
 colo sierra " set the color-scheme
 
 " run commands after startup
-autocmd VimEnter * COQnow -s
+augroup vimrc
+  autocmd!
+augroup END
+autocmd vimrc VimEnter * COQnow -s
