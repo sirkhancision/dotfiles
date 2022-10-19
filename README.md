@@ -62,10 +62,6 @@ A set of configuration files for my personal system.
 
 **papirus-folders**: Yaru theme used.
 
-**Pure:** ZSH prompt with a minimal appearance.
-
-> <https://github.com/sindresorhus/pure>
-
 **pqivrc:** Configuration file for pqi image viewer.
 
 > `~/.config/`
@@ -75,6 +71,10 @@ A set of configuration files for my personal system.
 > `~/.config/qt5ct/colors/`
 
 > `~/.config/qt6ct/colors/`
+
+**Starship:** Prompt written in Rust.
+
+> `pacman -S starship`
 
 **Sugar Candy:** SDDM theme used.
 

@@ -31,13 +31,6 @@ source $ZSH/oh-my-zsh.sh
 source /usr/share/doc/pkgfile/command-not-found.zsh
 export BAT_THEME="gruvbox-dark"
 
-# Pure prompt
-autoload -Uz promptinit
-promptinit
-prompt pure
-zstyle :prompt:pure:prompt:success color white
-zstyle :prompt:pure:path color red
-
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#595959"
 # Aliases to not be expanded
 GLOBALIAS_FILTER_VALUES=($(cat $ZSH/custom/ignored-aliases.txt))
@@ -65,7 +58,7 @@ alias swaycfg="$EDITOR $HOME/.config/sway/config"
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
 alias paruss="paru -Ss --bottomup"
-alias parup="paru && paccache -rk1"
+alias parup="paru && paccache -rk2"
 
 # youtube-dl aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
@@ -188,3 +181,4 @@ ending point i.e 15:00) filename"
 
 export PATH="$PATH:$HOME/.local/bin"
 unset fd
+eval "$(starship init zsh)"

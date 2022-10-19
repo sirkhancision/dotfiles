@@ -63,7 +63,8 @@ let g:ale_linters = {'c': ['clangd'], 'vim': ['vint'], 'sh': ['shellcheck'],
                     \ 'rust': ['rust_analyzer'], 'python': ['flake8'], 'ccs': ['prettier'],
                     \ 'html': ['prettier'], 'markdown': ['prettier'], 'yaml': ['prettier'],
                     \ 'javascript': ['prettier'], 'json': ['prettier'], 'systemd': ['systemd-analyze']}
-let g:ale_fixers = {'python': ['black', 'isort', 'autopep8'], 'sh': ['shfmt']}
+let g:ale_fixers = {'python': ['black', 'isort', 'autopep8'], 'sh': ['shfmt'],
+                    \ 'rust': ['rustfmt'], 'c': ['uncrustify'], 'cpp': ['uncrustify']}
 
 " markdown previewer with glow
 Plug 'ellisonleao/glow.nvim'
