@@ -1,0 +1,10 @@
+[directory]
+style = "yellow"
+read_only = " "
+
+[character]
+success_symbol = "[](white)"
+error_symbol = "[](red)"
+
+[cmd_duration]
+style = "purple"

@@ -76,6 +76,10 @@ A set of configuration files for my personal system.
 
 > `pacman -S starship`
 
+**starship.toml:** Configuration file for Starship.
+
+> `~/.config/`
+
 **Sugar Candy:** SDDM theme used.
 
 > <https://www.gnome-look.org/p/1312658>
