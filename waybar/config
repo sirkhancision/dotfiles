@@ -8,16 +8,16 @@
 {
     "layer": "top",
     "position": "top",
-    "modules-left": ["sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "custom/clipboard", "backlight", "battery", "custom/pipewire", "custom/cap-left"],
+    "modules-left": ["custom/cap-right", "sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "custom/clipboard", "backlight", "battery", "custom/pipewire", "custom/cap-left"],
     "modules-center": ["sway/language", "sway/workspaces", "custom/scratchpad_indicator"],
-    "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock"],
+    "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock", "custom/cap-left"],
     "custom/scratchpad_indicator": {
         "interval": 3,
         "return-type": "json",
         "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '(recurse(.nodes[]) | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | if ($scratch_nodes|length) > 0 then { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") } else empty end'",
         "format": " {}",
-        "on-click": "exec swaymsg 'scratchpad show'",
-        "on-click-right": "exec swaymsg 'move scratchpad'"
+        "on-click": "swaymsg 'scratchpad show'",
+        "on-click-right": "swaymsg 'move scratchpad'"
     },
     "custom/pipewire": {
         "tooltip": false,
@@ -29,7 +29,7 @@
     "custom/clipboard": {
         "tooltip": false,
         "format": "",
-        "on-click": "exec kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
+        "on-click": "kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
         "on-click-right": "$HOME/.config/waybar/scripts/clipboard_clear.sh"
     },
     "custom/dunst": {
@@ -47,16 +47,16 @@
     },
     "custom/cap-left": {
         "tooltip": false,
-        "format": ""
+        "format": ""
     },
     "custom/cap-right": {
         "tooltip": false,
-        "format": ""
+        "format": ""
     },
     "custom/weather": {
         "tooltip": false,
         "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | sd '  ' ' '",
-        "on-click": "exec xdg-open 'https://wttr.in/Rio+de+Janeiro'",
+        "on-click": "xdg-open 'https://wttr.in/Rio+de+Janeiro'",
         "interval": 3600
     },
     "custom/pacman": {
@@ -64,7 +64,8 @@
         "format": " {}",
         "interval": 3600,
         "exec": "checkupdates | wc -l",
-        "exec-if": "exit 0"
+        "exec-if": "exit 0",
+        "on-click": "kitty --class=pacman_module paru && paccache -rk2"
     },
     "sway/workspaces": {
         "tooltip": false,

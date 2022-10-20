@@ -24,9 +24,12 @@
 	color: @fgcolor;
 }
 
+#custom-scratchpad_indicator,
 #workspaces button {
 	padding-left: 10px;
 	padding-right: 10px;
+    border-radius: 10px;
+    margin: 0 2px;
     background: @bgfocus;
 	color: @fgfocus;
 }
@@ -51,7 +54,7 @@
 
 #idle_inhibitor {
 	background: @bgcolor;
-	padding-left: 20px;
+	padding-left: 10px;
 	padding-right: 10px;
 }
 
@@ -75,8 +78,7 @@
 #custom-weather,
 #custom-media,
 #custom-dunst,
-#custom-clipboard,
-#custom-scratchpad_indicator {
+#custom-clipboard {
 	background: @bgcolor;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -98,11 +100,11 @@
 
 #battery.plugged {
 background-color: @bgcolor;
-		animation-name: blink1;
-		animation-duration: 0.5s;
-		animation-timing-function: linear;
-		animation-iteration-count: infinite;
-		animation-direction: alternate;
+    animation-name: blink1;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 @keyframes blink2 {
@@ -112,12 +114,11 @@ background-color: @bgcolor;
 }
 
 #battery.charging {
-/*  background-color: @bgcolor; */
-		animation-name: blink2;
-		animation-duration: 2.0s;
-		animation-timing-function: ease-in-out;
-		animation-iteration-count: infinite;
-		animation-direction: alternate;
+    animation-name: blink2;
+    animation-duration: 2.0s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 @keyframes blink3 {
@@ -127,12 +128,11 @@ background-color: @bgcolor;
 }
 
 #battery.warning:not(.charging) {
-/*  background-color: @bgcolor; */
-  	animation-name: blink3;
-  	animation-duration: 0.7s;
-  	animation-timing-function: ease-in-out;
-  	animation-iteration-count: infinite;
-  	animation-direction: alternate;
+    animation-name: blink3;
+    animation-duration: 0.7s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 @keyframes blink4 {
@@ -142,11 +142,10 @@ background-color: @bgcolor;
 }
 
 #battery.critical:not(.charging) {
- /* background-color: @bgcolor; */
-  	animation-name: blink4;
-  	animation-duration: 0.8s;
-  	animation-timing-function: ease-in-out;
-  	animation-iteration-count: infinite;
-  	animation-direction: alternate;
+    animation-name: blink4;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
