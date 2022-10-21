@@ -1,13 +1,13 @@
 /* waybar style.css */
-@define-color bgcolor #953029;	/* background color */
-@define-color fgcolor #202122;  /* foreground color */
-@define-color charging #517f56; /* battery charging color */
+@define-color bgcolor #2b2b2b;	/* background color */
+@define-color fgcolor #bdc3c7;  /* foreground color */
+@define-color charging #5b885a; /* battery charging color */
 @define-color plugged #4c664c;  /* ac plugged color */
-@define-color critical #ff0000; /* critical color */
+@define-color critical #953029; /* critical color */
 @define-color warning #d6710c;  /* warning color */
 @define-color hover #71352f;    /* mouse hover over workspace color */
-@define-color bgfocus #2b2b2b;  /* unfocused workspace color background */
-@define-color fgfocus #bdc3c7;  /* unfocused workspace color foreground */
+@define-color workbgcolor #953029;	/* focused workspace background color */
+@define-color workfgcolor #202122;	/* focused workspace foreground color */
 
 /* Reset all styles */
 * {
@@ -24,28 +24,36 @@
 	color: @fgcolor;
 }
 
-#language,
-#custom-scratchpad_indicator,
 #workspaces button {
 	padding-left: 10px;
 	padding-right: 10px;
     border-radius: 10px;
     margin: 0 2px;
-    background: @bgfocus;
-	color: @fgfocus;
+    background: @bgcolor;
+	color: @fgcolor;
 }
 
 #workspaces button.focused {
-	background: @bgcolor;
-	color: @fgcolor;
+	background: @workbgcolor;
+	color: @workfgcolor;
 }
 
 #workspaces button:hover {
 	background: @hover;
-	color: @fgcolor;
+	color: @workfgcolor;
 	transition: none;
 	box-shadow: inherit;
 	text-shadow: inherit;
+}
+
+#language,
+#custom-scratchpad_indicator {
+	padding-left: 10px;
+	padding-right: 10px;
+    border-radius: 10px;
+    margin: 0 2px;
+    background: @fgcolor;
+	color: @bgcolor;
 }
 
 #custom-cap-left, #custom-cap-right {
