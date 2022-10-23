@@ -1,18 +1,18 @@
 ## dotfiles
 
-![Empty desktop](https://imgur.com/DVIS7AN.png)
+![Empty desktop + dunst + cursor](screenshots/2022-10-22-23-44-20.png)
 
 A set of configuration files for my personal system.
 
-**alacritty.yml:** Alacritty terminal configuration file.
+**Arimo Nerd Font:** Font with a multitude of different characters and modes.
 
-> `~/.config/alacritty`
+> `pacman -S ttf-arimo-nerd`
 
-![cmus theme](https://imgur.com/BEFggPY.png)
+![cmus theme](screenshots/2022-10-22-23-35-25.png)
 
 **cmus:** Configuration files for cmus music player.
 
-> `~/.config/cmus/`
+> `~/.config/cmus`
 
 **cz-Hickson (Black):** Cursor theme used.
 
@@ -24,7 +24,7 @@ A set of configuration files for my personal system.
 
 **Eonyze.colorscheme:** Konsole/Yakuake color scheme, modified from [_Moe-Dark_](https://store.kde.org/p/1378415) and my custom version of [_Dark Warmth_](https://store.kde.org/p/1283955/) theme.
 
-> `~/.local/share/konsole/`
+> `~/.local/share/konsole`
 
 **dunst:** Configuration for the dunst notification manager.
 
@@ -32,7 +32,7 @@ A set of configuration files for my personal system.
 
 **fontconfig/fonts.conf:** Configuration file for system-wide fonts.
 
-> `~/.config/fontconfig/`
+> `~/.config/fontconfig`
 
 **ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
 
@@ -42,19 +42,21 @@ A set of configuration files for my personal system.
 
 > `~/.config/nvim`
 
-**Inter Font:** General UI font with a multitude of different characters and modes.
-
-> `pacman -S inter-font`
-
 **Iosevka Nerd Font:** Monospaced font with ligatures and various modes.
 
 > `pacman -S ttf-iosevka-nerd`
+
+![kitty colorscheme + starship prompt](screenshots/2022-10-22-23-42-49.png)
+
+**kitty:** Configuration for the kitty terminal.
+
+> '~/.config'
 
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
 **lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
 
-![oomox-Eonyze theme](https://imgur.com/21HmcpD.png)
+![oomox-Eonyze theme + yaru folder theme + Papirus icons](screenshots/2022-10-22-23-49-10.png)
 
 **oomox-Eonyze**: GTK 3/4 themes from Eonyze color scheme. Made by me.
 
@@ -64,13 +66,13 @@ A set of configuration files for my personal system.
 
 **pqivrc:** Configuration file for pqi image viewer.
 
-> `~/.config/`
+> `~/.config`
 
 **qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 
-> `~/.config/qt5ct/colors/`
+> `~/.config/qt5ct/colors`
 
-> `~/.config/qt6ct/colors/`
+> `~/.config/qt6ct/colors`
 
 **Starship:** Prompt written in Rust.
 
@@ -84,7 +86,7 @@ A set of configuration files for my personal system.
 
 > <https://www.gnome-look.org/p/1312658>
 
-> `/usr/share/sddm/themes/`
+> `/usr/share/sddm/themes`
 
 **(Sugar Candy) theme.conf:** Configuration file for Sugar Candy.
 
