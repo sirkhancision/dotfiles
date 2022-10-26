@@ -217,7 +217,7 @@ for_window [app_id="nemo" title="^Propriedades de.+$"] floating enable
 for_window [app_id="Steam" title="Steam — Novidades"] floating enable
 for_window [app_id="(mpv|pqiv|engrampa|vlc|gamescope)"] floating enable
 # steam games
-for_window [class="^steam_app_[0-9]+$"] floating enable
+for_window [class="^steam_app_\d+$"] floating enable
 # wine programs
 for_window [class="^.+\.exe$"] floating enable
 

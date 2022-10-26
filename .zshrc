@@ -8,18 +8,19 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""
 
 plugins=(aliases
-rust
 colored-man-pages
 command-not-found
 common-aliases
 copybuffer
 copypath
 dirhistory
+extract
 fd
 git
 gitignore
 globalias
 ripgrep
+rust
 safe-paste
 sudo
 systemd
@@ -67,8 +68,9 @@ alias ytdlp-getlink="yt-dlp -g"
 
 # exa aliases
 alias e="exa --icons --group-directories-first"
-alias exl="exa --icons -lgh --octal-permissions --group-directories-first"
-alias exd="exa -a --icons --group-directories-first"
+alias el="exa --icons -lgh --octal-permissions --group-directories-first"
+alias ed="exa -a --icons --group-directories-first"
+alias eld="exa --icons -lgha --octal-permissions --group-directories-first"
 
 # FUNCTIONS
 

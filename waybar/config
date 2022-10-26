@@ -55,7 +55,7 @@
     },
     "custom/weather": {
         "tooltip": false,
-        "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | sd '  ' ' '",
+        "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | perl -nle 'print $1.$2.$3 if \/^(.\\d{1,2})(\\s)+(\\X+)$\/'",
         "on-click": "xdg-open 'https://wttr.in/Rio+de+Janeiro'",
         "interval": 3600
     },
