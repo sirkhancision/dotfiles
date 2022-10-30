@@ -1,3 +1,4 @@
+#!/bin/zsh
 # ░░░░░░░ ░░ ░░░░░░  ░░   ░░ ░░   ░░  ░░░░░  ░░░    ░░  ░░░░░░ ░░ ░░░░░░░ ░░  ░░░░░░  ░░░    ░░
 # ▒▒      ▒▒ ▒▒   ▒▒ ▒▒  ▒▒  ▒▒   ▒▒ ▒▒   ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒      ▒▒ ▒▒    ▒▒ ▒▒▒▒   ▒▒
 # ▒▒▒▒▒▒▒ ▒▒ ▒▒▒▒▒▒  ▒▒▒▒▒   ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒  ▒▒ ▒▒      ▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒    ▒▒ ▒▒ ▒▒  ▒▒
@@ -42,7 +43,7 @@ export LANG=pt_BR.UTF-8
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
 else
-    export EDITOR='nvim'
+    export EDITOR='helix'
 fi
 
 SUCC="/mnt/succ"
@@ -55,6 +56,8 @@ alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
 alias swaycfg="$EDITOR $HOME/.config/sway/config"
+alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
+alias hx="helix"
 
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
@@ -184,3 +187,4 @@ ending point i.e 15:00) filename"
 export PATH="$PATH:$HOME/.local/bin"
 unset fd
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"

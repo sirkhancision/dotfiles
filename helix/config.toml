@@ -1,0 +1,22 @@
+theme = "autumn"
+
+[editor]
+cursorline = true
+
+[editor.statusline]
+left = ["mode", "diagnostics"]
+center = ["file-name", "spinner"]
+right = ["file-type", "separator", "file-encoding", "position", "position-percentage"]
+
+[editor.whitespace]
+render = "all"
+
+[editor.whitespace.characters]
+space = "·"
+nbsp = "␣"
+tab = "»"
+newline = "↴"
+tabpad = "·"
+
+[editor.indent-guides]
+render = true

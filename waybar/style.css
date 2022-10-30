@@ -1,13 +1,13 @@
 /* waybar style.css */
-@define-color bgcolor #2b2b2b;	/* background color */
-@define-color fgcolor #bdc3c7;  /* foreground color */
-@define-color charging #5b885a; /* battery charging color */
-@define-color plugged #4c664c;  /* ac plugged color */
-@define-color critical #953029; /* critical color */
-@define-color warning #d6710c;  /* warning color */
-@define-color hover #71352f;    /* mouse hover over workspace color */
-@define-color workbgcolor #953029;	/* focused workspace background color */
-@define-color workfgcolor #202122;	/* focused workspace foreground color */
+@define-color bgcolor #2b2b2b;     /* background color */
+@define-color fgcolor #bdc3c7;     /* foreground color */
+@define-color charging #5b885a;    /* battery charging color */
+@define-color plugged #4c664c;     /* ac plugged color */
+@define-color critical #953029;    /* critical color */
+@define-color warning #d6710c;     /* warning color */
+@define-color hover #71352f;       /* mouse hover over workspace color */
+@define-color workbgcolor #953029; /* focused workspace background color */
+@define-color workfgcolor #202122; /* focused workspace foreground color */
 
 /* Reset all styles */
 * {
@@ -27,9 +27,9 @@
 #workspaces button {
 	padding-left: 10px;
 	padding-right: 10px;
-    border-radius: 10px;
-    margin: 0 2px;
-    background: @bgcolor;
+	border-radius: 10px;
+	margin: 0 2px;
+	background: @bgcolor;
 	color: @fgcolor;
 }
 
@@ -50,9 +50,9 @@
 #custom-scratchpad_indicator {
 	padding-left: 10px;
 	padding-right: 10px;
-    border-radius: 10px;
-    margin: 0 2px;
-    background: @fgcolor;
+  border-radius: 10px;
+  margin: 0 2px;
+  background: @fgcolor;
 	color: @bgcolor;
 }
 
@@ -68,10 +68,10 @@
 }
 
 #network {
-    background: @bgcolor;
+  background: @bgcolor;
 	padding-left: 10px;
 	padding-right: 10px;
-    font-size: 24px;
+  font-size: 24px;
 }
 
 #cpu,
@@ -93,11 +93,11 @@
 }
 
 #cpu.critical {
-		color: @critical;
+	color: @critical;
 }
 
 #memory.critical {
-		color: @critical;
+	color: @critical;
 }
 
 @keyframes blink1 {
@@ -108,11 +108,11 @@
 
 #battery.plugged {
 background-color: @bgcolor;
-    animation-name: blink1;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+  animation-name: blink1;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 @keyframes blink2 {
@@ -122,11 +122,11 @@ background-color: @bgcolor;
 }
 
 #battery.charging {
-    animation-name: blink2;
-    animation-duration: 2.0s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+  animation-name: blink2;
+  animation-duration: 2.0s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 @keyframes blink3 {
@@ -136,11 +136,11 @@ background-color: @bgcolor;
 }
 
 #battery.warning:not(.charging) {
-    animation-name: blink3;
-    animation-duration: 0.7s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+  animation-name: blink3;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 @keyframes blink4 {
@@ -150,10 +150,10 @@ background-color: @bgcolor;
 }
 
 #battery.critical:not(.charging) {
-    animation-name: blink4;
-    animation-duration: 0.8s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+  animation-name: blink4;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 

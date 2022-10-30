@@ -34,11 +34,15 @@ A set of configuration files for my personal system.
 
 > `~/.config/fontconfig`
 
+**helix:** Configuration file for the Helix text editor.
+
+> `~/.config/helix`
+
 **ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
 
 > `~/.oh-my-zsh/custom`
 
-**init.vim:** Neovim's configuration file with my settings.
+**(DEPRECATING) init.vim:** Neovim's configuration file with my settings.
 
 > `~/.config/nvim`
 
@@ -50,7 +54,7 @@ A set of configuration files for my personal system.
 
 **kitty:** Configuration for the kitty terminal.
 
-> '~/.config'
+> `~/.config/kitty`
 
 **lain-red.png**: Wallpaper slightly edited by me with Lain from Serial Experiments Lain.
 
@@ -63,10 +67,6 @@ A set of configuration files for my personal system.
 > `/usr/share/themes`
 
 **papirus-folders**: Yaru theme used.
-
-**pqivrc:** Configuration file for pqi image viewer.
-
-> `~/.config`
 
 **qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 

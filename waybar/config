@@ -3,142 +3,182 @@
 // ▒▒▒▒▒▒▒ ▒▒ ▒▒▒▒▒▒  ▒▒▒▒▒   ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒  ▒▒ ▒▒      ▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒    ▒▒ ▒▒ ▒▒  ▒▒
 //      ▓▓ ▓▓ ▓▓   ▓▓ ▓▓  ▓▓  ▓▓   ▓▓ ▓▓   ▓▓ ▓▓  ▓▓ ▓▓ ▓▓      ▓▓      ▓▓ ▓▓ ▓▓    ▓▓ ▓▓  ▓▓ ▓▓
 // ███████ ██ ██   ██ ██   ██ ██   ██ ██   ██ ██   ████  ██████ ██ ███████ ██  ██████  ██   ████
-// Modified from tim3dman's config
-
 {
-    "layer": "top",
-    "position": "top",
-    "modules-left": ["custom/cap-right", "sway/mode", "idle_inhibitor", "cpu", "memory", "custom/pacman", "custom/dunst", "custom/clipboard", "backlight", "battery", "custom/pipewire", "custom/cap-left"],
-    "modules-center": ["sway/language", "sway/workspaces", "custom/scratchpad_indicator"],
-    "modules-right": ["custom/cap-right", "tray", "custom/media", "network", "custom/weather", "clock", "custom/cap-left"],
-    "custom/scratchpad_indicator": {
-        "interval": 3,
-        "return-type": "json",
-        "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '(recurse(.nodes[]) | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | if ($scratch_nodes|length) > 0 then { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") } else empty end'",
-        "format": " {}",
-        "on-click": "swaymsg 'scratchpad show'",
-        "on-click-right": "swaymsg 'move scratchpad'"
+  "layer": "top",
+  "position": "top",
+  "modules-left": [
+    "custom/cap-right",
+    "sway/mode",
+    "idle_inhibitor",
+    "cpu",
+    "memory",
+    "custom/pacman",
+    "custom/dunst",
+    "custom/clipboard",
+    "backlight",
+    "battery",
+    "custom/pipewire",
+    "custom/cap-left"
+  ],
+  "modules-center": [
+    "sway/language",
+    "sway/workspaces",
+    "custom/scratchpad_indicator"
+  ],
+  "modules-right": [
+    "custom/cap-right",
+    "tray",
+    "custom/media",
+    "network",
+    "custom/weather",
+    "clock",
+    "custom/cap-left"
+  ],
+  "custom/scratchpad_indicator": {
+    "interval": 3,
+    "return-type": "json",
+    "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '(recurse(.nodes[]) | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | if ($scratch_nodes|length) > 0 then { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") } else empty end'",
+    "format": " {}",
+    "on-click": "swaymsg 'scratchpad show'",
+    "on-click-right": "swaymsg 'move scratchpad'"
+  },
+  "custom/pipewire": {
+    "tooltip": false,
+    "max-length": 6,
+    "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
+    "on-click": "pavucontrol",
+    "on-click-right": "qpwgraph"
+  },
+  "custom/clipboard": {
+    "tooltip": false,
+    "format": "",
+    "on-click": "kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
+    "on-click-right": "$HOME/.config/waybar/scripts/clipboard_clear.sh"
+  },
+  "custom/dunst": {
+    "tooltip": false,
+    "exec": "$HOME/.config/waybar/scripts/dunst.sh",
+    "on-click": "dunstctl set-paused toggle"
+  },
+  "custom/media": {
+    "escape": true,
+    "return-type": "json",
+    "max-length": 40,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl stop",
+    "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
+  },
+  "custom/cap-left": {
+    "tooltip": false,
+    "format": ""
+  },
+  "custom/cap-right": {
+    "tooltip": false,
+    "format": ""
+  },
+  "custom/weather": {
+    "tooltip": false,
+    "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | perl -nle 'print $1.$2.$3 if \/^(\\S+)(\\s)+(\\S\\d{1,2}°C)$\/'",
+    "on-click": "xdg-open 'https://wttr.in/Rio+de+Janeiro'",
+    "interval": 3600
+  },
+  "custom/pacman": {
+    "tooltip": false,
+    "format": " {}",
+    "interval": 3600,
+    "exec": "checkupdates | wc -l",
+    "exec-if": "exit 0",
+    "on-click": "kitty --class=pacman_module paru && paccache -rk2"
+  },
+  "sway/workspaces": {
+    "tooltip": false,
+    "disable-scroll": true
+  },
+  "sway/mode": {
+    "tooltip": false,
+    "max-length": 50
+  },
+  "sway/language": {
+    "format": "{} {variant}",
+    "tooltip": false
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "states": [
+      0,
+      50
+    ],
+    "format-icons": [
+      "",
+      ""
+    ]
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+  "battery": {
+    "states": {
+      "full": 90,
+      "warning": 30,
+      "critical": 15
     },
-    "custom/pipewire": {
-        "tooltip": false,
-        "max-length": 6,
-        "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
-        "on-click": "pavucontrol",
-        "on-click-right": "qpwgraph"
-    },
-    "custom/clipboard": {
-        "tooltip": false,
-        "format": "",
-        "on-click": "kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
-        "on-click-right": "$HOME/.config/waybar/scripts/clipboard_clear.sh"
-    },
-    "custom/dunst": {
-        "tooltip": false,
-        "exec": "$HOME/.config/waybar/scripts/dunst.sh",
-        "on-click": "dunstctl set-paused toggle"
-    },
-    "custom/media": {
-        "escape": true,
-        "return-type": "json",
-        "max-length": 40,
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl stop",
-        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
-    },
-    "custom/cap-left": {
-        "tooltip": false,
-        "format": ""
-    },
-    "custom/cap-right": {
-        "tooltip": false,
-        "format": ""
-    },
-    "custom/weather": {
-        "tooltip": false,
-        "exec": "curl 'https://wttr.in/Rio+de+Janeiro?format=1' | perl -nle 'print $1.$2.$3 if \/^(\\S+)(\\s)+(\\S\\d{1,2}°C)$\/'",
-        "on-click": "xdg-open 'https://wttr.in/Rio+de+Janeiro'",
-        "interval": 3600
-    },
-    "custom/pacman": {
-        "tooltip": false,
-        "format": " {}",
-        "interval": 3600,
-        "exec": "checkupdates | wc -l",
-        "exec-if": "exit 0",
-        "on-click": "kitty --class=pacman_module paru && paccache -rk2"
-    },
-    "sway/workspaces": {
-        "tooltip": false,
-        "disable-scroll": true
-    },
-    "sway/mode": {
-        "tooltip": false,
-        "max-length": 50
-    },
-    "sway/language": {
-        "format": "{} {variant}",
-        "tooltip": false
-    },
-    "backlight": {
-        "format": "{icon} {percent}%",
-        "states": [0,50],
-        "format-icons": ["", ""]
-    },
-    "tray": {
-        "icon-size": 21,
-        "spacing": 10
-    },
-    "battery": {
-        "states": {
-            "full": 90,
-            "warning": 30,
-            "critical": 15
-        },
-        "tooltip": false,
-        "full-at": 90,
-        "format-plugged": "{icon} {capacity}%",
-        "format-charging": "{icon} {capacity}%",
-        "format": "{icon} {capacity}%",
-        "format-icons": ["", "", "", "", "", "", "", "", "", ""]
-    },
-    "clock": {
-        "format": " {:%a %b %d %H:%M}",
-        "format-alt": " {:%d/%m/%Y %H:%M:%S}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "locale": "pt_BR.UTF-8",
-        "interval": 1
-    },
-    "network": {
-        "interval": 2,
-        "format-wifi": "",
-        "format-ethernet": "",
-        "format-disconnected": "",
-        "format-disabled": "",
-        "tooltip-format-wifi": "{essid}",
-        "tooltip-format-ethernet": "{ifname}",
-        "tooltip-format-disconnected": "Disconnected",
-        "max-length": 20
-    },
-    "idle_inhibitor": {
-        "tooltip": false,
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
-    },
-    "cpu": {
-        "interval": 4,
-        "format": " {usage}%",
-        "tooltip": false,
-        "states": {
-            "critical": 90
-        }
-    },
-    "memory": {
-        "format": " {percentage}%",
-        "states": {
-            "critical":90
-        }
+    "tooltip": false,
+    "full-at": 90,
+    "format-plugged": "{icon} {capacity}%",
+    "format-charging": "{icon} {capacity}%",
+    "format": "{icon} {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "clock": {
+    "format": " {:%a %b %d %H:%M}",
+    "format-alt": " {:%d/%m/%Y %H:%M:%S}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "locale": "pt_BR.UTF-8",
+    "interval": 1
+  },
+  "network": {
+    "interval": 2,
+    "format-wifi": "",
+    "format-ethernet": "",
+    "format-disconnected": "",
+    "format-disabled": "",
+    "tooltip-format-wifi": "{essid}",
+    "tooltip-format-ethernet": "{ifname}",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 20
+  },
+  "idle_inhibitor": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
     }
+  },
+  "cpu": {
+    "interval": 4,
+    "format": " {usage}%",
+    "tooltip": false,
+    "states": {
+      "critical": 90
+    }
+  },
+  "memory": {
+    "format": " {percentage}%",
+    "states": {
+      "critical": 90
+    }
+  }
 }
