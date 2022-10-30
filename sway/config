@@ -215,7 +215,7 @@ for_window [app_id="firefox" title="Firefox - Indicador de compartilhamento"] \
 # nemo file properties window
 for_window [app_id="nemo" title="^Propriedades de.+$"] floating enable
 for_window [app_id="Steam" title="Steam — Novidades"] floating enable
-for_window [app_id="(mpv|pqiv|engrampa|vlc|gamescope)"] floating enable
+for_window [app_id="(mpv|nomacs|engrampa|vlc|gamescope)"] floating enable
 # steam games
 for_window [class="^steam_app_\d+$"] floating enable
 # wine programs
