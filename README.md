@@ -38,10 +38,6 @@ A set of configuration files for my personal system.
 
 > `~/.config/helix`
 
-**ignored-aliases.txt:** Text file containing all the ZSH aliases that I don't want to be expanded by the globalias plugin.
-
-> `~/.oh-my-zsh/custom`
-
 **(DEPRECATING) init.vim:** Neovim's configuration file with my settings.
 
 > `~/.config/nvim`
@@ -74,6 +70,10 @@ A set of configuration files for my personal system.
 
 > `~/.config/qt6ct/colors`
 
+**sddm.conf:** SDDM's configuration file.
+
+> `/etc/sddm.conf`
+
 **Starship:** Prompt written in Rust.
 
 > `pacman -S starship`
@@ -99,6 +99,10 @@ A set of configuration files for my personal system.
 **waybar:** Directory containing Waybar's configuration files.
 
 > `~/.config/waybar`
+
+**.zprofile:** ZSH's profile of commannds to be executed when logged in, user-wide.
+
+> `~/.zprofile`
 
 **.zshrc:** ZSH's main file with general configurations and aliases.
 
