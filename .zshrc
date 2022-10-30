@@ -19,7 +19,6 @@ extract
 fd
 git
 gitignore
-globalias
 ripgrep
 rust
 safe-paste
@@ -31,14 +30,10 @@ zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/doc/pkgfile/command-not-found.zsh
-export BAT_THEME="gruvbox-dark"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#595959"
-# Aliases to not be expanded
-GLOBALIAS_FILTER_VALUES=($(cat $ZSH/custom/ignored-aliases.txt))
 # Specify which highlighters should be active
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp brackets pattern)
-export LANG=pt_BR.UTF-8
 
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
@@ -51,7 +46,6 @@ SUCC="/mnt/succ"
 # ALIASES
 
 # aliases for general commands
-alias ignored-aliases="$EDITOR $ZSH/custom/ignored-aliases.txt"
 alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
@@ -184,7 +178,6 @@ ending point i.e 15:00) filename"
         -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
 }
 
-export PATH="$PATH:$HOME/.local/bin"
 unset fd
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
