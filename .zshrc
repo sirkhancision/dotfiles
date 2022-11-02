@@ -26,12 +26,11 @@ sudo
 systemd
 universalarchive
 zsh-interactive-cd
-zsh-syntax-highlighting)
+)
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#595959"
 # Specify which highlighters should be active
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp brackets pattern)
 
@@ -181,3 +180,5 @@ ending point i.e 15:00) filename"
 unset fd
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+eval "$(thefuck --alias)"
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
