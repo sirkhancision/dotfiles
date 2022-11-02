@@ -220,5 +220,7 @@ for_window [app_id="(mpv|nomacs|engrampa|vlc|gamescope)"] floating enable
 for_window [class="^steam_app_\d+$"] floating enable
 # wine programs
 for_window [class="^.+\.exe$"] floating enable
+# don't idle when going fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
 
 include /etc/sway/config.d/*
