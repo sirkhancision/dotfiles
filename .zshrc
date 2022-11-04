@@ -45,7 +45,6 @@ SUCC="/mnt/succ"
 # ALIASES
 
 # aliases for general commands
-alias nvim-edit="$EDITOR $HOME/.config/nvim/init.vim"
 alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
 alias swaycfg="$EDITOR $HOME/.config/sway/config"
@@ -54,7 +53,7 @@ alias hx="helix"
 
 # pacman/paru aliases and functions
 alias parus="paru -S --useask"
-alias paruss="paru -Ss --bottomup"
+alias parusc="paru -Ss --bottomup"
 alias parup="paru && paccache -rk2"
 
 # youtube-dl aliases
