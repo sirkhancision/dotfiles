@@ -13,7 +13,7 @@ set $lock $HOME/.config/sway/scripts/screen-lock.sh
 set $screenshot $HOME/.config/sway/scripts/screenshot.sh
 set $windowshot $HOME/.config/sway/scripts/windowshot.sh
 set $screenclip $HOME/.config/sway/scripts/screenclip.sh
-set $import-settings $HOME/.config/sway/scripts/import-settings.sh
+set $import-settings $HOME/.config/sway/scripts/import-gsettings.sh
 set $cl_high #832b2b
 set $cl_indi #bdc3c7
 set $cl_back #2b2b2b
