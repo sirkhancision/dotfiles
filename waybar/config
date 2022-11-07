@@ -12,12 +12,12 @@
     "idle_inhibitor",
     "cpu",
     "memory",
-    "custom/pacman",
+    "custom/xbps",
     "custom/dunst",
     "custom/clipboard",
     "backlight",
     "battery",
-    "custom/pipewire",
+    "pulseaudio",
     "custom/cap-left"
   ],
   "modules-center": [
@@ -42,12 +42,16 @@
     "on-click": "swaymsg 'scratchpad show'",
     "on-click-right": "swaymsg 'move scratchpad'"
   },
-  "custom/pipewire": {
-    "tooltip": false,
-    "max-length": 6,
-    "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "",
+    "format-icons": {
+        "headphone": "",
+        "default": ["", ""]
+    },
     "on-click": "pavucontrol",
-    "on-click-right": "qpwgraph"
+    "on-click-right": "qpwgraph",
+    "ignored-sinks": ["Easy Effects Sink"]
   },
   "custom/clipboard": {
     "tooltip": false,
@@ -82,13 +86,13 @@
     "on-click": "xdg-open 'https://wttr.in/Rio+de+Janeiro'",
     "interval": 3600
   },
-  "custom/pacman": {
+  "custom/xbps": {
     "tooltip": false,
     "format": " {}",
     "interval": 3600,
-    "exec": "checkupdates | wc -l",
+    "exec": "xbps-install -Mun | grep -cFe update -e install",
     "exec-if": "exit 0",
-    "on-click": "kitty --class=pacman_module paru && paccache -rk2"
+    "on-click": "kitty --class=xbps_module sudo xbps-install -Su"
   },
   "sway/workspaces": {
     "tooltip": false,

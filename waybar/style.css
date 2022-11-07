@@ -61,19 +61,6 @@
 	font-size: 24px;
 }
 
-#idle_inhibitor {
-	background: @bgcolor;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-#network {
-  background: @bgcolor;
-	padding-left: 10px;
-	padding-right: 10px;
-  font-size: 24px;
-}
-
 #cpu,
 #memory,
 #battery,
@@ -81,8 +68,10 @@
 #tray,
 #backlight,
 #mode,
-#custom-pipewire,
-#custom-pacman,
+#pulseaudio,
+#network,
+#idle_inhibitor,
+#custom-xbps,
 #custom-weather,
 #custom-media,
 #custom-dunst,
