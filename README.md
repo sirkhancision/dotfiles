@@ -1,18 +1,12 @@
 ## dotfiles
 
-![Empty desktop + dunst + cursor](screenshots/2022-10-22-23-44-20.png)
+![Empty desktop + dunst + cursor](screenshots/2022-11-07-00-30-44.png)
 
-A set of configuration files for my personal system.
+A set of configuration files for my personal system (Void Linux).
 
 **Arimo Nerd Font:** Font with a multitude of different characters and modes.
 
-> `pacman -S ttf-arimo-nerd`
-
-![cmus theme](screenshots/2022-10-22-23-35-25.png)
-
-**cmus:** Configuration files for cmus music player.
-
-> `~/.config/cmus`
+> `xbps-install nerd-fonts`
 
 **cz-Hickson (Black):** Cursor theme used.
 
@@ -34,19 +28,27 @@ A set of configuration files for my personal system.
 
 > `~/.config/fontconfig`
 
+**gitui:** Theme configuration for gitui.
+
+> `~/.config/gitui`
+
+**gtk-3.0:** Configuration for GTK3 apps.
+
+> `~/.config/gtk-3.0`
+
 **helix:** Configuration file for the Helix text editor.
 
 > `~/.config/helix`
 
-**(DEPRECATING) init.vim:** Neovim's configuration file with my settings.
+**.icons:** Configuration to set the cursor theme.
 
-> `~/.config/nvim`
+> `~/.icons`
 
 **Iosevka Nerd Font:** Monospaced font with ligatures and various modes.
 
-> `pacman -S ttf-iosevka-nerd`
+> `xbps-install font-iosevka`
 
-![kitty colorscheme + starship prompt](screenshots/2022-10-22-23-42-49.png)
+![](screenshots/2022-11-07-00-08-34.png)
 
 **kitty:** Configuration for the kitty terminal.
 
@@ -56,11 +58,11 @@ A set of configuration files for my personal system.
 
 **lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
 
-![oomox-Eonyze theme + yaru folder theme + Papirus icons](screenshots/2022-10-22-23-49-10.png)
+![oomox-Eonyze theme + yaru folder theme + Papirus icons](screenshots/2022-11-07-00-25-03.png)
 
 **oomox-Eonyze**: GTK 3/4 themes from Eonyze color scheme. Made by me.
 
-> `/usr/share/themes`
+> `~/.themes`
 
 **papirus-folders**: Yaru theme used.
 
@@ -70,27 +72,13 @@ A set of configuration files for my personal system.
 
 > `~/.config/qt6ct/colors`
 
-**sddm.conf:** SDDM's configuration file.
-
-> `/etc/sddm.conf`
-
 **Starship:** Prompt written in Rust.
 
-> `pacman -S starship`
+> `xbps-install starship`
 
 **starship.toml:** Configuration file for Starship.
 
-> `~/.config/`
-
-**Sugar Candy:** SDDM theme used.
-
-> <https://www.gnome-look.org/p/1312658>
-
-> `/usr/share/sddm/themes`
-
-**(Sugar Candy) theme.conf:** Configuration file for Sugar Candy.
-
-> `/usr/share/sddm/themes/sugar-candy`
+> `~/.config`
 
 **Sway config:** Sway's configuration directory.
 
