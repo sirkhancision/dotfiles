@@ -12,5 +12,5 @@ export __GLX_VENDOR_LIBRARY_NAME=nvidia
 export MOZ_ENABLE_WAYLAND=1
 export WLR_NO_HARDWARE_CURSORS=1
 export BAT_THEME="gruvbox-dark"
-export LANG=pt_BR.UTF-8
 export PATH="$PATH:$HOME/.local/bin"
+sway --unsupported-gpu
