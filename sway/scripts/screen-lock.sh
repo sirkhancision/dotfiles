@@ -3,14 +3,9 @@
 set -e
 
 swaylock -f -c 000000 \
-	--clock \
-	--effect-blur 2x5 \
-	--effect-vignette 0.4:0.9 \
-	--fade-in 0.2 \
 	--font "sans-serif" \
-	--grace 5 \
+	--image "$HOME/Github/dotfiles/lain-white-lock.png" \
 	--hide-keyboard-layout \
-	--indicator \
 	--indicator-radius 200 \
 	--indicator-thickness 8 \
 	--inside-caps-lock-color 00000088 \
@@ -29,7 +24,6 @@ swaylock -f -c 000000 \
 	--ring-color 832b2b \
 	--ring-ver-color ce7730 \
 	--ring-wrong-color 793b63 \
-	--screenshots \
 	--separator-color 00000000 \
 	--text-caps-lock-color bdc3c7 \
 	--text-clear-color bdc3c7 \
