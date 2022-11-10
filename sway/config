@@ -46,6 +46,8 @@ exec_always --no-startup-id $import-settings
 exec --no-startup-id wl-paste -t text --watch clipman store --no-persist
 # Starts LXDE polkit agent
 exec --no-startup-id lxpolkit
+# Starts playerctl as a daemon
+exec --no-startup-id playerctld daemon
 
 ### Idle configuration
 exec swayidle -w \
