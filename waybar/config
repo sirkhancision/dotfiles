@@ -38,24 +38,30 @@
     "interval": 3,
     "return-type": "json",
     "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '(recurse(.nodes[]) | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | if ($scratch_nodes|length) > 0 then { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") } else empty end'",
-    "format": " {}",
+    "format": "缾 {}",
     "on-click": "swaymsg 'scratchpad show'",
     "on-click-right": "swaymsg 'move scratchpad'"
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "format-muted": "",
+    "format-muted": "婢",
     "format-icons": {
-        "headphone": "",
-        "default": ["", ""]
+      "headphone": "",
+      "default": [
+        "奄",
+        "奔",
+        "墳"
+      ]
     },
     "on-click": "pavucontrol",
     "on-click-right": "qpwgraph",
-    "ignored-sinks": ["Easy Effects Sink"]
+    "ignored-sinks": [
+      "Easy Effects Sink"
+    ]
   },
   "custom/clipboard": {
     "tooltip": false,
-    "format": "",
+    "format": "",
     "on-click": "kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
     "on-click-right": "$HOME/.config/waybar/scripts/clipboard_clear.sh"
   },
@@ -88,7 +94,7 @@
   },
   "custom/xbps": {
     "tooltip": false,
-    "format": " {}",
+    "format": " {}",
     "interval": 3600,
     "exec": "xbps-install -Mun | grep -cFe update -e install",
     "exec-if": "exit 0",
@@ -113,8 +119,8 @@
       50
     ],
     "format-icons": [
-      "",
-      ""
+      "",
+      ""
     ]
   },
   "tray": {
@@ -154,8 +160,8 @@
   },
   "network": {
     "interval": 2,
-    "format-wifi": "",
-    "format-ethernet": "",
+    "format-wifi": "直",
+    "format-ethernet": "囹",
     "format-disconnected": "",
     "format-disabled": "",
     "tooltip-format-wifi": "{essid}",
@@ -167,8 +173,8 @@
     "tooltip": false,
     "format": "{icon}",
     "format-icons": {
-      "activated": "",
-      "deactivated": ""
+      "activated": "",
+      "deactivated": ""
     }
   },
   "cpu": {
@@ -180,7 +186,7 @@
     }
   },
   "memory": {
-    "format": " {percentage}%",
+    "format": " {percentage}%",
     "states": {
       "critical": 90
     }

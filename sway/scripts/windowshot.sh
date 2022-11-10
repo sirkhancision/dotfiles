@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
 PIC_DIR=$(xdg-user-dir PICTURES)
 IMAGE_NAME=$(date +"%Y-%m-%d-%H-%M-%S").png
-if [[ ! -d "$PIC_DIR/Screenshots" ]]; then
+if [ ! -d "$PIC_DIR/Screenshots" ]; then
 	mkdir -p "$PIC_DIR/Screenshots";
 fi
 SCREENSHOTS_DIR="$PIC_DIR"/Screenshots

@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-ENABLED=
-DISABLED=
+ENABLED=
+DISABLED=
 DELAY=0.2
 
 while sleep $DELAY; do
@@ -13,10 +13,10 @@ while sleep $DELAY; do
 	fi
 
 	STATUS=$(dunstctl is-paused)
-	if [[ $STATUS = "false" ]]; then
-		printf "%s\n" "$ENABLED"
+	if [ "$STATUS" = "false" ]; then
+		echo "$ENABLED"
 	else
-		printf "%s\n" "$DISABLED"
+		echo "$DISABLED"
 	fi
 done
 

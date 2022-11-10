@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-if [[ $(clipman show-history) != "Nothing to show" ]]; then
+if [ "$(clipman show-history)" != "Nothing to show" ]; then
 	clipman clear --all
 	dunstify 'Área de transferência' 'O conteúdo foi apagado' -i accessories-notes
 else
