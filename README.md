@@ -60,11 +60,15 @@ A set of configuration files for my personal system (Void Linux).
 
 ![oomox-Eonyze theme + yaru folder theme + Papirus icons](screenshots/2022-11-07-00-25-03.png)
 
+**oomox/colors/Eonyze:** Oomox/Themix file for the GTK Eonyze theme.
+
+> `~/.config/oomox/colors`
+
 **oomox-Eonyze**: GTK 3/4 themes from Eonyze color scheme. Made by me.
 
 > `~/.themes`
 
-**papirus-folders**: Yaru theme used.
+**papirus-folders**: Black theme used.
 
 **qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 
