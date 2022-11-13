@@ -13,4 +13,3 @@ export MOZ_ENABLE_WAYLAND=1
 export WLR_NO_HARDWARE_CURSORS=1
 export BAT_THEME="gruvbox-dark"
 export PATH="$PATH:$HOME/.local/bin"
-sway --unsupported-gpu
