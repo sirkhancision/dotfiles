@@ -2,7 +2,7 @@
 
 ![Empty desktop + dunst + cursor](screenshots/2022-11-07-00-30-44.png)
 
-A set of configuration files for my personal system (Void Linux).
+A set of configuration files for my personal system (Void Linux). Refer to ***void_install.sh*** to automate a lot of this process.
 
 **Arimo Nerd Font:** Font with a multitude of different characters and modes.
 
@@ -87,6 +87,8 @@ A set of configuration files for my personal system (Void Linux).
 **Sway config:** Sway's configuration directory.
 
 > `~/.config/sway`
+
+**void_install.sh:** Script to do a lot of post-install stuff on my Void Linux system.
 
 **waybar:** Directory containing Waybar's configuration files.
 
