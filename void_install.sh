@@ -193,6 +193,7 @@ function install_packages {
 		winetricks \
 		wireplumber \
 		wl-clipboard \
+		wlogout \
 		xdg-desktop-portal-wlr \
 		xdg-user-dirs \
 		xorg-minimal \
@@ -230,7 +231,7 @@ function dotfiles {
 	mkdir ~/Github && git clone "https://github.com/sirkhancision/dotfiles.git" ~/Github
 	mkdir ~/.themes && cp ~/Github/dotfiles/oomox-Eonyze ~/.themes
 	cp -r ~/Github/dotfiles/{.zprofile,.zshrc} ~/
-	cp -r ~/Github/dotfiles/{dunst,fontconfig,gitui,gtk-3.0,helix,kitty,qt5ct,qt6ct,sway,waybar,starship.toml} ~/.config
+	cp -r ~/Github/dotfiles/{dunst,fontconfig,gitui,gtk-3.0,helix,kitty,qt5ct,qt6ct,sway,waybar,wlogout,starship.toml} ~/.config
 }
 
 ## ENABLE/DISABLE SERVICES

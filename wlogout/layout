@@ -1,0 +1,24 @@
+{
+    "label" : "logout",
+    "action" : "loginctl terminate-user $USER",
+    "text" : "(E)ncerrar sessão",
+    "keybind" : "e"
+}
+{
+    "label" : "shutdown",
+    "action" : "loginctl poweroff -i",
+    "text" : "(D)esligar",
+    "keybind" : "d"
+}
+{
+    "label" : "reboot",
+    "action" : "loginctl reboot",
+    "text" : "(R)einiciar",
+    "keybind" : "r"
+}
+{
+    "label" : "firmware",
+    "action" : "loginctl reboot --firmware-setup",
+    "text" : "Reiniciar para o (U)EFI",
+    "keybind" : "u"
+}

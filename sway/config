@@ -9,6 +9,7 @@ set $mod Mod4
 set $term kitty
 set $calculator qalculate-gtk
 set $filemanager thunar
+set $logout "wlogout -b 4"
 set $lock $HOME/.config/sway/scripts/screen-lock.sh
 set $screenshot $HOME/.config/sway/scripts/screenshot.sh
 set $windowshot $HOME/.config/sway/scripts/windowshot.sh
@@ -86,6 +87,8 @@ input * {
     bindsym $mod+Shift+Print exec $screenclip
     # Open the default file manager
     bindsym $mod+e exec $filemanager
+    # Open logout manager
+    bindsym Ctrl+Mod1+Delete exec $logout
 
 # Moving around:
     # Move your focus around
@@ -180,19 +183,6 @@ bindsym XF86Calculator exec $calculator
 bindsym Control+Space exec --no-startup-id dunstctl close
 bindsym Control+Shift+Space exec --no-startup-id dunstctl close-all
 
-### Modes
-set $mode_system ⏻ (L)ogout | (R)eboot | (S)hutdown | (U)EFI
-mode "$mode_system" {
-    bindsym Shift+l exit
-    bindsym Shift+r exec --no-startup-id loginctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id loginctl poweroff -i, mode "default"
-    bindsym Shift+u exec --no-startup-id loginctl reboot --firmware-setup, mode "default"
-    # return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym Ctrl+Mod1+Delete mode "$mode_system"
-
 # Status Bar:
 bar {
     swaybar_command waybar
@@ -211,9 +201,8 @@ for_window [app_id="(clipboard|xbps_module)"] \
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [app_id="Firefox" title="Firefox - Indicador de compartilhamento"] \
     floating enable, move position 900 0
-# nemo file properties window
-for_window [app_id="nemo" title="^Propriedades de.+$"] floating enable
-for_window [app_id="Steam" title="Steam — Novidades"] floating enable
+for_window [class="Steam" title="^Steam  Novidades"] floating enable
+for_window [class="Steam" title="Lista de amigos"] floating enable
 for_window [app_id="(celluloid|nomacs|file-roller|vlc|gamescope|pavucontrol)"] floating enable
 # steam games
 for_window [class="^steam_app_\d+$"] floating enable
@@ -221,5 +210,6 @@ for_window [class="^steam_app_\d+$"] floating enable
 for_window [class="^.+\.exe$"] floating enable
 # don't idle when going fullscreen
 for_window [app_id="^.*"] inhibit_idle fullscreen
+for_window [app_id="thunar" title="Progresso da operação de arquivo"] floating enable
 
 include /etc/sway/config.d/*

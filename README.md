@@ -94,6 +94,10 @@ A set of configuration files for my personal system (Void Linux). Refer to ***vo
 
 > `~/.config/waybar`
 
+**wlogout:** Wlogout's configuration directory, along with custom icons.
+
+> `~/.config/wlogout`
+
 **.zprofile:** ZSH's profile of commannds to be executed when logged in, user-wide.
 
 > `~/.zprofile`
