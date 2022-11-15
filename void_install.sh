@@ -28,8 +28,10 @@ function install_packages {
 	printf "[2/12] Installing packages with xbps and updating the pre-installed packages\n\n"
 	sleep 3
 
-	PACKAGES="Thunar \
+	PACKAGES="CopyQ \
+	  Thunar \
 		Waybar \
+		alsa-pipewire \
 		alsa-plugins \
 		alsa-plugins-32bit \
 		alsa-plugins-pulseaudio \
@@ -39,13 +41,13 @@ function install_packages {
 		btop \
 		celluloid \
 		clang \
-		clipman \
 		cups \
 		curl \
 		dbus-elogind \
 		diskonaut \
 		dosbox \
 		dunst \
+		efibootmgr \
 		ebook-tools \
 		elogind \
 		exa \
@@ -112,6 +114,7 @@ function install_packages {
 		linux-firmware-amd \
 		lutris \
 		lxsession \
+		mediainfo \
 		meld \
 		mesa-dri \
 		mono \
@@ -142,7 +145,7 @@ function install_packages {
 		pipewire \
 		playerctl \
 		pnpm \
-		poppler-glib \
+		pulseaudio \
 		python3-lsp-server \
 		qalculate-gtk \
 		qbittorrent \
@@ -179,6 +182,7 @@ function install_packages {
 		thunar-media-tags-plugin \
 		thunderbird \
 		timeshift \
+		tg_owt \
 		tumbler \
 		v4l-utils \
 		v4l-utils-32bit \
@@ -187,6 +191,7 @@ function install_packages {
 		vulkan-loader \
 		vulkan-loader-32bit \
 		webp-pixbug-loader \
+		wget \
 		wine \
 		wine-gecko \
 		wine-mono \
@@ -205,14 +210,18 @@ function install_packages {
 		zsh-syntax-highlighting"
 
 	sudo xbps-install -Su "$PACKAGES"
+	tldr --update
 }
 
-## CREATE XDG DIRS IN HOME DIR
-function create_home_dirs {
-	printf "[3/12] Creating the XDG directories inside the user's home directory\n\n"
+## USE XDG FOR STUFF
+function XDG {
+	printf "[3/12] Creating the XDG directories inside the user's home directory,\n"
+	printf "also setting default applications\n\n"
 	sleep 3
 
 	xdg-user-dirs-update
+	xdg-mime default nomacs.desktop image
+	xdg-mime default thunar.desktop inode/directory
 }
 
 ## INSTALL OH-MY-ZSH
@@ -253,6 +262,9 @@ function install_flatpak {
 		echo "XIVLauncher"
 		echo "Heroic Games Launcher"
 		echo "Discord"
+		echo "Citra"
+		echo "RPCS3"
+		echo "Yuzu"
 		printf "\n"
 	}
 
@@ -261,8 +273,7 @@ function install_flatpak {
 	sleep 3
 
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	# installs XIVLauncher, Heroic Games Launcher, Discord
-	flatpak install flathub dev.goats.xivlauncher com.heroicgameslauncher.hgl com.discordapp.Discord
+	flatpak install flathub dev.goats.xivlauncher com.heroicgameslauncher.hgl com.discordapp.Discord org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
