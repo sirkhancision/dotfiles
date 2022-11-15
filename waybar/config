@@ -14,7 +14,6 @@
     "memory",
     "custom/xbps",
     "custom/dunst",
-    "custom/clipboard",
     "backlight",
     "battery",
     "pulseaudio",
@@ -58,12 +57,6 @@
     "ignored-sinks": [
       "Easy Effects Sink"
     ]
-  },
-  "custom/clipboard": {
-    "tooltip": false,
-    "format": "",
-    "on-click": "kitty --class=clipboard clipman pick --print0 --tool=CUSTOM --tool-args=\"fzf --prompt 'pick > ' --bind 'tab:up' --cycle --read0\"",
-    "on-click-right": "$HOME/.config/waybar/scripts/clipboard_clear.sh"
   },
   "custom/dunst": {
     "tooltip": false,
