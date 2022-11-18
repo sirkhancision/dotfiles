@@ -9,7 +9,7 @@ set $mod Mod4
 set $term kitty
 set $calculator qalculate-gtk
 set $filemanager thunar
-set $logout "wlogout -b 4"
+set $logout "wlogout -b 4 -p layer-shell"
 set $lock $HOME/.config/sway/scripts/screen-lock.sh
 set $screenshot $HOME/.config/sway/scripts/screenshot.sh
 set $windowshot $HOME/.config/sway/scripts/windowshot.sh
