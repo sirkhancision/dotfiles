@@ -18,8 +18,7 @@
     padding = 8
     horizontal_padding = 8
     text_icon_padding = 0
-    frame_width = 2
-    frame_color = "#832b2b"
+    frame_width = 0
     gap_size = 0
     separator_color = frame
     sort = yes
@@ -48,7 +47,7 @@
     always_run_script = true
     title = Dunst
     class = Dunst
-    corner_radius = 5
+    corner_radius = 0
     ignore_dbusclose = false
     force_xwayland = false
     force_xinerama = false
@@ -60,17 +59,16 @@
     per_monitor_dpi = false
 
 [urgency_low]
-    background = "#2b2b2b"
-    foreground = "#cad0d4"
+    background = "#353535"
+    foreground = "#CAC7CB"
     timeout = 10
 
 [urgency_normal]
-    background = "#2b2b2b"
-    foreground = "#bdc3c7"
+    background = "#C84454"
+    foreground = "#232323"
     timeout = 10
 
 [urgency_critical]
-    background = "#262626"
-    foreground = "#b3b9bc"
-    frame_color = "#d6710c"
+    background = "#F27C1F"
+    foreground = "#232323"
     timeout = 0
