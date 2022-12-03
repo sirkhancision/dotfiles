@@ -1,6 +1,6 @@
 ## dotfiles
 
-![desktop + dunst + terminal](screenshots/2022-12-03_04-03-27.png)
+![desktop + dunst + terminal](screenshots/2022-12-03_16-19-14.png)
 
 A set of configuration files for my personal system (Void Linux). Refer to ***void_install.sh*** to automate a lot of this process.
 
@@ -8,7 +8,9 @@ A set of configuration files for my personal system (Void Linux). Refer to ***vo
 - _Sans-serif:_ [Jost](https://fonts.google.com/specimen/Jost)
 - _Monospaced:_ [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)
 
-**Cursor theme:** [Bibata-Modern-Classic](https://www.pling.com/p/1914825)
+**Cursor theme:** Breeze Obsidian
+
+> `xbps-install breeze-obsidian-cursor-theme`
 
 **dunst:** Configuration for the dunst notification manager.
 
