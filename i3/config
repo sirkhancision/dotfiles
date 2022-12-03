@@ -13,11 +13,6 @@ set $screenshot $HOME/.config/i3/scripts/screenshot.sh
 set $windowshot $HOME/.config/i3/scripts/windowshot.sh
 set $scroll_workspace $HOME/.config/i3/scripts/workspace_scroll.sh
 set $add_workspace $HOME/.config/i3/scripts/workspace_add.sh
-set $cl_high #FF4F64
-set $cl_indi #486798
-set $cl_back #7F7F7F
-set $cl_fore #C88187
-set $cl_urge #F27C1F
 font pango:monospace 12
 # Sets wallpaper
 exec --no-startup-id feh --bg-fill $HOME/Github/dotfiles/lain-pink.png
@@ -29,7 +24,13 @@ hide_edge_borders smart
 smart_gaps on
 gaps inner 10
 
-### Colors                border   bg       text     indi     childborder
+### Colors
+set $cl_high #FF4F64
+set $cl_indi #486798
+set $cl_back #7F7F7F
+set $cl_fore #C88187
+set $cl_urge #F27C1F
+#                        border     bg      text     indi  childborder
 client.focused          $cl_high $cl_high $cl_fore $cl_indi $cl_high
 client.focused_inactive $cl_back $cl_back $cl_fore $cl_back $cl_back
 client.unfocused        $cl_back $cl_back $cl_fore $cl_back $cl_back
@@ -60,6 +61,7 @@ exec --no-startup-id setxkbmap -layout 'br,br(nodeadkeys)' -model pc105 -option 
 exec --no-startup-id xset r rate 600 25
 
 ### Idle configuration
+# Lock screen after 10 minutes
 exec --no-startup-id xset s on && xset s 600
 exec --no-startup-id xss-lock -- $lock
 
@@ -67,24 +69,24 @@ exec --no-startup-id xss-lock -- $lock
 # Basics:
     # Start a terminal
     bindsym $mod+Return exec $term
-    # Kill focused window
-    bindsym Mod1+F4 kill
+    # Open the default file manager
+    bindsym $mod+e exec $file_manager
     # Start your launcher
     bindsym Menu exec $launcher
+    # Lock the screen
+    bindsym $mod+l exec $lock
+    # Kill focused window
+    bindsym Mod1+F4 kill
     # Reload the configuration file
     bindsym $mod+Shift+c reload
     # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
     bindsym $mod+Shift+r restart
-    # Lock the screen
-    bindsym $mod+l exec $lock
     # Take a screenshot
     bindsym Print exec --no-startup-id $screenshot
     # Take a screenshot of a window
     bindsym $mod+Print exec --no-startup-id $windowshot
     # Take an interactive screenshot
     bindsym --release $mod+Shift+Print exec $screenclip
-    # Open the default file manager
-    bindsym $mod+e exec $file_manager
     # Open logout manager
     bindsym Ctrl+Mod1+Delete exec $logout
     # Add a new workspace to the first non-empty position
@@ -190,7 +192,7 @@ bindsym Ctrl+Shift+space exec --no-startup-id dunstctl close-all
 # Misc. settings
 # Configure Firefox's Picture-in-Picture mode
 for_window [class="Firefox" title="Picture-in-Picture"] \
-    floating enable, move position 877 450, sticky enable, resize set 854 480
+    floating enable, sticky enable, resize set 854 480
 for_window [class="update_module"] \
     floating enable, move position 18 40, resize set 30 ppt 60 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
