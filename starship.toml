@@ -1,12 +1,12 @@
-command_timeout = 2000
+command_timeout = 5000
 
 [directory]
 style = "yellow"
 read_only = "  "
 
 [character]
-success_symbol = "[❯](white)"
-error_symbol = "[❯](red)"
+success_symbol = "[](white)"
+error_symbol = "[](red)"
 
 [cmd_duration]
-style = "purple"
+style = "blue"
