@@ -29,14 +29,17 @@ function install_packages {
 	sleep 3
 
 	PACKAGES="CopyQ \
+		ImageMagick \
+		Komikku \
 	  Thunar \
-		Waybar \
 		alsa-pipewire \
 		alsa-plugins \
 		alsa-plugins-32bit \
 		alsa-plugins-pulseaudio \
 		aria2 \
+		autotiling \
 		bat \
+		betterlockscreen \
 		bsdtar \
 		btop \
 		celluloid \
@@ -47,10 +50,10 @@ function install_packages {
 		diskonaut \
 		dosbox \
 		dunst \
-		efibootmgr \
 		ebook-tools \
 		elogind \
 		exa \
+		feh \
 		fd \
 		file-roller \
 		firefox \
@@ -67,7 +70,6 @@ function install_packages {
 		gnome-epub-thumbnailer \
 		gnutls \
 		gnutls-32bit \
-		grim \
 		gst-plugins-bad1 \
 		gst-plugins-bad1-32bit \
 		gst-plugins-base1 \
@@ -79,12 +81,14 @@ function install_packages {
 		gvfs \
 		gvfs-mtp \
 		helix \
+		i3-gaps \
+		i3ipc-glib \
+		i3lock-color \
 		ipafont-fonts-otf \
 		jq \
 		kcharselect \
 		kdenlive \
 		kitty \
-		krename \
 		krita \
 		libXinerama \
 		libXinerama-32bit \
@@ -111,9 +115,12 @@ function install_packages {
 		libxslt \
 		libxslt-32bit \
 		light \
+		lightdm \
+		lightdm-gtk3-greeter \
 		linux-firmware-amd \
 		lutris \
 		lxsession \
+		maim \
 		mediainfo \
 		meld \
 		mesa-dri \
@@ -145,20 +152,21 @@ function install_packages {
 		pipewire \
 		playerctl \
 		pnpm \
-		pulseaudio \
+		polybar \
+		pulseaudioudio \
 		python3-lsp-server \
+		python3-pip \
 		qalculate-gtk \
 		qbittorrent \
 		qpwgraph \
-		qt5-wayland \
 		qt5ct \
-		qt6-wayland \
 		qt6ct \
 		quodlibet \
 		rbw \
+		redshift \
 		retroarch \
 		ripgrep \
-		ripgrep \
+		rofi \
 		rsync \
 		rust-analyzer \
 		rustup \
@@ -166,13 +174,8 @@ function install_packages {
 		sd \
 		shellcheck \
 		shfmt \
-		slurp \
 		starship \
 		steam \
-		sway \
-		swaybg \
-		swayidle \
-		swaylock \
 		syncplay \
 		taplo \
 		tealdeer \
@@ -182,6 +185,7 @@ function install_packages {
 		thunar-media-tags-plugin \
 		thunderbird \
 		timeshift \
+		tiny \
 		tg_owt \
 		tumbler \
 		v4l-utils \
@@ -197,13 +201,12 @@ function install_packages {
 		wine-mono \
 		winetricks \
 		wireplumber \
-		wl-clipboard \
-		wlogout \
-		xdg-desktop-portal-wlr \
+		xclip \
 		xdg-user-dirs \
 		xorg-minimal \
-		xorg-server-xwayland \
 		xtools \
+		xss-lock \
+		yad \
 		yt-dlp \
 		zoxide \
 		zsh \
@@ -240,7 +243,7 @@ function dotfiles {
 	mkdir ~/Github && git clone "https://github.com/sirkhancision/dotfiles.git" ~/Github
 	mkdir ~/.themes && cp ~/Github/dotfiles/oomox-Eonyze ~/.themes
 	cp -r ~/Github/dotfiles/{.zprofile,.zshrc} ~/
-	cp -r ~/Github/dotfiles/{dunst,fontconfig,gitui,gtk-3.0,helix,kitty,qt5ct,qt6ct,sway,waybar,wlogout,starship.toml} ~/.config
+	cp -r ~/Github/dotfiles/{dunst,fontconfig,gitui,gtk-3.0,helix,i3,kitty,picom,polybar,qt5ct,qt6ct,redshift,rofi,betterlockscreenrc,starship.toml} ~/.config
 }
 
 ## ENABLE/DISABLE SERVICES
@@ -259,7 +262,7 @@ function runit_services {
 ## ADDS FLATHUB REMOTE AND INSTALLS FLATPAKS
 function install_flatpak {
 	function print_flatpaks {
-		echo "XIVLauncher"
+		echo "Marktext"
 		echo "Heroic Games Launcher"
 		echo "Discord"
 		echo "Citra"
@@ -273,7 +276,7 @@ function install_flatpak {
 	sleep 3
 
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak install flathub dev.goats.xivlauncher com.heroicgameslauncher.hgl com.discordapp.Discord org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
+	flatpak install com.github.marktext.marktext flathub com.heroicgameslauncher.hgl com.discordapp.Discord org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
