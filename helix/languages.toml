@@ -9,3 +9,8 @@ language-server = { command = "css-language-server", args = ["--stdio"] }
 [[language]]
 name = "html"
 language-server = { command = "html-language-server", args = ["--stdio"] }
+
+[[language]]
+name = "bash"
+auto-format = true
+formatter = { command = "shfmt", args = ["-s"] }
