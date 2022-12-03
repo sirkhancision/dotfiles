@@ -7,6 +7,7 @@ A set of configuration files for my personal system (Void Linux). Refer to ***vo
 **System's fonts:** 
 - _Sans-serif:_ [Jost](https://fonts.google.com/specimen/Jost)
 - _Monospaced:_ [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)
+
 **Cursor theme:** [Bibata-Modern-Classic](https://www.pling.com/p/1914825)
 
 **dunst:** Configuration for the dunst notification manager.
