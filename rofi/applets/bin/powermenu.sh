@@ -22,7 +22,7 @@ elif [[ ($theme == *'type-2'*) || ($theme == *'type-4'*) ]]; then
 fi
 
 # Options
-layout=$(cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2)
+layout=$(grep <"${theme}" 'USE_ICON' | cut -d'=' -f2)
 if [[ $layout == 'NO' ]]; then
 	option_1=" Bloquear"
 	option_2=" Deslogar"
@@ -30,8 +30,8 @@ if [[ $layout == 'NO' ]]; then
 	option_4=" Hibernar"
 	option_5=" Reiniciar"
 	option_6=" Desligar"
-	yes=' Yes'
-	no=' No'
+	yes=' Sim'
+	no=' Não'
 else
 	option_1=""
 	option_2=""
@@ -51,7 +51,7 @@ rofi_cmd() {
 		-p "$prompt" \
 		-mesg "$mesg" \
 		-markup-rows \
-		-theme ${theme}
+		-theme "${theme}"
 }
 
 # Pass variables to rofi dmenu
@@ -69,7 +69,7 @@ confirm_cmd() {
 		-dmenu \
 		-p 'Confirmation' \
 		-mesg 'Tem certeza?' \
-		-theme ${theme}
+		-theme "${theme}"
 }
 
 # Ask for confirmation
@@ -89,40 +89,40 @@ confirm_run() {
 
 # Execute Command
 run_cmd() {
-	if [[ $1 == '--opt1' ]]; then
+	if [[ $1 == "--opt1" ]]; then
 		betterlockscreen -l dim
-	elif [[ $1 == '--opt2' ]]; then
-		confirm_run 'loginctl terminate-user $USER'
-	elif [[ $1 == '--opt3' ]]; then
-		confirm_run 'mpc -q pause' 'amixer set Master mute' 'loginctl suspend'
-	elif [[ $1 == '--opt4' ]]; then
-		confirm_run 'loginctl hibernate'
-	elif [[ $1 == '--opt5' ]]; then
-		confirm_run 'loginctl reboot'
-	elif [[ $1 == '--opt6' ]]; then
-		confirm_run 'loginctl poweroff'
+	elif [[ $1 == "--opt2" ]]; then
+		confirm_run "loginctl terminate-user $USER"
+	elif [[ $1 == "--opt3" ]]; then
+		confirm_run "mpc -q pause" "amixer set Master mute" "loginctl suspend"
+	elif [[ $1 == "--opt4" ]]; then
+		confirm_run "loginctl hibernate"
+	elif [[ $1 == "--opt5" ]]; then
+		confirm_run "loginctl reboot"
+	elif [[ $1 == "--opt6" ]]; then
+		confirm_run "loginctl poweroff"
 	fi
 }
 
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
-$option_1)
+"$option_1")
 	run_cmd --opt1
 	;;
-$option_2)
+"$option_2")
 	run_cmd --opt2
 	;;
-$option_3)
+"$option_3")
 	run_cmd --opt3
 	;;
-$option_4)
+"$option_4")
 	run_cmd --opt4
 	;;
-$option_5)
+"$option_5")
 	run_cmd --opt5
 	;;
-$option_6)
+"$option_6")
 	run_cmd --opt6
 	;;
 esac
