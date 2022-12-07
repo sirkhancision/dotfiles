@@ -46,8 +46,8 @@ SUCC="/mnt/succ"
 
 # aliases for general commands
 alias zshrc="$EDITOR $HOME/.zshrc"
-alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py"
-alias swaycfg="$EDITOR $HOME/.config/sway/config"
+alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py --credentials-location=$HOME"
+alias i3cfg="$EDITOR $HOME/.config/i3/config"
 alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
 
 # xbps aliases
@@ -56,6 +56,7 @@ alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
 ## xrs = xbps-query -Rs
 alias xr="sudo xbps-remove -R"
 alias xu="sudo xbps-install -Su"
+alias xuu="$HOME/Github/void-packages/./xbps-src update-sys"
 
 # youtube-dl aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
@@ -69,24 +70,6 @@ alias ed="exa -a --icons --group-directories-first"
 alias eld="exa --icons -lgha --octal-permissions --group-directories-first"
 
 # FUNCTIONS
-
-# use LAME to convert some audio file to MP3
-function 2mp3() {
-	KBPS=128
-
-	if [[ $# == 0 ]]; then
-		echo "Alias to use LAME to convert an audio file to MP3"
-		echo "Example: 2mp3 file1 (input) [file 2 (output)] [kbps]"
-		return 0
-	elif [[ $1 == *".mp3"* ]]; then
-		echo "File is already a MP3 file"
-		return 1
-	elif [[ -n $3 ]]; then
-		KBPS=$3
-	fi
-
-	lame -b $KBPS $1 $2.mp3
-}
 
 # use gcc to compile a .c file
 function compc() {
@@ -112,42 +95,12 @@ function curltar() {
 		echo "Example: curltar (url) (output-directory)"
 		return 0
 	elif [[ $# < 2 ]]; then
-		echo "Missing output directory"
-		return 1
-	fi
-
-	curl -Lo /dev/stdout $1 | bsdtar -xf /dev/stdin --directory $2
-}
-
-# modified script from https://gist.github.com/kroger/6211862
-# uses fluidsynth and lame to convert midi to mp3
-function midi2mp3() {
-	SOUNDFONT=$SUCC/Downloads/Soundfonts/OmegaGMGS2.sf2
-	TMPDIR=.
-	KBPS=128
-
-	if [[ ! -f $SOUNDFONT ]]; then
-		echo "Couldn't find the soundfont: $SOUNDFONT"
-		return 1
-	fi
-
-	if [[ $# == 0 ]]; then
-		echo "Converts MIDI files to MP3"
-		echo "Example: midi2mp3 file1.mid {file2.mid, file3.mid, ...}"
-		return 0
+		DIR=$PWD
 	else
-		if [[ -n $2 ]]; then
-			KBPS=$2
-		fi
-		for filename in "$@"; do
-			echo "${filename}"
-			WAVFILE="$TMPDIR/${filename%.*}"
-
-			fluidsynth -F "${WAVFILE}" $SOUNDFONT "${filename}" &&
-				lame -b $KBPS "${WAVFILE}" &&
-				rm -f "${WAVFILE}"
-		done
+		DIR=$2
 	fi
+
+	curl -Lo /dev/stdout $1 | bsdtar -xf /dev/stdin --directory $DIR
 }
 
 # l1 and l2 are variables that use the command "sed"
