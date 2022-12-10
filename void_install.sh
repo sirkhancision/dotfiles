@@ -20,7 +20,7 @@ function add_repos_mirrors {
 	sudo xbps-install -S "void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree" &&
 		sudo mkdir -p /etc/xbps.d &&
 		sudo cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d &&
-		sudo sed -i 's|https://repo-default.voidlinux.org|mirrors.servercentral.com/voidlinux|g' /etc/xbps.d/*-repository-*.conf
+		sudo sed -i 's|https://repo-default.voidlinux.org|https://mirrors.servercentral.com/voidlinux|g' /etc/xbps.d/*-repository-*.conf
 }
 
 ## INSTALL PACKAGES AND UPDATE SYSTEM
@@ -40,6 +40,8 @@ function install_packages {
 		autotiling \
 		bat \
 		betterlockscreen \
+		black \
+		breeze-obsidian-cursor-theme \
 		bsdtar \
 		btop \
 		celluloid \
@@ -202,8 +204,10 @@ function install_packages {
 		winetricks \
 		wireplumber \
 		xclip \
+		xdotool \
 		xdg-user-dirs \
 		xorg-minimal \
+		xorg-server-xephyr \
 		xtools \
 		xss-lock \
 		yad \
@@ -240,31 +244,27 @@ function dotfiles {
 	printf "[5/12] Cloning the git repo with my dotfiles and copying the files to where they belong\n\n"
 	sleep 3
 
-	mkdir ~/Github && git clone "https://github.com/sirkhancision/dotfiles.git" ~/Github
-	mkdir ~/.themes && cp ~/Github/dotfiles/oomox-Eonyze ~/.themes
-	cp -r ~/Github/dotfiles/{.zprofile,.zshrc} ~/
-	cp -r ~/Github/dotfiles/{dunst,fontconfig,gitui,gtk-3.0,helix,i3,kitty,picom,polybar,qt5ct,qt6ct,redshift,rofi,betterlockscreenrc,starship.toml} ~/.config
+	mkdir ~/Github &&
+		git clone "https://github.com/sirkhancision/dotfiles.git" ~/Github
+	cp -r ~/Github/dotfiles/{.icons,.themes,.zprofile,.zshrc} ~/
+	cp -r ~/Github/dotfiles/.config/* ~/.config
+	sudo cp -r ~/Github/dotfiles/etc/* /etc
 }
 
-## ENABLE/DISABLE SERVICES
+## ENABLE SERVICES
 function runit_services {
-	printf "[6/12] Enabling services and disabling unnecessary ttys\n\n"
+	printf "[6/12] Enabling services\n\n"
 	sleep 3
 
 	# enable services
-	sudo ln -s /etc/sv/elogind /var/service
-	sudo ln -s /etc/sv/dbus /var/service
+	sudo ln -s /etc/sv/{elogind,dbus} /var/service
 	sudo ln -s /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
-	# remove unnecessary ttys
-	sudo rm -rf /var/service/agetty-tty[2-6]
 }
 
 ## ADDS FLATHUB REMOTE AND INSTALLS FLATPAKS
 function install_flatpak {
 	function print_flatpaks {
 		echo "Marktext"
-		echo "Heroic Games Launcher"
-		echo "Discord"
 		echo "Citra"
 		echo "RPCS3"
 		echo "Yuzu"
@@ -276,7 +276,7 @@ function install_flatpak {
 	sleep 3
 
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak install com.github.marktext.marktext flathub com.heroicgameslauncher.hgl com.discordapp.Discord org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
+	flatpak install com.github.marktext.marktext flathub org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
@@ -322,6 +322,7 @@ function rustup_stuff {
 ## CLONE THE VOID-PACKAGES REPO
 function void_packages_git {
 	function print_void_packages {
+		echo "discord"
 		echo "spotify"
 		echo "msttcorefonts"
 		printf "\n"
@@ -330,8 +331,12 @@ function void_packages_git {
 	print_void_packages
 	sleep 3
 
-	mkdir ~/Github && git clone https://github.com/void-linux/void-packages.git ~/Github
-	cd ~/Github/void-packages && ./xbps-src pkg spotify msttcorefonts && xi spotify msttcorefonts
+	mkdir ~/Github &&
+		git clone https://github.com/sirkhancision/void-packages.git ~/Github
+	cd ~/Github/void-packages &&
+		./xbps-src binary-bootstrap &&
+		./xbps-src pkg discord spotify msttcorefonts &&
+		xi discord spotify msttcorefonts
 	cd ~/
 }
 
