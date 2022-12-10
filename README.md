@@ -37,8 +37,6 @@ A set of configuration files for my personal system (Void Linux). Refer to ***vo
 
 **.icons:** Configuration to set the cursor theme.
 
-`~/.icons`
-
 **/etc/lightdm/lightdm-gtk-greeter.conf:** Configuration for the GTK+3 Greeter for LightDM.
 
 `xbps-install lightdm`
