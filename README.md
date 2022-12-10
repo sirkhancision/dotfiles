@@ -1,48 +1,51 @@
-## dotfiles
+# dotfiles
 
 ![desktop + dunst + terminal](screenshots/2022-12-03_16-19-14.png)
 
 A set of configuration files for my personal system (Void Linux). Refer to ***void_install.sh*** to automate a lot of this process.
 
+---
+
 **System's fonts:** 
+
 - _Sans-serif:_ [Jost](https://fonts.google.com/specimen/Jost)
 - _Monospaced:_ [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)
 
 **Cursor theme:** Breeze Obsidian
 
-> `xbps-install breeze-obsidian-cursor-theme`
+`xbps-install breeze-obsidian-cursor-theme`
 
-**dunst:** Configuration for the dunst notification manager.
+**.config/dunst:** Configuration for the dunst notification manager.
 
-> `~/.config/dunst`
+`xbps-install dunst`
 
-**fontconfig/fonts.conf:** Configuration file for system-wide fonts.
+**.config/fontconfig/fonts.conf:** Configuration file for system-wide fonts.
 
-> `~/.config/fontconfig`
+**.config/gitui:** Theme configuration for gitui.
 
-**gitui:** Theme configuration for gitui.
+`xbps-install gitui`
 
-> `~/.config/gitui`
+**.config/gtk-3.0:** Configuration for GTK3 apps.
 
-**gtk-3.0:** Configuration for GTK3 apps.
+**.config/helix:** Configuration file for the Helix text editor.
 
-> `~/.config/gtk-3.0`
+`xbps-install helix`
 
-**helix:** Configuration file for the Helix text editor.
+**.config/i3:** i3wm's configuration directory.
 
-> `~/.config/helix`
-
-**i3 config:** i3wm's configuration directory.
-
-> `~/.config/i3`
+`xbps-install i3-gaps`
 
 **.icons:** Configuration to set the cursor theme.
 
-> `~/.icons`
+`~/.icons`
 
-**kitty:** Configuration for the kitty terminal.
+**/etc/lightdm/lightdm-gtk-greeter.conf:** Configuration for the GTK+3 Greeter for LightDM.
 
-> `~/.config/kitty`
+`xbps-install lightdm`
+
+**.config/kitty:** Configuration for the kitty terminal.
+
+`xbps-install kitty`
 
 **lain-pink.png**: Wallpaper slightly edited by me, portraying Lain Iwakura from Serial Experiments Lain.
 
@@ -50,48 +53,40 @@ A set of configuration files for my personal system (Void Linux). Refer to ***vo
 
 ![oomox-Merionette theme + black folder theme + Papirus icons](screenshots/2022-12-03_04-04-06.png)
 
-**oomox-Merionette**: GTK 2/3 themes from Merionette color scheme. Made by me.
-
-> `~/.themes`
+**.themes/oomox-Merionette**: GTK 2/3 themes from Merionette color scheme. Made by me.
 
 **papirus-folders**: Black theme used.
 
-**Picom:** Configuration for the picom compositor.
+`xbps-install papirus-folders`
 
-> `~/.config/picom`
+**.config/picom:** Configuration for the picom compositor.
 
-**Polybar:** Directory containing Polybar's configuration files.
+`xbps-install picom`
 
-> `~/.config/polybar`
+**.config/polybar:** Directory containing Polybar's configuration files.
 
-**qt5ct/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
+`xbps-install polybar`
 
-> `~/.config/qt5ct/colors`
+**.config/qt5ct && .config/qt6ct:** Themes for QT5 and QT6 applications, using the GTK Eonyze colorscheme along with the Fusion style.
 
-> `~/.config/qt6ct/colors`
+`xbps-install qt5ct qt6ct`
 
-**Redshift:** Configuration for Redshift (screen temperature/gamma adjuster).
+**.config/redshift:** Configuration for Redshift (screen temperature/gamma adjuster).
 
-> `~/.config/redshift`
+`xbps-install redshift`
 
-**Rofi:** Configured from [adi109x's fork of Rofi](https://github.com/adi1090x/rofi).
+**.config/rofi:** Configured from [adi109x's fork of Rofi](https://github.com/adi1090x/rofi).
 
-> `~/.config/rofi`
+`xbps-install rofi`
 
 **Starship:** Prompt written in Rust.
 
-> `xbps-install starship`
+`xbps-install starship`
 
-**starship.toml:** Configuration file for Starship.
-
-> `~/.config`
+**.config/starship.toml:** Configuration file for Starship.
 
 **void_install.sh:** Script to do a lot of post-install stuff on my Void Linux system.
 
 **.zprofile:** ZSH's profile of commannds to be executed when logged in, user-wide.
 
-> `~/.zprofile`
-
 **.zshrc:** ZSH's main file with general configurations and aliases.
-
-> `~/.zshrc`
