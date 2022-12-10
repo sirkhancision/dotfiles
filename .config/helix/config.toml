@@ -1,7 +1,8 @@
-theme = "gruvbox"
+theme = "mellow"
 
 [editor]
 cursorline = true
+bufferline = "multiple"
 
 [editor.statusline]
 left = ["mode", "diagnostics"]
