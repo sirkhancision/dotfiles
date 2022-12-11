@@ -2,7 +2,7 @@
 
 ![desktop + dunst + terminal](screenshots/2022-12-03_16-19-14.png)
 
-A set of configuration files for my personal system (Void Linux). Refer to ***void_install.sh*** to automate a lot of this process.
+A set of configuration files for my personal system (Void Linux). Refer to **dotman.sh** to automate a lot of this process. There's also **void_install.sh**, to automate stuff after installing Void Linux.
 
 ---
 
@@ -34,6 +34,10 @@ A set of configuration files for my personal system (Void Linux). Refer to ***vo
 **.config/i3:** i3wm's configuration directory.
 
 `xbps-install i3-gaps`
+
+**dotman.sh:** POSIX shell script to manage dotfiles.
+
+`./dotman.sh`
 
 **.icons:** Configuration to set the cursor theme.
 
