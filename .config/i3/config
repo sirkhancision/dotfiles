@@ -15,7 +15,7 @@ set $scroll_workspace $HOME/.config/i3/scripts/workspace_scroll.sh
 set $add_workspace $HOME/.config/i3/scripts/workspace_add.sh
 font pango:monospace 12
 # Sets wallpaper
-exec --no-startup-id feh --bg-fill $HOME/Github/dotfiles/lain-pink.png
+exec --no-startup-id feh --bg-fill $HOME/dotfiles/lain-pink.png
 
 ### Window borders
 default_border pixel 3
