@@ -9,24 +9,24 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME=""
 
 plugins=(
-	aliases
-	colored-man-pages
-	common-aliases
-	copybuffer
-	copypath
-	dirhistory
-	extract
-	fd
-	git
-	gitignore
-	rbw
-	ripgrep
-	rust
-	safe-paste
-	sudo
-	universalarchive
-	zoxide
-	zsh-interactive-cd
+    aliases
+    colored-man-pages
+    common-aliases
+    copybuffer
+    copypath
+    dirhistory
+    extract
+    fd
+    git
+    gitignore
+    rbw
+    ripgrep
+    rust
+    safe-paste
+    sudo
+    universalarchive
+    zoxide
+    zsh-interactive-cd
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -35,9 +35,9 @@ source $ZSH/oh-my-zsh.sh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main regexp brackets pattern)
 
 if [[ -n $SSH_CONNECTION ]]; then
-	export EDITOR='vim'
+    export EDITOR='vim'
 else
-	export EDITOR='hx'
+    export EDITOR='hx'
 fi
 
 SUCC="/mnt/succ"
@@ -49,6 +49,7 @@ alias zshrc="$EDITOR $HOME/.zshrc"
 alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py --credentials-location=$HOME"
 alias i3cfg="$EDITOR $HOME/.config/i3/config"
 alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
+alias dotman="$HOME/dotfiles/./dotman.sh"
 
 # xbps aliases
 # from xtools:
@@ -73,34 +74,34 @@ alias eld="exa --icons -lgha --octal-permissions --group-directories-first"
 
 # use gcc to compile a .c file
 function compc() {
-	if [[ $# == 0 ]]; then
-		echo "Alias for gcc compiler"
-		echo "Example: compc file1.c (input) file2 (output)"
-		return 0
-	elif [[ $# < 2 ]]; then
-		echo "Missing output file"
-		return 1
-	elif [[ $1 != *".c"* ]]; then
-		echo "Input file $1 is not a .c file"
-		return 2
-	fi
+    if [[ $# == 0 ]]; then
+        echo "Alias for gcc compiler"
+        echo "Example: compc file1.c (input) file2 (output)"
+        return 0
+    elif [[ $# < 2 ]]; then
+        echo "Missing output file"
+        return 1
+    elif [[ $1 != *".c"* ]]; then
+        echo "Input file $1 is not a .c file"
+        return 2
+    fi
 
-	gcc -o $2 $1 -march=native -O2 -pedantic -pipe -Wall -Werror -lm -lgmp
+    gcc -o $2 $1 -march=native -O2 -pedantic -pipe -Wall -Werror -lm -lgmp
 }
 
 # use curl and bsdtar to download and extract a compressed archive
 function curltar() {
-	if [[ $# == 0 ]]; then
-		echo "Alias to use curl and bsdtar to download and extract a compressed archive"
-		echo "Example: curltar (url) (output-directory)"
-		return 0
-	elif [[ $# < 2 ]]; then
-		DIR=$PWD
-	else
-		DIR=$2
-	fi
+    if [[ $# == 0 ]]; then
+        echo "Alias to use curl and bsdtar to download and extract a compressed archive"
+        echo "Example: curltar (url) (output-directory)"
+        return 0
+    elif [[ $# < 2 ]]; then
+        DIR=$PWD
+    else
+        DIR=$2
+    fi
 
-	curl -Lo /dev/stdout $1 | bsdtar -xf /dev/stdin --directory $DIR
+    curl -Lo /dev/stdout $1 | bsdtar -xf /dev/stdin --directory $DIR
 }
 
 # l1 and l2 are variables that use the command "sed"
@@ -110,23 +111,23 @@ function curltar() {
 # "-t" argument using a time calculation with "qalc" in order to
 # stop exactly where you want in the video
 function ytmkvcrop() {
-	if [[ $# == 0 ]]; then
-		echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of\n\
+    if [[ $# == 0 ]]; then
+        echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of\n\
 a video, producing a .mkv video file\n\
 Example: ytmkvcrop (video link) (video starting point i.e 00:00) (video\n\
 ending point i.e 15:00) filename"
-		return 0
-	elif [[ -z $4 ]] && [[ $# -ne 4 ]]; then
-		echo "Missing output file name"
-		return 1
-	fi
+        return 0
+    elif [[ -z $4 ]] && [[ $# -ne 4 ]]; then
+        echo "Missing output file name"
+        return 1
+    fi
 
-	LINKS=$(ytdlp-getlink $1)
-	VIDEO_LINK=$(sed -n 1p <<<$LINKS)
-	AUDIO_LINK=$(sed -n 2p <<<$LINKS)
+    LINKS=$(ytdlp-getlink $1)
+    VIDEO_LINK=$(sed -n 1p <<<$LINKS)
+    AUDIO_LINK=$(sed -n 2p <<<$LINKS)
 
-	ffmpeg -ss $2 -i $VIDEO_LINK -ss $2 -i $AUDIO_LINK \
-		-t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
+    ffmpeg -ss $2 -i $VIDEO_LINK -ss $2 -i $AUDIO_LINK \
+        -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
 }
 
 unset fd
