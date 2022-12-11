@@ -13,25 +13,25 @@ set -e
 ### FUNCTIONS
 
 ## ADD REPOS AND CHANGE MIRRORS
-function add_repos_mirrors {
-	printf "[1/12] Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
-	sleep 3
+add_repos_mirrors() {
+    printf "[1/12] Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
+    sleep 3
 
-	sudo xbps-install -S "void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree" &&
-		sudo mkdir -p /etc/xbps.d &&
-		sudo cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d &&
-		sudo sed -i 's|https://repo-default.voidlinux.org|https://mirrors.servercentral.com/voidlinux|g' /etc/xbps.d/*-repository-*.conf
+    sudo xbps-install -S "void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree" &&
+        sudo mkdir -p /etc/xbps.d &&
+        sudo cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d &&
+        sudo sed -i 's|https://repo-default.voidlinux.org|https://mirrors.servercentral.com/voidlinux|g' /etc/xbps.d/*-repository-*.conf
 }
 
 ## INSTALL PACKAGES AND UPDATE SYSTEM
-function install_packages {
-	printf "[2/12] Installing packages with xbps and updating the pre-installed packages\n\n"
-	sleep 3
+install_packages() {
+    printf "[2/12] Installing packages with xbps and updating the pre-installed packages\n\n"
+    sleep 3
 
-	PACKAGES="CopyQ \
+    PACKAGES="CopyQ \
 		ImageMagick \
 		Komikku \
-	  Thunar \
+        Thunar \
 		alsa-pipewire \
 		alsa-plugins \
 		alsa-plugins-32bit \
@@ -121,6 +121,7 @@ function install_packages {
 		lightdm-gtk3-greeter \
 		linux-firmware-amd \
 		lutris \
+        lxappearance \
 		lxsession \
 		maim \
 		mediainfo \
@@ -135,6 +136,7 @@ function install_packages {
 		neofetch \
 		nerd-fonts \
 		nomacs \
+        noto-fonts-cjk \
 		noto-fonts-emoji \
 		nv-codec-headers \
 		nvidia-dkms \
@@ -176,6 +178,7 @@ function install_packages {
 		sd \
 		shellcheck \
 		shfmt \
+        skim \
 		starship \
 		steam \
 		syncplay \
@@ -216,128 +219,133 @@ function install_packages {
 		zsh \
 		zsh-syntax-highlighting"
 
-	sudo xbps-install -Su "$PACKAGES"
-	tldr --update
+    sudo xbps-install -Su "$PACKAGES"
+    tldr --update
 }
 
 ## USE XDG FOR STUFF
-function XDG {
-	printf "[3/12] Creating the XDG directories inside the user's home directory,\n"
-	printf "also setting default applications\n\n"
-	sleep 3
+XDG() {
+    printf "[3/12] Creating the XDG directories inside the user's home directory,\n"
+    printf "also setting default applications\n\n"
+    sleep 3
 
-	xdg-user-dirs-update
-	xdg-mime default nomacs.desktop image
-	xdg-mime default thunar.desktop inode/directory
+    xdg-user-dirs-update
+    xdg-mime default nomacs.desktop image
+    xdg-mime default thunar.desktop inode/directory
 }
 
 ## INSTALL OH-MY-ZSH
-function oh_my_zsh {
-	printf "[4/12] Installing oh-my-zsh\n\n"
-	sleep 3
+oh_my_zsh() {
+    printf "[4/12] Installing oh-my-zsh\n\n"
+    sleep 3
 
-	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 ## DOWNLOAD AND COPY DOTFILES
-function dotfiles {
-	printf "[5/12] Cloning the git repo with my dotfiles and copying the files to where they belong\n\n"
-	sleep 3
+dotfiles() {
+    printf "[5/12] Cloning the git repo with my dotfiles and running the dotfiles manager\n\n"
+    sleep 3
 
-	mkdir ~/Github &&
-		git clone "https://github.com/sirkhancision/dotfiles.git" ~/Github
-	cp -r ~/Github/dotfiles/{.icons,.themes,.zprofile,.zshrc} ~/
-	cp -r ~/Github/dotfiles/.config/* ~/.config
-	sudo cp -r ~/Github/dotfiles/etc/* /etc
+    git clone "https://github.com/sirkhancision/dotfiles.git" "$HOME"
+    cd dotfiles && ./dotman
 }
 
 ## ENABLE SERVICES
-function runit_services {
-	printf "[6/12] Enabling services\n\n"
-	sleep 3
+runit_services() {
+    printf "[6/12] Enabling services\n\n"
+    sleep 3
 
-	# enable services
-	sudo ln -s /etc/sv/{elogind,dbus} /var/service
-	sudo ln -s /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
+    # enable services
+    sudo ln -s /etc/sv/{elogind,dbus,lightdm} /var/service
+    sudo ln -s /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
 }
 
 ## ADDS FLATHUB REMOTE AND INSTALLS FLATPAKS
-function install_flatpak {
-	function print_flatpaks {
-		echo "Marktext"
-		echo "Citra"
-		echo "RPCS3"
-		echo "Yuzu"
-		printf "\n"
-	}
+install_flatpak() {
+    print_flatpaks() {
+        echo "Marktext"
+        echo "Citra"
+        echo "RPCS3"
+        echo "XIVLauncher"
+        echo "Yuzu"
+        printf "\n"
+    }
 
-	printf "[7/12] Adding flathub as a flatpak remote, and installing the following apps:\n"
-	print_flatpaks
-	sleep 3
+    printf "[7/12] Adding flathub as a flatpak remote, and installing the following apps:\n"
+    print_flatpaks
+    sleep 3
 
-	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak install com.github.marktext.marktext flathub org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    flatpak install com.github.marktext.marktext flathub org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra dev.goats.xivlauncher
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
-function change_folders_colors {
-	printf "[8/12] Changing folder colors to black (for Papirus icon theme)\n\n"
-	sleep 3
+change_folders_colors() {
+    printf "[8/12] Changing folder colors to black (for Papirus icon theme)\n\n"
+    sleep 3
 
-	papirus-folders -C black
+    papirus-folders -C black
 }
 
 ## UPDATE WINETRICKS
-function update_winetricks {
-	printf "[9/12] Updating winetricks\n\n"
-	sleep 3
+update_winetricks() {
+    printf "[9/12] Updating winetricks\n\n"
+    sleep 3
 
-	sudo winetricks --self-update
+    sudo winetricks --self-update
 }
 
 ## INSTALL STUFF WITH NPM
-function install_npm {
-	function print_npm_packages {
-		echo "bash-language-server"
-		echo "vscode-json-languageserver"
-		echo "vscode-css-languageserver-bin"
-		echo "vscode-html-languageserver-bin"
-		printf "\n"
-	}
-	printf "[10/12] Updating npm and installing the following npm packages:\n"
-	print_npm_packages
-	sleep 3
+install_npm() {
+    print_npm_packages() {
+        echo "bash-language-server"
+        echo "vscode-json-languageserver"
+        echo "vscode-css-languageserver-bin"
+        echo "vscode-html-languageserver-bin"
+        printf "\n"
+    }
+    printf "[10/12] Updating npm and installing the following npm packages:\n"
+    print_npm_packages
+    sleep 3
 
-	sudo npm i -g npm bash-language-server vscode-json-languageserver vscode-css-languageserver-bin vscode-html-languageserver-bin
+    sudo npm i -g npm bash-language-server vscode-json-languageserver vscode-css-languageserver-bin vscode-html-languageserver-bin
 }
 
 ## EXECUTE RUSTUP
-function rustup_stuff {
-	printf "[11/12] Executing rustup to install rust stuff\n\n"
-	sleep 3
+rustup_stuff() {
+    printf "[11/12] Executing rustup to install rust stuff\n\n"
+    sleep 3
 
-	rustup-init
+    rustup-init
 }
 
 ## CLONE THE VOID-PACKAGES REPO
-function void_packages_git {
-	function print_void_packages {
-		echo "discord"
-		echo "spotify"
-		echo "msttcorefonts"
-		printf "\n"
-	}
-	printf "[12/12] Cloning the void-packages git repo, and building and installing the following packages:\n"
-	print_void_packages
-	sleep 3
+void_packages_git() {
+    PACKAGES=(discord
+        spotify
+        msttcorefonts
+    )
 
-	mkdir ~/Github &&
-		git clone https://github.com/sirkhancision/void-packages.git ~/Github
-	cd ~/Github/void-packages &&
-		./xbps-src binary-bootstrap &&
-		./xbps-src pkg discord spotify msttcorefonts &&
-		xi discord spotify msttcorefonts
-	cd ~/
+    print_void_packages() {
+        for PACKAGE in "${PACKAGES[@]}"; do
+            echo "$PACKAGE"
+        done
+        printf "\n"
+    }
+    printf "[12/12] Cloning the void-packages git repo, and building and installing the following packages:\n"
+    print_void_packages
+    sleep 3
+
+    mkdir "$HOME/Github" &&
+        git clone https://github.com/sirkhancision/void-packages.git "$HOME/Github"
+    cd "$HOME/Github/void-packages" &&
+        ./xbps-src binary-bootstrap &&
+        for PACKAGE in "${PACKAGES[@]}"; do
+            ./xbps-src pkg "$PACKAGE"
+        done &&
+        xi discord spotify msttcorefonts
+    cd "$HOME"
 }
 
 ### BASIC INSTALL
