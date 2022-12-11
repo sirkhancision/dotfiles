@@ -13,4 +13,10 @@ language-server = { command = "html-language-server", args = ["--stdio"] }
 [[language]]
 name = "bash"
 auto-format = true
-formatter = { command = "shfmt", args = ["-s"] }
+indent = { tab-width = 4, unit = "    " }
+formatter = { command = "shfmt", args = ["-s", "-i", "4"] }
+
+[[language]]
+name = "python"
+auto-format = true
+formatter = { command = "black", args = ["--quiet", "-"] }
