@@ -65,9 +65,9 @@ edit_file() {
     if [ -n "${EDITOR+x}" ]; then
         if [ "$(sk -V)" ]; then
             if [ "$(bat -V)" ]; then
-                FILE="$(find .config -type f | sk --preview="bat {} --color=always")"
+                FILE="$(find "$REPO_DIR/.config" -type f | sk --preview="bat {} --color=always")"
                 if [ -n "$FILE" ]; then
-                    $EDITOR "$REPO_DIR/$FILE"
+                    $EDITOR "$FILE"
                 fi
             else
                 echo "bat isn't installed"
