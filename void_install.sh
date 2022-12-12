@@ -86,7 +86,6 @@ install_packages() {
 		i3-gaps \
 		i3ipc-glib \
 		i3lock-color \
-		ipafont-fonts-otf \
 		jq \
 		kcharselect \
 		kdenlive \
