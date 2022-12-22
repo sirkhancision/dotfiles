@@ -35,7 +35,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install i3-gaps`
 
-**dotman.sh:** POSIX shell script to manage dotfiles.
+**dotman.sh:** POSIX shell script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
 
 `./dotman.sh`
 
