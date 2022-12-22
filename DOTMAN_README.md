@@ -16,7 +16,7 @@ dotman is a POSIX shell script that acts as a minimalist dotfiles manager.
 
 2. Put its name and relative path (relative to `REPO_DIR`) as a new line in the pseudo-array `FILES` (the order doesn't matter)
 
-3. You'll probably want to link the new file to its path outside of `REPO_DIR`, (e.g. link `REPO_DIR/dotfiles/.config/i3` to `~/.config/i3`), so:
+3. You'll probably want to link the new file to its path outside of `REPO_DIR`, (e.g. link `REPO_DIR/.config/i3` to `~/.config/i3`), so:
    
    1. Run dotman (`./dotman.sh`)
    
