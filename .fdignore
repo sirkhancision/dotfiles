@@ -1,0 +1,24 @@
+# patterns to be ignored by the fd command in dotman
+.git/
+*.aac
+*.avi
+*.bmp
+*.flac
+*.flv
+*.gif
+*.jpeg
+*.jpg
+*.mkv
+*.mov
+*.mp4
+*.ogg
+*.pdf
+*.png
+*.psd
+*.raw
+*.svg
+*.tiff
+*.wav
+*.webm
+*.wma
+*.wmv
