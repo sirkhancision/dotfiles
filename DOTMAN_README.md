@@ -38,8 +38,10 @@ By the minimalist nature of dotman, in order to remove a file, you'd do it as wi
 
 ### Dependencies:
 
-- skim
+- [fd](https://github.com/sharkdp/fd)
 
-- bat
+- [skim](https://github.com/lotabout/skim)
+
+- [bat](https://github.com/sharkdp/bat)
 
 - Any text editor set as the default editor (set as the value for the `EDITOR` environment variable)
