@@ -20,3 +20,7 @@ formatter = { command = "shfmt", args = ["-s", "-i", "4"] }
 name = "python"
 auto-format = true
 formatter = { command = "black", args = ["--quiet", "-"] }
+
+[[language]]
+name = "git-ignore"
+file-types = [".gitignore", ".gitignore_global", ".fdignore"]
