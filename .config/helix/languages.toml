@@ -24,3 +24,15 @@ formatter = { command = "black", args = ["--quiet", "-"] }
 [[language]]
 name = "git-ignore"
 file-types = [".gitignore", ".gitignore_global", ".fdignore"]
+
+[[language]]
+name = "xml"
+file-types = ["xml", { suffix = "fontconfig/fonts.conf" }]
+
+[[language]]
+name = "nix"
+file-types = ["nix", { suffix = "picom/picom.conf" }]
+
+[[language]]
+name = "ini"
+file-types = ["ini", { suffix = "redshift/redshift.conf" }]
