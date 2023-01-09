@@ -37,6 +37,7 @@ FILES=".config/dunst
 .zshrc
 "
 
+# create symbolic links for your dotfiles to their real paths
 link_files() {
     echo "Do you want to link your dotfiles to their path? <y/n>"
     read -r PROMPT
@@ -82,6 +83,17 @@ edit_file() {
     fi
 }
 
+# use gitui to execute operations with git in your dotfiles
+# local repository
+git_ui() {
+    if [ -z "$(which gitui)" ]; then
+        echo "gitui isn't installed"
+    else
+        cd "$REPO_DIR" || (echo "$REPO_DIR is an invalid directory" && exit 1)
+        gitui
+    fi
+}
+
 # main program
 printf "dotman - Dotfiles Manager
 by sirkhancision\n\n"
@@ -89,12 +101,14 @@ by sirkhancision\n\n"
 while true; do
     printf "Options:
 [1] Link dotfiles
-[2] Edit file\n"
+[2] Edit file
+[3] Open gitui\n"
     read -r OPTION
 
     case $OPTION in
     1) link_files ;;
     2) edit_file ;;
+    3) git_ui ;;
     *) echo "Invalid option" ;;
     esac
 done
