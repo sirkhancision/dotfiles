@@ -1,4 +1,4 @@
-#!/bin/zsh
+# shellcheck disable=all
 # ░░░░░░░ ░░ ░░░░░░  ░░   ░░ ░░   ░░  ░░░░░  ░░░    ░░  ░░░░░░ ░░ ░░░░░░░ ░░  ░░░░░░  ░░░    ░░
 # ▒▒      ▒▒ ▒▒   ▒▒ ▒▒  ▒▒  ▒▒   ▒▒ ▒▒   ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒      ▒▒ ▒▒    ▒▒ ▒▒▒▒   ▒▒
 # ▒▒▒▒▒▒▒ ▒▒ ▒▒▒▒▒▒  ▒▒▒▒▒   ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒  ▒▒ ▒▒      ▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒    ▒▒ ▒▒ ▒▒  ▒▒
@@ -46,7 +46,7 @@ SUCC="/mnt/succ"
 
 # aliases for general commands
 alias zshrc="$EDITOR $HOME/.zshrc"
-alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py --credentials-location=$HOME"
+alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py --credentials-location=$HOME/credentials.json"
 alias i3cfg="$EDITOR $HOME/.config/i3/config"
 alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
 alias dotman="$HOME/dotfiles/./dotman.sh"
