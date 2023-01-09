@@ -1,5 +1,3 @@
-command_timeout = 5000
-
 [directory]
 style = "yellow"
 read_only = "  "
