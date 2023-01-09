@@ -35,6 +35,8 @@ FILES=".config/dunst
 .themes
 .zprofile
 .zshrc
+.xprofile
+.Xkbmap
 "
 
 # create symbolic links for your dotfiles to their real paths

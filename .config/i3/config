@@ -57,14 +57,15 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh&
 # Starts autotiling
 exec_always --no-startup-id autotiling
 
-### Input configuration
-exec --no-startup-id setxkbmap -layout 'br,br(nodeadkeys)' -model pc105 -option 'grp:rctrl_toggle'
+# Set keyboard repeat rate
 exec --no-startup-id xset r rate 600 25
 
-### Idle configuration
 # Lock screen after 10 minutes
 exec --no-startup-id xset s on && xset s 600
 exec --no-startup-id xss-lock -- $lock
+
+# Enable core dumps in case something goes wrong
+exec --no-startup-id ulimit -c unlimited
 
 ### Key bindings
 # Basics:
