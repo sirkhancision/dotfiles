@@ -19,11 +19,11 @@ plugins=(
     fd
     git
     gitignore
-    rbw
     ripgrep
     rust
     safe-paste
     sudo
+    thefuck
     universalarchive
     zoxide
     zsh-interactive-cd
@@ -46,7 +46,6 @@ SUCC="/mnt/succ"
 
 # aliases for general commands
 alias zshrc="$EDITOR $HOME/.zshrc"
-alias zspotify="python $SUCC/Github/zspotify/zspotify/__main__.py --credentials-location=$HOME/credentials.json"
 alias i3cfg="$EDITOR $HOME/.config/i3/config"
 alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
 alias dotman="$HOME/dotfiles/./dotman.sh"
@@ -57,9 +56,14 @@ alias dotman="$HOME/dotfiles/./dotman.sh"
 ## xrs = xbps-query -Rs
 alias xr="sudo xbps-remove -R"
 alias xu="sudo xbps-install -Su"
-alias xuu="$HOME/Github/void-packages/./xbps-src update-sys"
+xuu() {
+    cd $HOME/Github/void-packages
+    git pull --rebase upstream master --quiet
+    ./xbps-src update-sys
+    cd - >/dev/null
+}
 
-# youtube-dl aliases
+# youtube-dlp aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
 alias ytdlp-mp3="yt-dlp --extract-audio --audio-format mp3"
 alias ytdlp-getlink="yt-dlp -g"
@@ -73,7 +77,7 @@ alias eld="exa --icons -lgha --octal-permissions --group-directories-first"
 # FUNCTIONS
 
 # use gcc to compile a .c file
-function compc() {
+compc() {
     if [[ $# == 0 ]]; then
         echo "Alias for gcc compiler"
         echo "Example: compc file1.c (input) file2 (output)"
@@ -90,7 +94,7 @@ function compc() {
 }
 
 # use curl and bsdtar to download and extract a compressed archive
-function curltar() {
+curltar() {
     if [[ $# == 0 ]]; then
         echo "Alias to use curl and bsdtar to download and extract a compressed archive"
         echo "Example: curltar (url) (output-directory)"
@@ -110,7 +114,7 @@ function curltar() {
 # then, it uses ffmpeg to actually download the video, with the
 # "-t" argument using a time calculation with "qalc" in order to
 # stop exactly where you want in the video
-function ytmkvcrop() {
+ytmkvcrop() {
     if [[ $# == 0 ]]; then
         echo "Alias to use ffmpeg and youtube-dl to download only a specific portion of\n\
 a video, producing a .mkv video file\n\
@@ -125,9 +129,21 @@ ending point i.e 15:00) filename"
     LINKS=$(ytdlp-getlink $1)
     VIDEO_LINK=$(sed -n 1p <<<$LINKS)
     AUDIO_LINK=$(sed -n 2p <<<$LINKS)
+    END_TIME=$(qalc -t "$3 - $2" to time)
 
     ffmpeg -ss $2 -i $VIDEO_LINK -ss $2 -i $AUDIO_LINK \
-        -t $(qalc -t "$3 - $2" to time) -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
+        -t $END_TIME -map 0:v -map 1:a -c:v libx264 -c:a aac $4.mkv
+}
+
+zspotify() {
+    ZSPOTIFY_DIR=$SUCC/Github/zspotify
+    cd $ZSPOTIFY_DIR || (echo "$ZSPOTIFY_DIR doesn't exist" && exit 1)
+    python zspotify.py $1
+    if [ "$(ls -A 'ZSpotify Music')" ]; then
+        mv -v "ZSpotify Music/**/*.mp3" $(xdg-user-dir MUSIC)
+        rm -rf "ZSpotify Music/**"
+    fi
+    cd - >/dev/null
 }
 
 unset fd
