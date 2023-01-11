@@ -1,16 +1,4 @@
 [[language]]
-name = "json"
-language-server = { command = "vscode-json-languageserver", args = ["--stdio"] }
-
-[[language]]
-name = "css"
-language-server = { command = "css-language-server", args = ["--stdio"] }
-
-[[language]]
-name = "html"
-language-server = { command = "html-language-server", args = ["--stdio"] }
-
-[[language]]
 name = "bash"
 auto-format = true
 indent = { tab-width = 4, unit = "    " }
