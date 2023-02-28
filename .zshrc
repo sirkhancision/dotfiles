@@ -23,7 +23,6 @@ plugins=(
     rust
     safe-paste
     sudo
-    thefuck
     universalarchive
     zoxide
     zsh-interactive-cd
@@ -148,5 +147,4 @@ zspotify() {
 
 unset fd
 eval "$(starship init zsh)"
-eval "$(thefuck --alias)"
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
