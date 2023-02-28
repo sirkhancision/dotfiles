@@ -6,9 +6,10 @@
 # ███████ ██ ██   ██ ██   ██ ██   ██ ██   ██ ██   ████  ██████ ██ ███████ ██  ██████  ██   ████
 # This script is to be executed after having used void-installer, rebooting the system and updating xbps manually
 # It is supposed to be modular, if in any case I want to add/remove/edit something in any step
-# It also hasn't been properly tested yet, but oh well :)
 
 set -e
+
+USING_WIRELESS=false
 
 ### FUNCTIONS
 
@@ -17,7 +18,7 @@ add_repos_mirrors() {
     printf "[1/12] Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
     sleep 3
 
-    sudo xbps-install -S "void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree" &&
+    sudo xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree &&
         sudo mkdir -p /etc/xbps.d &&
         sudo cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d &&
         sudo sed -i 's|https://repo-default.voidlinux.org|https://mirrors.servercentral.com/voidlinux|g' /etc/xbps.d/*-repository-*.conf
@@ -86,6 +87,7 @@ install_packages() {
         i3-gaps \
         i3ipc-glib \
         i3lock-color \
+        jack \
         jq \
         kcharselect \
         kdenlive \
@@ -112,13 +114,12 @@ install_packages() {
         libstdc++-32bit \
         libva-glx \
         libva-glx-32bit \
-        libxcomposite \
+        libXcomposite \
         libxslt \
         libxslt-32bit \
         light \
         lightdm \
         lightdm-gtk3-greeter \
-        linux-firmware-amd \
         lutris \
         lxappearance \
         lxsession \
@@ -126,6 +127,7 @@ install_packages() {
         mediainfo \
         meld \
         mesa-dri \
+        mesa-dri-32bit \
         mono \
         mpg123 \
         mpv \
@@ -137,30 +139,28 @@ install_packages() {
         nomacs \
         noto-fonts-cjk \
         noto-fonts-emoji \
-        nv-codec-headers \
-        nvidia-dkms \
-        nvidia-gtklibs-32bit \
-        nvidia-libs-32bits \
         obs \
         ocl-icd \
         ocl-icd-32bit \
         okular \
-        opencl-icd \
+        ocl-icd \
         p7zip \
         p7zip-unrar \
         papirus-folders \
         papirus-icon-theme \
         pavucontrol \
         picard \
+        picom \
         pipewire \
         playerctl \
         pnpm \
         polybar \
-        pulseaudioudio \
+        pulseaudio \
         python3-lsp-server \
         python3-pip \
         qalculate-gtk \
         qbittorrent \
+        qjackctl \
         qpwgraph \
         qt5ct \
         qt6ct \
@@ -184,7 +184,6 @@ install_packages() {
         taplo \
         tealdeer \
         telegram-desktop \
-        thefuck \
         thunar-archive-plugin \
         thunar-media-tags-plugin \
         thunderbird \
@@ -198,7 +197,7 @@ install_packages() {
         vlc \
         vulkan-loader \
         vulkan-loader-32bit \
-        webp-pixbug-loader \
+        webp-pixbuf-loader \
         wget \
         wine \
         wine-gecko \
@@ -208,7 +207,7 @@ install_packages() {
         xclip \
         xdotool \
         xdg-user-dirs \
-        xorg-minimal \
+        xorg \
         xorg-server-xephyr \
         xtools \
         xss-lock \
@@ -218,7 +217,27 @@ install_packages() {
         zsh \
         zsh-syntax-highlighting"
 
-    sudo xbps-install -Su "$PACKAGES"
+    echo "Which brand is your GPU?"
+    printf "[1] Nvidia\n[2] AMD\n[3] Intel\n"
+    read -r PROMPT
+    case $PROMPT in
+    "1") GPU="nv-codec-headers nvidia-dkms nvidia-gtklibs-32bit nvidia-libs-32bit" ;;
+    "2") GPU="linux-firmware-amd mesa-vulkan-radeon amdvlk mesa-vaapi mesa-vdpau" ;;
+    "3") GPU="linux-firmware-intel mesa-vulkan-intel intel-video-accel" ;;
+    *) GPU="" ;;
+    esac
+
+    echo "Do you use a wireless connection? <y/n>"
+    read -r PROMPT
+    case $PROMPT in
+    "y" | "Y" | "yes" | "Yes")
+        WIRELESS="broadcom-wl-dkms NetworkManager"
+        USING_WIRELESS=true
+        ;;
+    *) WIRELESS="" ;;
+    esac
+
+    sudo xbps-install -Su $PACKAGES $GPU $WIRELESS
     tldr --update
 }
 
@@ -233,54 +252,30 @@ create_home_dirs() {
     xdg-mime default thunar.desktop inode/directory
 }
 
-## INSTALL OH-MY-ZSH
-oh_my_zsh() {
-    printf "[4/12] Installing oh-my-zsh\n\n"
-    sleep 3
-
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-}
-
-## DOWNLOAD AND COPY DOTFILES
-dotfiles() {
-    printf "[5/12] Cloning the git repo with my dotfiles and running the dotfiles manager\n\n"
-    sleep 3
-
-    git clone "https://github.com/sirkhancision/dotfiles.git" "$HOME"
-    cd dotfiles && ./dotman
-}
-
 ## ENABLE SERVICES
 runit_services() {
-    printf "[6/12] Enabling services\n\n"
+    printf "[4/12] Enabling services\n\n"
     sleep 3
 
     # enable services
-    sudo ln -s /etc/sv/{elogind,dbus,lightdm} /var/service
-    sudo ln -s /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
+    sudo ln -sf /etc/sv/{elogind,dbus,lightdm} /var/service
+    if [ $USING_WIRELESS == true ]; then
+        sudo ln -sf /etc/sv/NetworkManager /var/service
+    fi
+    sudo ln -sf /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
 }
 
-## ADDS FLATHUB REMOTE AND INSTALLS FLATPAKS
-install_flatpak() {
-    print_flatpaks() {
-        echo "Marktext"
-        echo "Citra"
-        echo "RPCS3"
-        echo "Yuzu"
-        printf "\n"
-    }
-
-    printf "[7/12] Adding flathub as a flatpak remote, and installing the following apps:\n"
-    print_flatpaks
+## ADDS FLATHUB REMOTE
+add_flathub() {
+    printf "[5/12] Adding flathub as a flatpak remote\n"
     sleep 3
 
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    flatpak install com.github.marktext.marktext flathub org.yuzu_emu.yuzu net.rpcs3.RPCS3 org.citra_emu.citra
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
 change_folders_colors() {
-    printf "[8/12] Changing folder colors to black (for Papirus icon theme)\n\n"
+    printf "[6/12] Changing folder colors to black (for Papirus icon theme)\n\n"
     sleep 3
 
     papirus-folders -C black
@@ -288,7 +283,7 @@ change_folders_colors() {
 
 ## UPDATE WINETRICKS
 update_winetricks() {
-    printf "[9/12] Updating winetricks\n\n"
+    printf "[7/12] Updating winetricks\n\n"
     sleep 3
 
     sudo winetricks --self-update
@@ -296,23 +291,19 @@ update_winetricks() {
 
 ## INSTALL STUFF WITH NPM
 install_npm() {
-    print_npm_packages() {
-        echo "bash-language-server"
-        echo "vscode-json-languageserver"
-        echo "vscode-css-languageserver-bin"
-        echo "vscode-html-languageserver-bin"
-        printf "\n"
-    }
-    printf "[10/12] Updating npm and installing the following npm packages:\n"
-    print_npm_packages
+    PACKAGES=(bash-language-server
+        vscode-langservers-extracted
+    )
+    printf "[8/12] Updating npm and installing the following npm packages:\n"
+    echo "${PACKAGES[*]}"
     sleep 3
 
-    sudo npm i -g npm bash-language-server vscode-json-languageserver vscode-css-languageserver-bin vscode-html-languageserver-bin
+    sudo npm i -g npm "${PACKAGES[*]}"
 }
 
 ## EXECUTE RUSTUP
 rustup_stuff() {
-    printf "[11/12] Executing rustup to install rust stuff\n\n"
+    printf "[9/12] Executing rustup to install rust stuff\n\n"
     sleep 3
 
     rustup-init
@@ -325,25 +316,44 @@ void_packages_git() {
         msttcorefonts
     )
 
-    print_void_packages() {
-        for PACKAGE in "${PACKAGES[@]}"; do
-            echo "$PACKAGE"
-        done
-        printf "\n"
-    }
-    printf "[12/12] Cloning the void-packages git repo, and building and installing the following packages:\n"
+    printf "[10/12] Cloning the void-packages git repo, and building and installing the following packages:\n"
+    echo "${PACKAGES[*]}"
     print_void_packages
     sleep 3
 
     mkdir "$HOME/Github" &&
-        git clone https://github.com/sirkhancision/void-packages.git "$HOME/Github"
-    cd "$HOME/Github/void-packages" &&
+        git clone https://github.com/sirkhancision/void-packages.git "$HOME/Github/void-packages"
+    cd "$HOME/Github/void-packages"
+
+    if git remote | grep -q upstream; then
+        git remote add upstream https://github.com/void-linux/void-packages.git
+    fi
+
+    git pull --rebase upstream master &&
         ./xbps-src binary-bootstrap &&
+        echo XBPS_ALLOW_RESTRICTED=yes >>etc/conf &&
         for PACKAGE in "${PACKAGES[@]}"; do
             ./xbps-src pkg "$PACKAGE"
         done &&
-        xi discord spotify msttcorefonts
+        xi "${PACKAGES[*]}"
     cd "$HOME"
+}
+
+## DOWNLOAD AND COPY DOTFILES
+dotfiles() {
+    printf "[11/12] Cloning the git repo with my dotfiles and running the dotfiles manager\n\n"
+    sleep 3
+
+    git clone "https://github.com/sirkhancision/dotfiles.git" "$HOME"
+    cd dotfiles && ./dotman
+}
+
+## INSTALL OH-MY-ZSH
+oh_my_zsh() {
+    printf "[12/12] Installing oh-my-zsh\n\n"
+    sleep 3
+
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 ### BASIC INSTALL
@@ -354,15 +364,20 @@ install_packages
 ### POST-INSTALL COMMANDS
 
 create_home_dirs
-oh_my_zsh
-dotfiles
 runit_services
-install_flatpak
+add_flathub
 change_folders_colors
+
+# disable bitmap fonts
+echo "Disabling bitmap fonts..."
+sudo ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
+
 update_winetricks
 install_npm
 rustup_stuff
 void_packages_git
+dotfiles
+oh_my_zsh
 
 echo "Installation complete! :)"
 
