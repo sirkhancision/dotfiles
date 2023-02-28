@@ -1,2 +1,3 @@
 .config/qt5ct/qt5ct.conf
 .icons/*.png
+.config/fontconfig/conf.d/78-Reject.conf
