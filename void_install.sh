@@ -37,6 +37,7 @@ install_packages() {
         alsa-plugins \
         alsa-plugins-32bit \
         alsa-plugins-pulseaudio \
+        alsa-utils \
         aria2 \
         autotiling \
         bat \
@@ -237,7 +238,16 @@ install_packages() {
     *) WIRELESS="" ;;
     esac
 
-    sudo xbps-install -Su $PACKAGES $GPU $WIRELESS
+    echo "Do you use Bluetooth in this device? <y/n>"
+    read -r PROMPT
+    case $PROMPT in
+    "y" | "Y" | "yes" | "Yes")
+        BLUETOOTH="bluez bluez-alsa libspa-bluetooth broadcom-bt-firmware"
+        ;;
+    *) BLUETOOTH="" ;;
+    esac
+
+    sudo xbps-install -Su $PACKAGES $GPU $WIRELESS $BLUETOOTH
     tldr --update
 }
 
