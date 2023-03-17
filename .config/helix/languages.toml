@@ -1,8 +1,7 @@
 [[language]]
 name = "bash"
 auto-format = true
-indent = { tab-width = 4, unit = "    " }
-formatter = { command = "shfmt", args = ["-s", "-i", "4"] }
+formatter = { command = "shfmt", args = ["-s"] }
 
 [[language]]
 name = "python"
