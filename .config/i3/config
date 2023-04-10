@@ -56,6 +56,8 @@ exec --no-startup-id picom --daemon
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh&
 # Starts autotiling
 exec_always --no-startup-id autotiling
+# Starts qbittorrent
+exec --no-startup-id qbittorrent
 
 # Set keyboard repeat rate
 exec --no-startup-id xset r rate 600 25
