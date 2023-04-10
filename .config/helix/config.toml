@@ -1,11 +1,11 @@
-theme = "mellow"
+theme = "monokai_pro_ristretto"
 
 [editor]
 cursorline = true
 bufferline = "multiple"
 
 [editor.statusline]
-left = ["mode", "diagnostics"]
+left = ["mode", "diagnostics", "version-control"]
 center = ["file-name", "spinner"]
 right = ["file-type", "separator", "file-encoding", "position", "position-percentage"]
 
@@ -21,3 +21,9 @@ tabpad = "·"
 
 [editor.indent-guides]
 render = true
+
+[editor.soft-wrap]
+enable = true
+
+[editor.lsp]
+display-inlay-hints = true

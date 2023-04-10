@@ -2,6 +2,7 @@
 name = "bash"
 auto-format = true
 formatter = { command = "shfmt", args = ["-s"] }
+file-types = ["sh", "bash", "zsh", ".bash_login", ".bash_logout", ".bash_profile", ".bashrc", ".profile", ".zshenv", ".zlogin", ".zlogout", ".zprofile", ".zshrc", "APKBUILD", "PKGBUILD", "eclass", "ebuild", "bazelrc", ".bash_aliases", "template"]
 
 [[language]]
 name = "python"
@@ -14,7 +15,7 @@ file-types = [".gitignore", ".gitignore_global", ".fdignore"]
 
 [[language]]
 name = "xml"
-file-types = ["xml", { suffix = "fontconfig/fonts.conf" }]
+file-types = ["xml", "musicxml", { suffix = "fontconfig/fonts.conf" }]
 
 [[language]]
 name = "nix"
