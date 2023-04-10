@@ -8,8 +8,10 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **System's fonts:** 
 
-- _Sans-serif:_ [Jost](https://fonts.google.com/specimen/Jost)
-- _Monospaced:_ [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)
+- _Sans-serif:_ [Atkinson Hyperlegible](https://brailleinstitute.org/freefont)
+	- `xbps-install font-atkinson-hyperlegible-otf`
+- _Monospaced:_ [IBM Plex Mono](https://github.com/IBM/plex)
+	- `xbps-install font-ibm-plex-otf`
 
 **Cursor theme:** Breeze Obsidian
 
