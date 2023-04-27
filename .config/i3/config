@@ -58,6 +58,8 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh&
 exec_always --no-startup-id autotiling
 # Starts qbittorrent
 exec --no-startup-id qbittorrent
+# Turn off wired network (conflicts with wireless network)
+exec --no-startup-id nmcli c down enp3s0
 
 # Set keyboard repeat rate
 exec --no-startup-id xset r rate 600 25
