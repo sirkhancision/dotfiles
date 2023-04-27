@@ -23,4 +23,4 @@ file-types = ["nix", { suffix = "picom/picom.conf" }]
 
 [[language]]
 name = "ini"
-file-types = ["ini", { suffix = "redshift/redshift.conf" }]
+file-types = ["ini", "desktop", { suffix = "redshift/redshift.conf" }]
