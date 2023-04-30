@@ -13,6 +13,7 @@ set $screenshot $HOME/.config/i3/scripts/screenshot.sh
 set $windowshot $HOME/.config/i3/scripts/windowshot.sh
 set $scroll_workspace $HOME/.config/i3/scripts/workspace_scroll.sh
 set $add_workspace $HOME/.config/i3/scripts/workspace_add.sh
+set $switch_workspace $HOME/.config/i3/scripts/workspace_switch.sh
 font pango:monospace 12
 
 # Sets wallpaper
@@ -115,16 +116,16 @@ exec --no-startup-id ulimit -c unlimited
 
 # Workspaces:
         # Switch to workspace
-        bindsym $mod+1 workspace number 1
-        bindsym $mod+2 workspace number 2
-        bindsym $mod+3 workspace number 3
-        bindsym $mod+4 workspace number 4
-        bindsym $mod+5 workspace number 5
-        bindsym $mod+6 workspace number 6
-        bindsym $mod+7 workspace number 7
-        bindsym $mod+8 workspace number 8
-        bindsym $mod+9 workspace number 9
-        bindsym $mod+0 workspace number 10
+        bindsym $mod+1 exec --no-startup-id "$switch_workspace 1"
+        bindsym $mod+2 exec --no-startup-id "$switch_workspace 2"
+        bindsym $mod+3 exec --no-startup-id "$switch_workspace 3"
+        bindsym $mod+4 exec --no-startup-id "$switch_workspace 4"
+        bindsym $mod+5 exec --no-startup-id "$switch_workspace 5"
+        bindsym $mod+6 exec --no-startup-id "$switch_workspace 6"
+        bindsym $mod+7 exec --no-startup-id "$switch_workspace 7"
+        bindsym $mod+8 exec --no-startup-id "$switch_workspace 8"
+        bindsym $mod+9 exec --no-startup-id "$switch_workspace 9"
+        bindsym $mod+0 exec --no-startup-id "$switch_workspace 10"
         # Move focused container to workspace
         bindsym $mod+Shift+1 move container to workspace number 1
         bindsym $mod+Shift+2 move container to workspace number 2
