@@ -45,9 +45,6 @@ SUCC="/mnt/succ"
 # ALIASES
 
 # aliases for general commands
-alias zshrc="$EDITOR $HOME/.zshrc"
-alias i3cfg="$EDITOR $HOME/.config/i3/config"
-alias hxedit="$EDITOR $HOME/.config/helix/config.toml"
 alias dotman="$HOME/dotfiles/./dotman.sh"
 
 # xbps aliases
@@ -72,7 +69,7 @@ xuu() {
 		echo $UPDATES
 		printf "\nNOTE: the packages will be built before being installed\n"
 
-		if read -q "PROMPT?Do you want to update them? <y/n> "; then
+		if read -q "OPTION?Do you want to update them? <y/n> "; then
 			printf "\nUpdating bootstrap...\n"
 			$XBPS_SRC bootstrap-update
 			printf "\nUpdating packages...\n"
@@ -96,8 +93,6 @@ alias e="exa --icons --group-directories-first"
 alias el="exa --icons -lgh --octal-permissions --group-directories-first"
 alias ed="exa -a --icons --group-directories-first"
 alias eld="exa --icons -lgha --octal-permissions --group-directories-first"
-
-# FUNCTIONS
 
 # use gcc to compile .c files
 compc() {
