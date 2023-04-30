@@ -1,6 +1,16 @@
 #!/bin/bash
 # Add a new workspace to the first empty position.
 
+if ! command -v i3-msg >/dev/null; then
+	echo "i3-msg is not installed"
+	exit 1
+fi
+
+if ! command -v jq >/dev/null; then
+	echo "jq is not installed"
+	exit 1
+fi
+
 # Get the current workspace names.
 WORKSPACES=$(i3-msg -t get_workspaces | jq -r '.[] | .name')
 declare -a WS_ARRAY

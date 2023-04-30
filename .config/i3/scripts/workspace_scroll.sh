@@ -1,6 +1,16 @@
 #!/bin/sh
 # Switch to the next non-empty workspace in i3wm
 
+if ! command -v i3-msg >/dev/null; then
+	echo "i3-msg is not installed"
+	exit 1
+fi
+
+if ! command -v jq >/dev/null; then
+	echo "jq is not installed"
+	exit 1
+fi
+
 # Get the names of all workspaces
 WORKSPACES=$(i3-msg -t get_workspaces | jq -r '.[].name')
 
