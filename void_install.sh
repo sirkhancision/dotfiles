@@ -87,6 +87,7 @@ install_packages() {
         gvfs \
         gvfs-mtp \
         helix \
+				hexchat \
 				hunspell-en_US \
 				hunspell-pt_BR \
         i3-gaps \
@@ -197,7 +198,6 @@ install_packages() {
         thunar-media-tags-plugin \
         thunderbird \
         timeshift \
-        tiny \
         tumbler \
         v4l-utils \
         v4l-utils-32bit \
