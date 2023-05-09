@@ -53,6 +53,9 @@ export NNN_BMS="D:$HOME/Downloads;d:$HOME/Documentos;g:$HOME/Github;i:$HOME/Imag
 # nnn plugins
 export NNN_PLUG='D:dragdrop;F:fixname;G:getplugs;I:imgur;M:mtpmount;X:xdgdefault;d:dups;f:finder;i:imgview;m:nmount;o:organize;p:preview-tui;r:renamer;s:suedit;x:togglex;z:autojump'
 
+# exa colors
+export EXA_COLORS="di=1;31"
+
 SUCC="/mnt/succ"
 
 # ALIASES
