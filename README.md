@@ -51,6 +51,10 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install kitty`
 
+**.config/nnn:** Configuration for the file manager nnn.
+
+`xbps-install nnn`
+
 **lain-pink.png**: Wallpaper slightly edited by me, portraying Lain Iwakura from Serial Experiments Lain.
 
 **lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
