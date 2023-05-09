@@ -40,6 +40,19 @@ else
 	export EDITOR='hx'
 fi
 
+# nnn options
+export NNN_OPTS="r"
+# nnn fifo
+export NNN_FIFO=/tmp/nnn.fifo
+# nnn colors
+export NNN_COLORS='3333'
+BLK="0C" CHR="05" DIR="01" EXE="02" REG="00" HARDLINK="04" SYMLINK="0E" MISSING="08" ORPHAN="09" FIFO="07" SOCK="0D" OTHER="0F"
+export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+# nnn bookmarks
+export NNN_BMS="D:$HOME/Downloads;d:$HOME/Documentos;g:$HOME/Github;i:$HOME/Imagens;m:$HOME/Músicas;v:$HOME/Vídeos"
+# nnn plugins
+export NNN_PLUG='D:dragdrop;F:fixname;G:getplugs;I:imgur;M:mtpmount;X:xdgdefault;d:dups;f:finder;i:imgview;m:nmount;o:organize;p:preview-tui;r:renamer;s:suedit;x:togglex;z:autojump'
+
 SUCC="/mnt/succ"
 
 # ALIASES
@@ -293,6 +306,44 @@ zspotify() {
 
 	popd >/dev/null
 }
+
+n() {
+	# Block nesting of nnn in subshells
+	[ "${NNNLVL:-0}" -eq 0 ] || {
+		echo "nnn is already running"
+		return
+	}
+
+	# The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+	# If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
+	# see. To cd on quit only on ^G, remove the "export" and make sure not to
+	# use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
+	#      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+	export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+	# Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+	# stty start undef
+	# stty stop undef
+	# stty lwrap undef
+	# stty lnext undef
+
+	# The command builtin allows one to alias nnn to n, if desired, without
+	# making an infinitely recursive alias
+	command nnn "$@"
+
+	[ ! -f "$NNN_TMPFILE" ] || {
+		. "$NNN_TMPFILE"
+		rm -f "$NNN_TMPFILE" >/dev/null
+	}
+}
+
+nnn_cd() {
+	if ! [ -z "$NNN_PIPE" ]; then
+		printf "%s\0" "0c${PWD}" ! >"${NNN_PIPE}" &
+	fi
+}
+
+trap nnn_cd EXIT
 
 unset fd
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

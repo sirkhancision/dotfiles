@@ -52,6 +52,7 @@ install_packages() {
         dbus-elogind \
         diskonaut \
         dosbox \
+        dragon \
         dunst \
         ebook-tools \
         elogind \
@@ -60,18 +61,19 @@ install_packages() {
         feh \
         file-roller \
         firefox \
-        flatpak \
-				font-atkinson-hyperlegible-otf \
-        font-awesome \
-				font-ibm-plex-otf \
+				flatpak \
+        font-atkinson-hyperlegible-otf \
+				font-awesome \
+        font-iosevka \
         fontmanager \
         fonts-croscore-ttf \
         freetype \
         fzf \
         gamemode \
         ghostwriter \
-        git \
-				gitui \
+				git \
+        gitui \
+        glow \
         gnome-disk-utility \
         gnome-epub-thumbnailer \
         gnutls \
@@ -85,11 +87,11 @@ install_packages() {
         gst-plugins-ugly1 \
         gst-plugins-ugly1-32bit \
         gvfs \
-        gvfs-mtp \
-        helix \
+				gvfs-mtp \
+				helix \
 				hexchat \
-				hunspell-en_US \
-				hunspell-pt_BR \
+        hunspell-en_US \
+        hunspell-pt_BR \
         i3-gaps \
         i3ipc-glib \
         i3lock-color \
@@ -103,7 +105,6 @@ install_packages() {
         libXinerama \
         libXinerama-32bit \
         libdrm-32bit \
-        libdrm-32bit \
         libgcc-32bit \
         libglapi-32bit \
         libglvnd-32bit \
@@ -115,12 +116,12 @@ install_packages() {
         libpulseaudio \
         libpulseaudio-32bit \
         libreoffice-calc \
-        libreoffice-fonts \
-        libreoffice-gnome \
+				libreoffice-fonts \
+				libreoffice-gnome \
 				libreoffice-i18n-pt \
 				libreoffice-impress \
-				libreoffice-math \
-				libreoffice-writer \
+        libreoffice-math \
+        libreoffice-writer \
         libreoffice-xtensions \
         libstdc++-32bit \
         libva-glx \
@@ -133,24 +134,25 @@ install_packages() {
         lutris \
         lxappearance \
         lxsession \
+        lynx \
         maim \
         mediainfo \
         meld \
         mesa-dri \
         mesa-dri-32bit \
         mono \
-        mpg123 \
-        mpv \
-        mpv-mpris \
-        musescore \
-        ncurses \
-        neofetch \
+				mpg123 \
+				mpv \
+				mpv-mpris \
+				musescore \
+				ncurses \
+				neofetch \
         nerd-fonts \
+        nnn \
         nomacs \
         noto-fonts-cjk \
         noto-fonts-emoji \
-        obs \
-        ocl-icd \
+				obs \
         ocl-icd \
         ocl-icd-32bit \
         okular \
@@ -158,24 +160,29 @@ install_packages() {
         p7zip-unrar \
         papirus-folders \
         papirus-icon-theme \
+        patch \
         pavucontrol \
         picard \
-        picom \
+				picom \
         pipewire \
         playerctl \
+        pmount \
         pnpm \
         polybar \
+        poppler \
         pulseaudio \
         python3-lsp-server \
         python3-pip \
         qalculate-gtk \
         qbittorrent \
         qjackctl \
-        qpwgraph \
+				qpwgraph \
         qt5ct \
         qt6ct \
         quodlibet \
+        rclone \
         redshift \
+        renameutils \
         retroarch \
         ripgrep \
         rofi \
@@ -189,7 +196,8 @@ install_packages() {
         skim \
         starship \
         steam \
-        syncplay \
+        sxiv \
+				syncplay \
         taplo \
         tealdeer \
         telegram-desktop \

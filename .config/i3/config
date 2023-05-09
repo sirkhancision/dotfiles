@@ -3,7 +3,7 @@
 set $mod Mod4
 set $term kitty
 set $calculator qalculate-gtk
-set $file_manager thunar
+set $file_manager nnn
 set $launcher $HOME/.config/rofi/launchers/type-3/launcher.sh
 set $logout $HOME/.config/rofi/applets/bin/powermenu.sh
 set $lock betterlockscreen -l dim
@@ -77,7 +77,7 @@ exec --no-startup-id ulimit -c unlimited
     # Start a terminal
     bindsym $mod+Return exec $term
     # Open the default file manager
-    bindsym $mod+e exec $file_manager
+    bindsym $mod+e exec zsh -c "source $HOME/.zshrc && $term $file_manager"
     # Start your launcher
     bindsym Menu exec $launcher
     # Lock the screen
