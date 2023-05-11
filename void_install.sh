@@ -15,8 +15,7 @@ USING_WIRELESS=false
 
 ## ADD REPOS AND CHANGE MIRRORS
 add_repos_mirrors() {
-	printf "[1/12] Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
-	sleep 3
+	printf "Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
 
 	sudo xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree &&
 		sudo mkdir -p /etc/xbps.d &&
@@ -26,8 +25,7 @@ add_repos_mirrors() {
 
 ## INSTALL PACKAGES AND UPDATE SYSTEM
 install_packages() {
-	printf "[2/12] Installing packages with xbps and updating the pre-installed packages\n\n"
-	sleep 3
+	printf "Installing packages with xbps and updating the pre-installed packages\n\n"
 
 	PACKAGES="CopyQ \
         ImageMagick \
@@ -40,7 +38,8 @@ install_packages() {
         alsa-utils \
         aria2 \
         autotiling \
-        bat \
+        bash-language-server \
+				bat \
         betterlockscreen \
         black \
         breeze-obsidian-cursor-theme \
@@ -262,15 +261,16 @@ install_packages() {
 	*) BLUETOOTH="" ;;
 	esac
 
+	# shellcheck disable=2086
+	# this is by design so that the packages are one after the other
 	sudo xbps-install -Su $PACKAGES $GPU $WIRELESS $BLUETOOTH
 	tldr --update
 }
 
 ## CREATE DIRECTORIES INSIDE THE USER'S DIRECTORY, AND SET SOME DEFAULT APPS
 create_home_dirs() {
-	printf "[3/12] Creating the XDG directories inside the user's home directory,\n"
+	printf "Creating the XDG directories inside the user's home directory,\n"
 	printf "also setting default applications\n\n"
-	sleep 3
 
 	xdg-user-dirs-update
 	xdg-mime default nomacs.desktop image
@@ -279,8 +279,7 @@ create_home_dirs() {
 
 ## ENABLE SERVICES
 runit_services() {
-	printf "[4/12] Enabling services\n\n"
-	sleep 3
+	printf "Enabling services\n\n"
 
 	# enable services
 	sudo ln -sf /etc/sv/{elogind,dbus,lightdm} /var/service
@@ -292,46 +291,34 @@ runit_services() {
 
 ## ADDS FLATHUB REMOTE
 add_flathub() {
-	printf "[5/12] Adding flathub as a flatpak remote\n"
-	sleep 3
+	printf "Adding flathub as a flatpak remote\n"
 
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
 change_folders_colors() {
-	printf "[6/12] Changing folder colors to black (for Papirus icon theme)\n\n"
-	sleep 3
+	printf "Changing folder colors to black (for Papirus icon theme)\n\n"
 
 	papirus-folders -C black
 }
 
 ## UPDATE WINETRICKS
 update_winetricks() {
-	printf "[7/12] Updating winetricks\n\n"
-	sleep 3
+	printf "Updating winetricks\n\n"
 
 	sudo winetricks --self-update
 }
 
 ## INSTALL STUFF WITH NPM
 install_npm() {
-	PACKAGES=(bash-language-server
+	PACKAGES=(
 		vscode-langservers-extracted
 	)
-	printf "[8/12] Updating npm and installing the following npm packages:\n"
+	printf "Updating npm and installing the following npm packages:\n"
 	echo "${PACKAGES[*]}"
-	sleep 3
 
 	sudo npm i -g npm "${PACKAGES[*]}"
-}
-
-## EXECUTE RUSTUP
-rustup_stuff() {
-	printf "[9/12] Executing rustup to install rust stuff\n\n"
-	sleep 3
-
-	rustup-init
 }
 
 ## CLONE THE VOID-PACKAGES REPO
@@ -341,10 +328,9 @@ void_packages_git() {
 		msttcorefonts
 	)
 
-	printf "[10/12] Cloning the void-packages git repo, and building and installing the following packages:\n"
+	printf "Cloning the void-packages git repo, and building and installing the following packages:\n"
 	echo "${PACKAGES[*]}"
 	print_void_packages
-	sleep 3
 
 	mkdir "$HOME/Github" &&
 		git clone https://github.com/sirkhancision/void-packages.git "$HOME/Github/void-packages"
@@ -366,8 +352,7 @@ void_packages_git() {
 
 ## DOWNLOAD AND COPY DOTFILES
 dotfiles() {
-	printf "[11/12] Cloning the git repo with my dotfiles and running the dotfiles manager\n\n"
-	sleep 3
+	printf "Cloning the git repo with my dotfiles and running the dotfiles manager\n\n"
 
 	git clone "https://github.com/sirkhancision/dotfiles.git" "$HOME"
 	cd dotfiles && ./dotman
@@ -375,11 +360,60 @@ dotfiles() {
 
 ## INSTALL OH-MY-ZSH
 oh_my_zsh() {
-	printf "[12/12] Installing oh-my-zsh\n\n"
-	sleep 3
+	printf "Installing oh-my-zsh\n\n"
 
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
+
+disable_bitmap() {
+	printf "Disabling bitmap fonts\n\n"
+	sudo ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
+}
+
+add_lock_screen() {
+	printf "Adding lock screen\n\n"
+	betterlockscreen -u "$HOME/dotfiles/lain-white-lock.png"
+}
+
+# read arguments/flags
+while getopts ":hmpHsfcbwngdz" OPT; do
+	case $OPT in
+	h)
+		printf "void_install: script to install and configure stuff in my system\n\n"
+		echo "-h: prints help text"
+		echo "-m: adds repository mirrors"
+		echo "-p: installs listed packages"
+		echo "-H: creates XDG home directories"
+		echo "-s: enables runit services"
+		echo "-f: adds flathub as a flatpak remote"
+		echo "-c: changes papirus folders colors"
+		echo "-b: disables bitmap fonts"
+		echo "-w: updates winetricks"
+		echo "-n: installs listed npm packages"
+		echo "-g: clones void-packages and installs its listed packages"
+		echo "-d: clones my dotfiles and executes dotman"
+		echo "-z: installs oh-my-zsh"
+		exit 0
+		;;
+	m) add_repos_mirrors && exit 0 ;;
+	p) install_packages && exit 0 ;;
+	H) create_home_dirs && exit 0 ;;
+	s) runit_services && exit 0 ;;
+	f) add_flathub && exit 0 ;;
+	c) change_folders_colors && exit 0 ;;
+	b) disable_bitmap && exit 0 ;;
+	w) update_winetricks && exit 0 ;;
+	n) install_npm && exit 0 ;;
+	g) void_packages_git && exit 0 ;;
+	d) dotfiles && exit 0 ;;
+	z) oh_my_zsh && exit 0 ;;
+	\?)
+		echo "Invalid option: -$OPTARG"
+		return 1
+		;;
+	esac
+done
+shift $((OPTIND - 1))
 
 ### BASIC INSTALL
 
@@ -392,22 +426,13 @@ create_home_dirs
 runit_services
 add_flathub
 change_folders_colors
-
-# disable bitmap fonts
-echo "Disabling bitmap fonts..."
-sudo ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
-
+disable_bitmap
 update_winetricks
 install_npm
-rustup_stuff
+rustup-init
 void_packages_git
 dotfiles
-
-# add lock screen
-betterlockscreen -u "$HOME/dotfiles/lain-white-lock.png"
-
+add_lock_screen
 oh_my_zsh
 
 echo "Installation complete! :)"
-
-exit 0
