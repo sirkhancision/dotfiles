@@ -1,49 +1,36 @@
-#!/bin/sh
+#!/bin/bash
 
-if ! command -v xdg-user-dir; then
-	echo "xdg-user-dir is not installed"
-	exit 1
-fi
+check_command() {
+	command -v "$1" >/dev/null 2>&1 || {
+		echo "$1 is not installed"
+		exit 1
+	}
+}
 
-if ! command -v maim; then
-	echo "maim is not installed"
-	exit 1
-fi
+CHECK_COMMANDS=(
+	"dunstify"
+	"maim"
+	"paplay"
+	"xclip"
+	"xdg-user-dir"
+)
 
-if ! command -v xdotool; then
-	echo "xdotool is not installed"
-	exit 1
-fi
-
-if ! command -v paplay; then
-	echo "paplay is not installed"
-	exit 1
-fi
-
-if ! command -v xclip; then
-	echo "xclip is not installed"
-	exit 1
-fi
-
-if ! command -v dunstify; then
-	echo "dunstify is not installed"
-	exit 1
-fi
+for CMD in "${CHECK_COMMANDS[@]}"; do
+	check_command "$CMD"
+done
 
 set -e
 
 PIC_DIR=$(xdg-user-dir PICTURES)
 IMAGE_NAME=$(date +"%Y-%m-%d_%H-%M-%S").png
-if [ ! -d "$PIC_DIR/Screenshots" ]; then
-	mkdir -p "$PIC_DIR/Screenshots"
-fi
-SCREENSHOTS_DIR="$PIC_DIR"/Screenshots
+SCREENSHOTS_DIR="$PIC_DIR/Screenshots"
 
-maim -i "$(xdotool getactivewindow)" "$SCREENSHOTS_DIR"/"$IMAGE_NAME" &&
-	paplay "$HOME"/.config/i3/audio/screen-capture.ogg
-xclip -sel clip -t image/png <"$SCREENSHOTS_DIR"/"$IMAGE_NAME"
+mkdir -p "$SCREENSHOTS_DIR"
 
-NOTIFICATION_TEXT="<i>$IMAGE_NAME</i>\nCopiado para a área de transferência."
-dunstify 'Captura de tela' "$NOTIFICATION_TEXT" -I "$SCREENSHOTS_DIR"/"$IMAGE_NAME"
+maim -i "$(xdotool getactivewindow)" "$SCREENSHOTS_DIR/$IMAGE_NAME" &&
+	paplay "$HOME/.config/i3/audio/screen-capture.ogg"
 
-exit 0
+xclip -sel clip -t image/png <"$SCREENSHOTS_DIR/$IMAGE_NAME"
+
+NOTIFICATION_TEXT="<i>$IMAGE_NAME</i>\nCopiado para a área de transferência"
+dunstify 'Captura de tela' "$NOTIFICATION_TEXT" -I "$SCREENSHOTS_DIR/$IMAGE_NAME"

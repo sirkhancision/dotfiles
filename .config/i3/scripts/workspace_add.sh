@@ -1,15 +1,21 @@
 #!/bin/bash
 # Add a new workspace to the first empty position.
 
-if ! command -v i3-msg >/dev/null; then
-	echo "i3-msg is not installed"
-	exit 1
-fi
+check_command() {
+	command -v "$1" >/dev/null 2>&1 || {
+		echo "$1 is not installed"
+		exit 1
+	}
+}
 
-if ! command -v jq >/dev/null; then
-	echo "jq is not installed"
-	exit 1
-fi
+CHECK_COMMANDS=(
+	"i3-msg"
+	"jq"
+)
+
+for CMD in "${CHECK_COMMANDS[@]}"; do
+	check_command "$CMD"
+done
 
 # Get the current workspace names.
 WORKSPACES=$(i3-msg -t get_workspaces | jq -r '.[] | .name')
