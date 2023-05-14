@@ -2,8 +2,17 @@
 # dotman - Dotfiles Manager
 # by sirkhancision
 
-# adjust according to the directory of your dotfiles
-REPO_DIR="$HOME/dotfiles"
+# Function to load configuration from .dotmanrc file
+load_dotmanrc() {
+	local DOTMANRC_FILE="$HOME/dotfiles/.dotmanrc"
+
+	if [ -f "$DOTMANRC_FILE" ]; then
+		# Load variables from .dotmanrc
+		eval "$(cat "$DOTMANRC_FILE")"
+	fi
+}
+
+load_dotmanrc
 
 if ! cd "$REPO_DIR"; then
 	echo "The dotfiles directory pointed to by REPO_DIR doesn't exist"
@@ -40,16 +49,15 @@ for KEY in "${!CHECK_COMMANDS[@]}"; do
 	check_command "$KEY" "${CHECK_COMMANDS[$KEY]}"
 done
 
-# just add a file to the array, when you need to add a new file
-FILES=(
-	".config"
-	".icons"
-	".themes"
-	".zprofile"
-	".zshrc"
-	".xprofile"
-	".Xkbmap"
-)
+# update dotfiles from the remote
+update_dotfiles() {
+	BEFORE=$(git rev-parse HEAD)
+	git -C "$REPO_DIR" pull origin i3wm
+	AFTER=$(git rev-parse HEAD)
+	if [[ $BEFORE != "$AFTER" ]]; then
+		link_files
+	fi
+}
 
 # create symbolic links for your dotfiles to their real paths
 link_files() {
@@ -114,12 +122,14 @@ while true; do
 [1] Link dotfiles
 [2] Edit file
 [3] Open gitui
+[4] Update dotfiles
 " OPTION
 
 	case $OPTION in
 	1) link_files ;;
 	2) edit_file ;;
 	3) git_ui ;;
+	4) update_dotfiles ;;
 	*) echo "Invalid option" ;;
 	esac
 done

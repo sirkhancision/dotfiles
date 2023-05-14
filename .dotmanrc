@@ -1,0 +1,13 @@
+# Directory of the dotfiles repository
+REPO_DIR="$HOME/dotfiles"
+
+# List of files/dirs to link and edit
+FILES=(
+  ".config"
+  ".icons"
+  ".themes"
+  ".zprofile"
+  ".zshrc"
+  ".xprofile"
+  ".Xkbmap"
+)
