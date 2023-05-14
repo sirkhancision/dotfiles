@@ -6,7 +6,6 @@ FILES=(
   ".config"
   ".icons"
   ".themes"
-  ".zprofile"
   ".zshrc"
   ".xprofile"
   ".Xkbmap"

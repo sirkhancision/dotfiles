@@ -40,22 +40,6 @@ else
 	export EDITOR='hx'
 fi
 
-# nnn options
-export NNN_OPTS="r"
-# nnn fifo
-export NNN_FIFO=/tmp/nnn.fifo
-# nnn colors
-export NNN_COLORS='3333'
-BLK="0C" CHR="05" DIR="01" EXE="02" REG="00" HARDLINK="04" SYMLINK="0E" MISSING="08" ORPHAN="09" FIFO="07" SOCK="0D" OTHER="0F"
-export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
-# nnn bookmarks
-export NNN_BMS="D:$HOME/Downloads;d:$HOME/Documentos;g:$HOME/Github;i:$HOME/Imagens;m:$HOME/Músicas;v:$HOME/Vídeos"
-# nnn plugins
-export NNN_PLUG='D:dragdrop;F:fixname;G:getplugs;I:imgur;M:mtpmount;O:organize;X:xdgdefault;d:dups;f:finder;i:imgview;m:nmount;o:xdgopen;p:preview-tui;r:renamer;s:suedit;x:togglex;z:autojump'
-
-# exa colors
-export EXA_COLORS="di=1;31"
-
 SUCC="/mnt/succ"
 
 # ALIASES
