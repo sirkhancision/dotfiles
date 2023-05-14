@@ -10,8 +10,8 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 - _Sans-serif:_ [Atkinson Hyperlegible](https://brailleinstitute.org/freefont)
 	- `xbps-install font-atkinson-hyperlegible-otf`
-- _Monospaced:_ [IBM Plex Mono](https://github.com/IBM/plex)
-	- `xbps-install font-ibm-plex-otf`
+- _Monospaced:_ [Iosevka](https://github.com/be5invis/Iosevka)
+	- `xbps-install font-iosevka`
 
 **Cursor theme:** Breeze Obsidian
 
@@ -37,7 +37,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install i3-gaps`
 
-**dotman.sh:** POSIX shell script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
+**dotman.sh:** Bash script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
 
 `./dotman.sh`
 
@@ -97,4 +97,4 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **.zprofile:** ZSH's profile of commannds to be executed when logged in, user-wide.
 
-**.zshrc:** ZSH's main file with general configurations and aliases.
+**.zshrc:** ZSH's main file with configurations, aliases and functions.
