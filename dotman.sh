@@ -1,7 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 # dotman - Dotfiles Manager
-# Written for POSIX shell
 # by sirkhancision
+
+# adjust according to the directory of your dotfiles
+REPO_DIR="$HOME/dotfiles"
+
+if ! cd "$REPO_DIR"; then
+	echo "The dotfiles directory pointed to by REPO_DIR doesn't exist"
+	echo "Please, create it and put dotman in it"
+	exit 1
+fi
 
 # end successfully if, for example, the user presses Ctrl+C
 # to exit the script
@@ -12,53 +20,54 @@ end_script() {
 
 trap 'end_script' INT
 
-# adjust according to the directory of your dotfiles
-REPO_DIR="$HOME/dotfiles"
+# check if program is installed
+check_command() {
+	if ! command -v "$1" >/dev/null 2>&1; then
+		echo "$2 is not installed"
+		exit 1
+	fi
+}
 
-# just add a file to the pseudo-array, when you need to add a new file
-FILES=".config/dunst
-.config/fontconfig
-.config/gitui
-.config/gtk-3.0
-.config/helix
-.config/i3
-.config/kitty
-.config/nnn
-.config/picom
-.config/polybar
-.config/qt5ct
-.config/qt6ct
-.config/redshift
-.config/rofi
-.config/betterlockscreenrc
-.config/starship.toml
-.icons
-.themes
-.zprofile
-.zshrc
-.xprofile
-.Xkbmap
-"
+# declare dictionary
+declare -A CHECK_COMMANDS=(
+	["bat"]="bat"
+	["fd"]="fd"
+	["gitui"]="fd"
+	["sk"]="skim"
+)
+
+for KEY in "${!CHECK_COMMANDS[@]}"; do
+	check_command "$KEY" "${CHECK_COMMANDS[$KEY]}"
+done
+
+# just add a file to the array, when you need to add a new file
+FILES=(
+	".config"
+	".icons"
+	".themes"
+	".zprofile"
+	".zshrc"
+	".xprofile"
+	".Xkbmap"
+)
 
 # create symbolic links for your dotfiles to their real paths
 link_files() {
-	echo "Do you want to link your dotfiles to their path? <y/n>"
-	read -r PROMPT
-	if [ "$PROMPT" = "y" ] || [ "$PROMPT" = "Y" ] || [ "$PROMPT" = "yes" ] || [ "$PROMPT" = "Yes" ]; then
+	read -rp "Do you want to link your dotfiles to their path? <y/n> " OPTION
+	if [[ $OPTION =~ ^[Yy]$ ]]; then
 		mkdir -p "$HOME/.config"
 
-		if [ -z "$FILES" ]; then
+		if [ "${#FILES[@]}" -eq 0 ]; then
 			echo "No files added, please add at least one file"
 		else
-			# iterate over pseudo-array of files
-			printf "%s" "$FILES" | while IFS="" read -r FILE; do
-				if echo "$FILE" | grep -q ".config"; then
+			for FILE in "${FILES[@]}"; do
+				if [[ $FILE == ".config" ]]; then
 					DIRECTORY="$HOME/.config"
+					ln -sfv "$REPO_DIR/$FILE/"* "$DIRECTORY"
 				else
 					DIRECTORY="$HOME"
+					ln -sfv "$REPO_DIR/$FILE" "$DIRECTORY"
 				fi
-
-				ln -sfv "$REPO_DIR/$FILE" "$DIRECTORY"
 			done
 
 			echo "Done linking files"
@@ -71,30 +80,29 @@ link_files() {
 edit_file() {
 	if [ -z "${EDITOR+x}" ]; then
 		printf "\nThere isn't a default editor (the EDITOR environment variable isn't set)\n"
-	elif [ -z "$(which sk)" ]; then
-		echo "skim isn't installed"
-	elif [ -z "$(which bat)" ]; then
-		echo "bat isn't installed"
-	elif [ -z "$(which fd)" ]; then
-		echo "fd isn't installed"
 	else
-		cd "$REPO_DIR" || (echo "$REPO_DIR is an invalid directory" && exit 1)
-		FILE=$(fd --type f --hidden | sk --preview="bat {} --color=always")
-		if [ -n "$FILE" ]; then
-			$EDITOR "$FILE"
-		fi
+		# shellcheck disable=SC2164
+		cd "$REPO_DIR"
+
+		local FILE
+		mapfile -t FILES < <(fd --type f --hidden)
+		while true; do
+			FILE=$(printf "%s\n" "${FILES[@]}" | sk --preview="bat {} --color=always")
+			if [ -z "$FILE" ]; then
+				break
+			else
+				$EDITOR "$FILE"
+			fi
+		done
 	fi
 }
 
 # use gitui to execute operations with git in your dotfiles
 # local repository
 git_ui() {
-	if [ -z "$(which gitui)" ]; then
-		echo "gitui isn't installed"
-	else
-		cd "$REPO_DIR" || (echo "$REPO_DIR is an invalid directory" && exit 1)
-		gitui
-	fi
+	# shellcheck disable=SC2164
+	cd "$REPO_DIR"
+	gitui
 }
 
 # main program
@@ -102,11 +110,11 @@ printf "dotman - Dotfiles Manager
 by sirkhancision\n\n"
 
 while true; do
-	printf "Options:
+	read -rp "Options:
 [1] Link dotfiles
 [2] Edit file
-[3] Open gitui\n"
-	read -r OPTION
+[3] Open gitui
+" OPTION
 
 	case $OPTION in
 	1) link_files ;;
