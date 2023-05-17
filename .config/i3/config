@@ -8,12 +8,12 @@ set $launcher $HOME/.config/rofi/launchers/type-3/launcher.sh
 set $logout $HOME/.config/rofi/applets/bin/powermenu.sh
 set $lock betterlockscreen -l dim
 set $import_gsettings $HOME/.config/i3/scripts/import-gsettings.sh
-set $screenclip $HOME/.config/i3/scripts/screenclip.sh
-set $screenshot $HOME/.config/i3/scripts/screenshot.sh
-set $windowshot $HOME/.config/i3/scripts/windowshot.sh
-set $scroll_workspace $HOME/.config/i3/scripts/workspace_scroll.sh
-set $add_workspace $HOME/.config/i3/scripts/workspace_add.sh
-set $switch_workspace $HOME/.config/i3/scripts/workspace_switch.sh
+set $screenclip $HOME/.config/i3/scripts/screenclip.py
+set $screenshot $HOME/.config/i3/scripts/screenshot.py
+set $windowshot $HOME/.config/i3/scripts/windowshot.py
+set $scroll_workspace $HOME/.config/i3/scripts/workspace_scroll.py
+set $add_workspace $HOME/.config/i3/scripts/workspace_add.py
+set $switch_workspace $HOME/.config/i3/scripts/workspace_switch.py
 font pango:monospace 12
 
 # Sets wallpaper
