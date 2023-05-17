@@ -15,7 +15,7 @@ file-types = [".gitignore", ".gitignore_global", ".fdignore"]
 
 [[language]]
 name = "xml"
-file-types = ["xml", "musicxml", { suffix = "fontconfig/fonts.conf" }]
+file-types = ["xml", "musicxml"]
 
 [[language]]
 name = "nix"
