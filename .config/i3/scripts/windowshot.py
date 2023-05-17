@@ -13,8 +13,7 @@ def check_dependencies(dependencies):
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
         print("The following dependencies are missing:")
-        for dep in missing_deps:
-            print(dep)
+        print("\n".join(missing_deps))
         sys.exit(1)
 
 
