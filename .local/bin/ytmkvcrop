@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.11
 
-import getopt
+import argparse
 import os
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from shutil import which
 
 
@@ -85,7 +85,11 @@ def download_cropped_video(start_time, end_time, video_link, audio_link, output_
         f"{output_file}.mkv",
     ]
 
-    ffmpeg_process = subprocess.run(command)
+    try:
+        ffmpeg_process = subprocess.check_call(command)
+    except subprocess.CalledProcessError:
+        print("Error running ffmpeg, exiting")
+        sys.exit(1)
 
     print("Download complete")
 
@@ -97,61 +101,62 @@ def main(argv):
     dependencies = ["ffmpeg", "yt-dlp"]
     check_dependencies(dependencies)
 
-    try:
-        opts, args = getopt.getopt(argv, "hl:o:e:s:")
-    except getopt.GetoptError:
-        print("Invalid option")
+    parser = argparse.ArgumentParser(
+        prog="ytmkvcrop", description="Video downloader with partial download support"
+    )
+    parser.add_argument(
+        "-l",
+        "--link",
+        dest="video_link",
+        help="The link to the video you want to download",
+        required=True,
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        dest="output_file",
+        help="Output file name, without the extension",
+        required=True,
+    )
+    parser.add_argument(
+        "-s",
+        "--start",
+        dest="start_time",
+        help="The time you want the video to start from",
+    )
+    parser.add_argument(
+        "-e",
+        "--end",
+        dest="end_time",
+        help="The time you want the video to end at",
+        required=True,
+    )
+    args = parser.parse_args(argv)
+
+    video_link = args.video_link
+    output_file = args.output_file
+    start_time = (
+        parse_time(args.start_time)
+        if args.start_time
+        else datetime(1, 1, 1, 0, 0, 0).strftime("%H:%M:%S")
+    )
+    end_time = parse_time(args.end_time)
+
+    links = (
+        subprocess.check_output(["yt-dlp", "-g", video_link])
+        .decode("utf-8")
+        .splitlines()
+    )
+
+    video_link = links[0] if links else None
+    audio_link = links[1] if len(links) > 1 else None
+
+    if not video_link or not audio_link:
+        print("Video link is required")
         sys.exit(1)
 
-    start_time = datetime(1, 1, 1, 0, 0, 0).strftime("%H:%M:%S")
-    start_time_provided = False
-
-    output_file, end_time = None, None
-
-    for opt, arg in opts:
-        match opt:
-            case "-h":
-                print(
-                    "Usage: ytmkvcrop -l (video link) -o (output file name) [-s (start time)] -e (end time)"
-                )
-                sys.exit(0)
-
-            case "-l":
-                youtube_link = arg
-                links = (
-                    subprocess.check_output(["yt-dlp", "-g", youtube_link])
-                    .decode("utf-8")
-                    .splitlines()
-                )
-
-                video_link = links[0] if links else None
-                audio_link = links[1] if len(links) > 1 else None
-
-                if not video_link or not audio_link:
-                    print("Video link is required")
-                    sys.exit(1)
-
-            case "-o":
-                output_file = arg
-
-            case "-e":
-                end_time = parse_time(arg)
-
-            case "-s":
-                start_time = parse_time(arg)
-                start_time_provided = True
-
-    for value in [output_file, end_time]:
-        if not value:
-            print(
-                "Output file name is required"
-                if value == output_file
-                else "Missing end time for video"
-            )
-            sys.exit(1)
-
-    if start_time_provided:
-        time_diff = start_time - end_time
+    if start_time:
+        time_diff = timedelta(seconds=(start_time - end_time).total_seconds())
         end_time = (start_time - time_diff).strftime("%H:%M:%S")
     else:
         end_time = end_time.strftime("%H:%M:%S")
