@@ -2,7 +2,7 @@
 
 ![desktop + dunst + terminal](screenshots/2022-12-03_16-19-14.png)
 
-A set of configuration files for my personal system (Void Linux). Refer to **dotman.sh** to automate a lot of this process. There's also **void_install.sh**, to automate stuff after installing Void Linux.
+A set of configuration files for my personal system (Void Linux). Refer to **dotman** to automate a lot of this process. There's also **void_install.sh**, to automate stuff after installing Void Linux.
 
 ---
 
@@ -37,7 +37,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install i3-gaps`
 
-**dotman.sh:** Bash script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
+**dotman:** Python script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
 
 `./dotman.sh`
 
@@ -87,7 +87,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install rofi`
 
-**Starship:** Prompt written in Rust.
+**starship:** Prompt written in Rust.
 
 `xbps-install starship`
 
