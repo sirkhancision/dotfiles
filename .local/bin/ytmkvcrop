@@ -1,0 +1,168 @@
+#!/usr/bin/env python3.11
+
+import getopt
+import os
+import subprocess
+import sys
+from datetime import datetime
+from shutil import which
+
+
+def check_dependencies(dependencies):
+    """
+    Check if the required programs are installed
+    """
+    missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
+    if missing_deps:
+        print("The following dependencies are missing:")
+        print("\n".join(missing_deps))
+        sys.exit(1)
+
+
+def parse_time(time):
+    """
+    Parse a time in the formats:
+        HH:MM:SS
+        MM:SS
+        SS
+
+    Returns a corresponding datetime object
+    """
+    parts = time.split(":")
+
+    hours, minutes, seconds = 0, 0, 0
+
+    match len(parts):
+        case 3:
+            hours = int(parts[0])
+            minutes = int(parts[1])
+            seconds = int(parts[2])
+
+        case 2:
+            minutes = int(parts[0])
+            seconds = int(parts[1])
+
+        case 1:
+            seconds = int(parts[0])
+
+        case _:
+            raise ValueError(f"Invalid time format: {time}")
+
+    time_parsed = datetime(1, 1, 1, hours, minutes, seconds)
+
+    return time_parsed
+
+
+def download_cropped_video(start_time, end_time, video_link, audio_link, output_file):
+    """
+    Download a portion of a video, using ffmpeg and yt-dlp
+    """
+    print(f"Downloading video from {start_time} to {end_time}, into {output_file}.mkv")
+
+    command = [
+        "ffmpeg",
+        "-hide_banner",
+        "-loglevel",
+        "error",
+        "-ss",
+        str(start_time),
+        "-i",
+        video_link,
+        "-ss",
+        str(start_time),
+        "-i",
+        audio_link,
+        "-t",
+        str(end_time),
+        "-map",
+        "0:v",
+        "-map",
+        "1:a",
+        "-c:v",
+        "libx264",
+        "-c:a",
+        "aac",
+        f"{output_file}.mkv",
+    ]
+
+    ffmpeg_process = subprocess.run(command)
+
+    print("Download complete")
+
+
+def main(argv):
+    """
+    Video downloader that supports downloading only a specific part of the video
+    """
+    dependencies = ["ffmpeg", "yt-dlp"]
+    check_dependencies(dependencies)
+
+    try:
+        opts, args = getopt.getopt(argv, "hl:o:e:s:")
+    except getopt.GetoptError:
+        print("Invalid option")
+        sys.exit(1)
+
+    start_time = datetime(1, 1, 1, 0, 0, 0).strftime("%H:%M:%S")
+    start_time_provided = False
+
+    output_file, end_time = None, None
+
+    for opt, arg in opts:
+        match opt:
+            case "-h":
+                print(
+                    "Usage: ytmkvcrop -l (video link) -o (output file name) [-s (start time)] -e (end time)"
+                )
+                sys.exit(0)
+
+            case "-l":
+                youtube_link = arg
+                links = (
+                    subprocess.check_output(["yt-dlp", "-g", youtube_link])
+                    .decode("utf-8")
+                    .splitlines()
+                )
+
+                video_link = links[0] if links else None
+                audio_link = links[1] if len(links) > 1 else None
+
+                if not video_link or not audio_link:
+                    print("Video link is required")
+                    sys.exit(1)
+
+            case "-o":
+                output_file = arg
+
+            case "-e":
+                end_time = parse_time(arg)
+
+            case "-s":
+                start_time = parse_time(arg)
+                start_time_provided = True
+
+    for value in [output_file, end_time]:
+        if not value:
+            print(
+                "Output file name is required"
+                if value == output_file
+                else "Missing end time for video"
+            )
+            sys.exit(1)
+
+    if start_time_provided:
+        time_diff = start_time - end_time
+        end_time = (start_time - time_diff).strftime("%H:%M:%S")
+    else:
+        end_time = end_time.strftime("%H:%M:%S")
+    start_time = start_time.strftime("%H:%M:%S")
+
+    download_cropped_video(start_time, end_time, video_link, audio_link, output_file)
+
+
+if __name__ == "__main__":
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        print("\nScript aborted")
+        sys.exit(1)

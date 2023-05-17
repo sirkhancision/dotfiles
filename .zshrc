@@ -154,63 +154,6 @@ curltar() {
 	curl -Lo /dev/stdout $URL | bsdtar -xf /dev/stdin --directory $OUTPUT_DIR
 }
 
-# download and crop a youtube video with ffmpeg and yt-dlp
-ytmkvcrop() {
-	local OPTIND OPT VIDEO_LINK AUDIO_LINK END_TIME OUTPUT_FILE
-
-	for cmd in ffmpeg yt-dlp sed qalc; do
-		if ! command -v $cmd >/dev/null; then
-			echo "$cmd is not installed"
-			return 1
-		fi
-	done
-
-	while getopts "hl:o:" OPT; do
-		case $OPT in
-		h)
-			echo "Usage: ytmkvcrop -l (video link) -o (output file name) [-s (start time) -e (end time)]"
-			return 0
-			;;
-		l)
-			LINKS=$(yt-dlp -g $1)
-			VIDEO_LINK=$(sed -n 1p <<<$LINKS)
-			AUDIO_LINK=$(sed -n 2p <<<$LINKS)
-			if [[ -z $VIDEO_LINK ]] || [[ -z $AUDIO_LINK ]]; then
-				echo "Error: video link is required"
-				return 1
-			fi
-			;;
-		o) OUTPUT_FILE=$OPTARG ;;
-		\?)
-			echo "Invalid option: -$OPTARG"
-			return 1
-			;;
-		esac
-	done
-	shift $((OPTIND - 1))
-
-	if [[ -z $OUTPUT_FILE ]]; then
-		echo "Error: output file name is required"
-		return 1
-	fi
-
-	if [[ -z $3 ]]; then
-		START_TIME=0
-		END_TIME=$(qalc -t "$2" to time)
-	else
-		START_TIME=$(qalc -t "$2" to time)
-		END_TIME=$(qalc -t "$3 - $2" to time)
-	fi
-
-	if [[ -z $END_TIME ]]; then
-		echo "Error: invalid end time for video"
-		return 1
-	fi
-
-	ffmpeg -ss $START_TIME -i $VIDEO_LINK -ss $START_TIME -i $AUDIO_LINK \
-		-t $END_TIME -map 0:v -map 1:a -c:v libx264 -c:a aac $OUTPUT_FILE.mkv
-}
-
 zspotify() {
 	local ZSPOTIFY_DIR=$SUCC/Github/zspotify
 
