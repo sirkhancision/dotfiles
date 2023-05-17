@@ -1,0 +1,181 @@
+#!/usr/bin/env python3.11
+
+import os
+import subprocess
+import sys
+from shutil import which
+
+
+def check_dependencies(dependencies):
+    """
+    Check if the required programs are installed
+    """
+    missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
+    if missing_deps:
+        print("The following dependencies are missing:")
+        print("\n".join(missing_deps))
+        sys.exit(1)
+
+
+def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
+    link_option = input(
+        "Do you want to link your dotfiles to their path? <y/n> "
+    ).lower()
+
+    if link_option == "y":
+        if len(files) == 0:
+            print("No files added, please add at least one file")
+        else:
+            for file in files:
+                if file == ".config":
+                    repo_config_dir = os.path.join(REPO_DIR, ".config")
+                    config_files = os.listdir(repo_config_dir)
+                    for config_file in config_files:
+                        config_file_path = os.path.join(repo_config_dir, config_file)
+
+                        subprocess.run(
+                            [
+                                "ln",
+                                "--symbolic",
+                                "--force",
+                                "--verbose",
+                                config_file_path,
+                                CONFIG_DIR,
+                            ]
+                        )
+                elif file == ".local/bin":
+                    repo_local_bin_dir = os.path.join(REPO_DIR, ".local/bin")
+                    local_bin_files = os.listdir(repo_local_bin_dir)
+                    for local_bin_file in local_bin_files:
+                        local_bin_file_path = os.path.join(
+                            repo_local_bin_dir, local_bin_file
+                        )
+
+                        subprocess.run(
+                            [
+                                "ln",
+                                "--symbolic",
+                                "--force",
+                                "--verbose",
+                                local_bin_file_path,
+                                LOCAL_BIN_DIR,
+                            ]
+                        )
+                else:
+                    file_path = os.path.join(REPO_DIR, file)
+
+                    subprocess.run(
+                        [
+                            "ln",
+                            "--symbolic",
+                            "--force",
+                            "--verbose",
+                            file_path,
+                            HOME_DIR,
+                        ]
+                    )
+
+        print("Done linking files")
+
+
+def edit_file(REPO_DIR):
+    if os.getenv("EDITOR") is None:
+        print("No default editor found, setting it to vi")
+        os.putenv("EDITOR", "vi")
+    EDITOR = os.getenv("EDITOR")
+
+    os.chdir(REPO_DIR)
+
+    files = subprocess.getoutput("fd --type f --hidden")
+
+    while True:
+        if files:
+            file = subprocess.run(
+                ["sk", "--preview", "bat {} --color=always"],
+                input=files,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+
+            if file:
+                subprocess.run([EDITOR, file])
+            else:
+                break
+        else:
+            print("No files found")
+
+
+def git_ui(REPO_DIR):
+    os.chdir(REPO_DIR)
+    subprocess.run(["gitui"])
+
+
+def update_dotfiles(REPO_DIR):
+    before = subprocess.getoutput("git rev-parse HEAD")
+    subprocess.run(["git", "-C", REPO_DIR, "pull", "origin", "i3wm"])
+    after = subprocess.getoutput("git rev-parse HEAD")
+
+    if before != after:
+        link_files()
+
+
+def main():
+    # Directory of the dotfiles repository
+    REPO_DIR = os.path.expanduser("~/dotfiles")
+    if not os.path.exists(REPO_DIR):
+        print("The dotfiles directory pointed to by REPO_DIR doesn't exist")
+        print("Please, create it and put dotman in it")
+        sys.exit(1)
+
+    HOME_DIR = os.path.expanduser("~")
+    # check if .config and .local/bin exist
+    # if don't, create them
+    CONFIG_DIR = os.path.expanduser("~/.config")
+    LOCAL_BIN_DIR = os.path.expanduser("~/.local/bin")
+    for dir in [CONFIG_DIR, LOCAL_BIN_DIR]:
+        os.makedirs(dir, exist_ok=True)
+
+    dependencies = ["bat", "fd", "gitui", "sk"]
+    check_dependencies(dependencies)
+
+    # List of files/dirs to link and edit
+    files = [
+        ".config",
+        ".icons",
+        ".local/bin",
+        ".themes",
+        ".zshrc",
+        ".xprofile",
+        ".Xkbmap",
+    ]
+
+    print("dotman - Dotfiles Manager\n" "by sirkhancision")
+
+    while True:
+        choice = input(
+            "\nOptions:\n"
+            "[1] Link dotfiles\n"
+            "[2] Edit file\n"
+            "[3] Open gitui\n"
+            "[4] Update dotfiles\n"
+        )
+
+        match choice:
+            case "1":
+                link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR)
+            case "2":
+                edit_file(REPO_DIR)
+            case "3":
+                git_ui(REPO_DIR)
+            case "4":
+                update_dotfiles(REPO_DIR)
+            case _:
+                print("Invalid option")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nExiting dotman")
+        sys.exit(0)

@@ -40,12 +40,7 @@ else
 	export EDITOR='hx'
 fi
 
-SUCC="/mnt/succ"
-
 # ALIASES
-
-# aliases for general commands
-alias dotman="$HOME/dotfiles/./dotman.sh"
 
 # xbps aliases
 # from xtools:
@@ -53,36 +48,6 @@ alias dotman="$HOME/dotfiles/./dotman.sh"
 ## xrs = xbps-query -Rs
 alias xr="sudo xbps-remove -R"
 alias xu="sudo xbps-install -Su"
-xuu() {
-	set -e
-	PKGS_DIR=$HOME/Github/void-packages
-	XBPS_SRC=$PKGS_DIR/./xbps-src
-
-	pushd $PKGS_DIR >/dev/null
-	git checkout master --quiet
-	git pull --rebase upstream master --quiet
-
-	UPDATES=$($XBPS_SRC show-sys-updates)
-
-	if [[ $UPDATES != '' ]]; then
-		echo "The following packages have updates available:"
-		echo $UPDATES
-		printf "\nNOTE: the packages will be built before being installed\n"
-
-		if read -q "OPTION?Do you want to update them? <y/n> "; then
-			printf "\nUpdating bootstrap...\n"
-			$XBPS_SRC bootstrap-update
-			printf "\nUpdating packages...\n"
-			$XBPS_SRC update-sys
-		else
-			printf "\nUpdates cancelled\n"
-		fi
-	else
-		echo "No updates available"
-	fi
-
-	popd >/dev/null
-}
 
 # youtube-dlp aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"
@@ -100,7 +65,6 @@ compc() {
 
 	if ! command -v gcc >/dev/null; then
 		echo "gcc is not installed"
-		echo "Tip: xbps-install -S gcc"
 		return 1
 	fi
 
@@ -145,17 +109,12 @@ compc() {
 curltar() {
 	local OPTIND OPT URL OUTPUT_DIR
 
-	if ! command -v curl >/dev/null; then
-		echo "curl is not installed"
-		echo "Tip: xbps-install -S curl"
-		return 1
-	fi
-
-	if ! command -v bsdtar >/dev/null; then
-		echo "bsdtar is not installed"
-		echo "Tip: xbps-install -S bsdtar"
-		return 1
-	fi
+	for cmd in curl bash; do
+		if ! command -v $cmd >/dev/null; then
+			echo "$cmd is not installed"
+			return 1
+		fi
+	done
 
 	while getopts "hu:o:" OPT; do
 		case $OPT in
@@ -199,29 +158,12 @@ curltar() {
 ytmkvcrop() {
 	local OPTIND OPT VIDEO_LINK AUDIO_LINK END_TIME OUTPUT_FILE
 
-	if ! command -v ffmpeg >/dev/null; then
-		echo "ffmpeg is not installed"
-		echo "Tip: xbps-install -S ffmpeg"
-		return 1
-	fi
-
-	if ! command -v yt-dlp >/dev/null; then
-		echo "yt-dlp is not installed"
-		echo "Tip: xbps-install -S yt-dlp"
-		return 1
-	fi
-
-	if ! command -v sed >/dev/null; then
-		echo "sed is not installed"
-		echo "Tip: xbps-install -S sed"
-		return 1
-	fi
-
-	if ! command -v qalc >/dev/null; then
-		echo "qalc is not installed"
-		echo "Tip: xbps-install -S libqalculate"
-		return 1
-	fi
+	for cmd in ffmpeg yt-dlp sed qalc; do
+		if ! command -v $cmd >/dev/null; then
+			echo "$cmd is not installed"
+			return 1
+		fi
+	done
 
 	while getopts "hl:o:" OPT; do
 		case $OPT in

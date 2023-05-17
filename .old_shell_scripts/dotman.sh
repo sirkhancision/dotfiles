@@ -2,23 +2,25 @@
 # dotman - Dotfiles Manager
 # by sirkhancision
 
-# Function to load configuration from .dotmanrc file
-load_dotmanrc() {
-	local DOTMANRC_FILE="$HOME/dotfiles/.dotmanrc"
-
-	if [ -f "$DOTMANRC_FILE" ]; then
-		# Load variables from .dotmanrc
-		eval "$(cat "$DOTMANRC_FILE")"
-	fi
-}
-
-load_dotmanrc
+# Directory of the dotfiles repository
+REPO_DIR="$HOME/dotfiles"
 
 if ! cd "$REPO_DIR"; then
 	echo "The dotfiles directory pointed to by REPO_DIR doesn't exist"
 	echo "Please, create it and put dotman in it"
 	exit 1
 fi
+
+# List of files/dirs to link and edit
+FILES=(
+	".config"
+	".icons"
+	".local/bin"
+	".themes"
+	".zshrc"
+	".xprofile"
+	".Xkbmap"
+)
 
 # end successfully if, for example, the user presses Ctrl+C
 # to exit the script
@@ -41,7 +43,7 @@ check_command() {
 declare -A CHECK_COMMANDS=(
 	["bat"]="bat"
 	["fd"]="fd"
-	["gitui"]="fd"
+	["gitui"]="gitui"
 	["sk"]="skim"
 )
 
@@ -71,6 +73,9 @@ link_files() {
 			for FILE in "${FILES[@]}"; do
 				if [[ $FILE == ".config" ]]; then
 					DIRECTORY="$HOME/.config"
+					ln -sfv "$REPO_DIR/$FILE/"* "$DIRECTORY"
+				elif [[ $FILE == ".local/bin" ]]; then
+					DIRECTORY="$HOME/.local/bin"
 					ln -sfv "$REPO_DIR/$FILE/"* "$DIRECTORY"
 				else
 					DIRECTORY="$HOME"

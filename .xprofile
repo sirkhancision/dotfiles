@@ -1,3 +1,5 @@
+# alternate hard disk
+export SUCC="/mnt/succ"
 # qt 5 theme tool
 export QT_QPA_PLATFORMTHEME=qt5ct
 # bat theme
