@@ -1,0 +1,107 @@
+#!/usr/bin/env python3.11
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+from shutil import which
+
+
+def check_dependencies(dependencies):
+    """
+    Check if the required programs are installed
+    """
+    missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
+    if missing_deps:
+        print("The following dependencies are missing:")
+        print("\n".join(missing_deps))
+        sys.exit(1)
+
+
+def is_archive(url):
+    """
+    Check if the file from the URL is an archive
+    """
+    # extensions supported by bsdtar
+    extensions = [
+        ".7z",
+        ".ar",
+        ".cpio",
+        ".iso",
+        ".jar",
+        ".rpm",
+        ".tar",
+        ".xar",
+        ".zip",
+    ]
+
+    match = re.search(r"[^/]+$", url)
+
+    if match:
+        file_name = match.group()
+
+        for extension in extensions:
+            if extension in file_name:
+                return True
+
+    return False
+
+
+def download_and_extract(url, output_dir):
+    """
+    Download the file and extract it automatically
+    """
+    curl_command = ["curl", "-L", url]
+    bsdtar_command = ["bsdtar", "-xf", "-", "--directory", output_dir]
+
+    curl_process = subprocess.Popen(curl_command, stdout=subprocess.PIPE)
+    bsdtar_process = subprocess.Popen(bsdtar_command, stdin=curl_process.stdout)
+
+    bsdtar_process.wait()
+
+
+def main(argv):
+    dependencies = ["curl", "bsdtar"]
+    check_dependencies(dependencies)
+
+    output_dir = os.getcwd()
+
+    parser = argparse.ArgumentParser(
+        prog="curltar", description="Download files and extract them automatically"
+    )
+    parser.add_argument(
+        "-u",
+        "--url",
+        dest="url",
+        help="The link to the file you want to download",
+        required=True,
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        dest="output_dir",
+        help="The directory where the file will be downloaded to",
+    )
+    args = parser.parse_args(argv)
+
+    if args.output_dir:
+        output_dir = args.output_dir
+    url = args.url
+
+    if not os.path.exists(output_dir) or not os.path.isdir(output_dir):
+        print("Output directory doesn't exist")
+
+    if is_archive(url):
+        download_and_extract(url, output_dir)
+    else:
+        print("The file is not an archive")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        print("\nScript aborted")
+        sys.exit(1)

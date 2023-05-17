@@ -105,55 +105,6 @@ compc() {
 	done
 }
 
-# use curl and bsdtar to download and extract a compressed archive
-curltar() {
-	local OPTIND OPT URL OUTPUT_DIR
-
-	for cmd in curl bash; do
-		if ! command -v $cmd >/dev/null; then
-			echo "$cmd is not installed"
-			return 1
-		fi
-	done
-
-	while getopts "hu:o:" OPT; do
-		case $OPT in
-		h)
-			echo "Usage: curltar [-h] [-u URL] [-o OUTPUT_DIR]"
-			return 0
-			;;
-		u) URL=$OPTARG ;;
-		o) OUTPUT_DIR=$OPTARG ;;
-		\?)
-			echo "Invalid option: -$OPTARG"
-			return 1
-			;;
-		esac
-	done
-	shift $((OPTIND - 1))
-
-	if [[ -z $URL ]]; then
-		echo "No URL specified"
-		return 1
-	fi
-
-	if [[ -z $OUTPUT_DIR ]]; then
-		OUTPUT_DIR=$PWD
-	fi
-
-	if [[ ! -d $OUTPUT_DIR ]]; then
-		echo "Output directory does not exist"
-		return 1
-	fi
-
-	if [[ ! -w $OUTPUT_DIR ]]; then
-		echo "Output directory is not writable"
-		return 1
-	fi
-
-	curl -Lo /dev/stdout $URL | bsdtar -xf /dev/stdin --directory $OUTPUT_DIR
-}
-
 zspotify() {
 	local ZSPOTIFY_DIR=$SUCC/Github/zspotify
 
