@@ -5,107 +5,104 @@ import subprocess
 import sys
 
 
+def update_packages(XBPS_SRC, updates, num_updates):
+    if num_updates > 1:
+        while True:
+            method_option = input(
+                "Do you want to update ['a']ll packages or ['s']elect which ones to update? "
+            ).lower()
+
+            match method_option:
+                case "a":
+                    # case "a" is handled with the command after the match statement
+                    break
+                case "s":
+                    selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
+                    num_selections = len(selected_indexes)
+
+                    valid_selections = [
+                        updates[int(index)]
+                        for index in selected_indexes
+                        if 0 <= int(index) < num_updates
+                    ]
+                    invalid_selections = [
+                        int(index)
+                        for index in selected_indexes
+                        if int(index) not in range(0, num_updates)
+                    ]
+
+                    packages = [selection for selection in valid_selections]
+
+                    for invalid_sel_index in invalid_selections:
+                        print(f"{invalid_sel_index}: Value out of range, ignoring...")
+
+                    for pkg in packages:
+                        print(f"\nUpdating package: {pkg}")
+                        subprocess.run([XBPS_SRC, "pkg", pkg])
+
+                    xbps_install_cmd = "xi " + " ".join(packages)
+                    subprocess.run(xbps_install_cmd, shell=True)
+
+                    return True
+                case _:
+                    print("Invalid option")
+                    continue
+
+    print("\nUpdating packages...")
+    subprocess.run([XBPS_SRC, "update-sys"])
+
+
 def main():
-    try:
-        VOID_PKGS_DIR = os.path.expanduser("~/Github/void-packages")
-        XBPS_SRC = os.path.join(VOID_PKGS_DIR, "./xbps-src")
+    VOID_PKGS_DIR = os.path.expanduser("~/Github/void-packages")
+    XBPS_SRC = os.path.join(VOID_PKGS_DIR, "./xbps-src")
 
-        # enter void-packages if not in it already
-        if os.getcwd() != VOID_PKGS_DIR:
-            previous_dir = os.getcwd()
-            os.chdir(VOID_PKGS_DIR)
+    # enter void-packages if not in it already
+    if os.getcwd() != VOID_PKGS_DIR:
+        os.chdir(VOID_PKGS_DIR)
 
-        # pull changes and update packages
-        git_commands = [
-            "git fetch --quiet upstream",
-            "git rebase --quiet upstream/master",
-        ]
-        print("Pulling changes...")
-        if all(
-            subprocess.run(cmd, shell=True, capture_output=True).returncode == 0
-            for cmd in git_commands
-        ):
-            updates = (
-                subprocess.run(
-                    [XBPS_SRC, "show-sys-updates"], capture_output=True, text=True
-                )
-                .stdout.strip()
-                .split("\n")
+    # pull changes and update packages
+    git_commands = [
+        "git fetch --quiet upstream",
+        "git rebase --quiet upstream/master",
+    ]
+    print("Pulling changes...")
+
+    if all(
+        subprocess.run(cmd, shell=True, capture_output=True).returncode == 0
+        for cmd in git_commands
+    ):
+        updates = (
+            subprocess.run(
+                [XBPS_SRC, "show-sys-updates"], capture_output=True, text=True
             )
-            num_updates = int(len(updates))
+            .stdout.strip()
+            .split("\n")
+        )
+        num_updates = int(len(updates))
+        updates = sorted(updates)
 
-            if num_updates > 1:
-                print("The following packages have updates available:")
-                updates = sorted(updates)
-                for index, pkg in enumerate(updates):
-                    print(f"[{index}] {pkg}")
+        if num_updates > 1:
+            print("The following packages have updates available:")
+            for index, pkg in enumerate(updates):
+                print(f"[{index}] {pkg}")
 
-                print("\nNOTE: the packages will be built before being installed")
+            print("\nNOTE: the packages will be built before being installed")
 
-                update_option = input(
-                    "Do you want to update any of them? <y/n> "
-                ).lower()
+            update_option = input("Do you want to update any of them? <y/n> ").lower()
 
-                if update_option == "y":
-                    if num_updates > 1:
-                        method_option = input(
-                            "Do you want to update ['a']ll packages or ['s']elect which ones to update? "
-                        ).lower()
-
-                        match method_option:
-                            case "a":
-                                print("\nUpdating packages...")
-                                subprocess.run([XBPS_SRC, "update-sys"])
-                            case "s":
-                                selection = input(f"Select from 0-{num_updates-1}: ")
-                                selected_indexes = selection.split()
-                                num_selections = len(selected_indexes)
-
-                                valid_selections = [
-                                    updates[int(index)]
-                                    for index in selected_indexes
-                                    if 0 <= int(index) < num_updates
-                                ]
-                                invalid_selections = [
-                                    int(index)
-                                    for index in selected_indexes
-                                    if int(index) not in range(0, num_updates)
-                                ]
-
-                                packages = []
-                                packages.extend(valid_selections)
-
-                                for invalid_sel_index in invalid_selections:
-                                    print(
-                                        f"{invalid_sel_index}: Value out of range, ignoring..."
-                                    )
-
-                                for pkg in packages:
-                                    print(f"\nUpdating package: {pkg}")
-                                    subprocess.run([XBPS_SRC, "pkg", pkg])
-
-                                xbps_install_cmd = "xi " + " ".join(packages)
-                                subprocess.run(xbps_install_cmd, shell=True)
-                            case _:
-                                print("Invalid option")
-                    else:
-                        print("\nUpdating packages...")
-                        subprocess.run([XBPS_SRC, "update-sys"])
-                else:
-                    print("\nUpdates cancelled")
+            if update_option == "y":
+                update_packages(XBPS_SRC, updates, num_updates)
             else:
-                print("No updates available")
+                print("\nUpdates cancelled")
         else:
-            print("Failed to update repository")
-
-        # go back to the previous dir if not in void-packages
-        if os.getcwd() != VOID_PKGS_DIR:
-            os.chdir(previous_dir)
-
-    except KeyboardInterrupt:
-        print("\nScript aborted")
-        sys.exit(1)
+            print("No updates available")
+    else:
+        print("Failed to update repository")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nScript aborted")
+        sys.exit(1)
