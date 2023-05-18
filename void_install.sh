@@ -46,8 +46,9 @@ install_packages() {
         bsdtar \
         btop \
         clang \
+        cmark \
         cups \
-        curl \
+				curl \
         dbus-elogind \
         diskonaut \
         dosbox \
@@ -192,7 +193,8 @@ install_packages() {
         sd \
         shellcheck \
         shfmt \
-        skim \
+				skim \
+        snooze \
         starship \
         steam \
         sxiv \
