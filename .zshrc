@@ -59,52 +59,6 @@ alias el="exa --icons -lgh --octal-permissions --group-directories-first"
 alias ed="exa -a --icons --group-directories-first"
 alias eld="exa --icons -lgha --octal-permissions --group-directories-first"
 
-# use gcc to compile .c files
-compc() {
-	local OPTIND OPT
-
-	if ! command -v gcc >/dev/null; then
-		echo "gcc is not installed"
-		return 1
-	fi
-
-	while getopts ":ho:" OPT; do
-		case $OPT in
-		h)
-			echo "Usage: compc file1.c [file2.c ...] [-o output_file]"
-			return 0
-			;;
-		o) OUTPUT_FILE=$OPTARG ;;
-		\?)
-			echo "Invalid option: -$OPTARG"
-			return 1
-			;;
-		esac
-	done
-	shift $((OPTIND - 1))
-
-	local INPUT_FILES=("$@")
-	if [[ ${#INPUT_FILES[@]} == 0 ]]; then
-		echo "No input files specified"
-		return 1
-	fi
-
-	for INPUT_FILE in "${INPUT_FILES[@]}"; do
-		if [[ ! -f $INPUT_FILE ]]; then
-			echo "$INPUT_FILE not found"
-			return 1
-		elif [[ $INPUT_FILE != *".c" ]]; then
-			echo "$INPUT_FILE is not a .c file"
-			return 1
-		fi
-	done
-
-	for INPUT_FILE in "${INPUT_FILES[@]}"; do
-		OUTPUT_FILE="${INPUT_FILE%.c}.out"
-		gcc -o $OUTPUT_FILE $INPUT_FILE -O2 -pedantic -pipe -Wall -Werror -lm
-	done
-}
-
 zspotify() {
 	local ZSPOTIFY_DIR=$SUCC/Github/zspotify
 
