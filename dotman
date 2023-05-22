@@ -18,64 +18,43 @@ def check_dependencies(dependencies):
 
 
 def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
-    link_option = input(
-        "Do you want to link your dotfiles to their path? <y/n> "
-    ).lower()
+    if len(files) == 0:
+        print("No files added, please add at least one file")
+        return
 
-    if link_option == "y":
-        if len(files) == 0:
-            print("No files added, please add at least one file")
-        else:
-            for file in files:
-                if file == ".config":
-                    repo_config_dir = os.path.join(REPO_DIR, ".config")
-                    config_files = os.listdir(repo_config_dir)
-                    for config_file in config_files:
-                        config_file_path = os.path.join(repo_config_dir, config_file)
+    link_commands = []
 
-                        subprocess.run(
-                            [
-                                "ln",
-                                "--symbolic",
-                                "--force",
-                                "--verbose",
-                                config_file_path,
-                                CONFIG_DIR,
-                            ]
-                        )
-                elif file == ".local/bin":
-                    repo_local_bin_dir = os.path.join(REPO_DIR, ".local/bin")
-                    local_bin_files = os.listdir(repo_local_bin_dir)
-                    for local_bin_file in local_bin_files:
-                        local_bin_file_path = os.path.join(
-                            repo_local_bin_dir, local_bin_file
-                        )
-
-                        subprocess.run(
-                            [
-                                "ln",
-                                "--symbolic",
-                                "--force",
-                                "--verbose",
-                                local_bin_file_path,
-                                LOCAL_BIN_DIR,
-                            ]
-                        )
-                else:
-                    file_path = os.path.join(REPO_DIR, file)
-
-                    subprocess.run(
-                        [
-                            "ln",
-                            "--symbolic",
-                            "--force",
-                            "--verbose",
-                            file_path,
-                            HOME_DIR,
-                        ]
+    for file in files:
+        if file == ".config":
+            repo_config_dir = os.path.join(REPO_DIR, ".config")
+            if os.path.exists(repo_config_dir):
+                for config_file in os.listdir(repo_config_dir):
+                    config_file_path = os.path.join(repo_config_dir, config_file)
+                    link_commands.append((config_file_path, CONFIG_DIR))
+        elif file == ".local/bin":
+            repo_local_bin_dir = os.path.join(REPO_DIR, ".local/bin")
+            if os.path.exists(repo_local_bin_dir):
+                for local_bin_file in os.listdir(repo_local_bin_dir):
+                    local_bin_file_path = os.path.join(
+                        repo_local_bin_dir, local_bin_file
                     )
+                    link_commands.append((local_bin_file_path, LOCAL_BIN_DIR))
+        else:
+            file_path = os.path.join(REPO_DIR, file)
+            link_commands.append((file_path, HOME_DIR))
 
-        print("Done linking files")
+    for source, target in link_commands:
+        target_full = os.path.join(target, os.path.basename(source))
+
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        if os.path.lexists(target_full):
+            print(f"Skipping {target_full}, symlink already exists")
+            continue
+        else:
+            print(f"Creating symbolic link: {source} -> {target_full}")
+            os.symlink(source, target_full)
+
+    print("Done linking files")
 
 
 def edit_file(REPO_DIR):
@@ -124,8 +103,14 @@ def main():
     REPO_DIR = os.path.expanduser("~/dotfiles")
     if not os.path.exists(REPO_DIR):
         print("The dotfiles directory pointed to by REPO_DIR doesn't exist")
-        print("Please, create it and put dotman in it")
-        sys.exit(1)
+        while True:
+            mkdir_option = input(f"Create {REPO_DIR}? <y/n> ").lower()
+            if mkdir_option == "y":
+                os.makedirs(REPO_DIR)
+                break
+            else:
+                print("Please, create it and put dotman in it")
+                sys.exit(1)
 
     HOME_DIR = os.path.expanduser("~")
     # check if .config and .local/bin exist
