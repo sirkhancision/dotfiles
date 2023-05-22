@@ -106,14 +106,10 @@ def main():
     REPO_DIR = os.path.expanduser("~/dotfiles")
     if not os.path.exists(REPO_DIR):
         print("The dotfiles directory pointed to by REPO_DIR doesn't exist")
-        while True:
-            mkdir_option = input(f"Create {REPO_DIR}? <y/n> ").lower()
-            if mkdir_option == "y":
-                os.makedirs(REPO_DIR)
-                break
-            else:
-                print("Please, create it and put dotman in it")
-                sys.exit(1)
+        while (mkdir_option := input(f"Create {REPO_DIR}? <y/n> ").lower()) != "y":
+            print("Please, create it and put dotman in it")
+            sys.exit(1)
+        os.makedirs(REPO_DIR)
 
     HOME_DIR = os.path.expanduser("~")
     # check if .config and .local/bin exist
