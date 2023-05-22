@@ -48,14 +48,11 @@ def is_archive(url):
 
     match = re.search(r"[^/]+$", url)
 
-    if match:
-        file_name = match.group()
-
-        for extension in extensions:
-            if extension in file_name:
-                return True
-
-    return False
+    return (
+        any(extension in file_name for extension in extensions)
+        if (file_name := match.group())
+        else False
+    )
 
 
 def download_and_extract(url, output_dir):
@@ -95,8 +92,7 @@ def main(argv):
     )
     args = parser.parse_args(argv)
 
-    if args.output_dir:
-        output_dir = args.output_dir
+    output_dir = args.output_dir if args.output_dir else output_dir
     url = args.url
 
     if not os.path.exists(output_dir) or not os.path.isdir(output_dir):
