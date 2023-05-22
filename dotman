@@ -65,23 +65,26 @@ def edit_file(REPO_DIR):
 
     os.chdir(REPO_DIR)
 
-    files = subprocess.getoutput("fd --type f --hidden")
+    files = (
+        subprocess.run(
+            ["fd", "--type", "f", "--hidden"], capture_output=True, text=True
+        )
+        .stdout.strip()
+        .split("\n")
+    )
 
-    while True:
-        if files:
-            file = subprocess.run(
-                ["sk", "--preview", "bat {} --color=always"],
-                input=files,
-                capture_output=True,
-                text=True,
-            ).stdout.strip()
+    while files:
+        file = subprocess.run(
+            ["sk", "--preview", "bat {} --color=always"],
+            input="\n".join(files),
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
 
-            if file:
-                subprocess.run([EDITOR, file])
-            else:
-                break
+        if file:
+            subprocess.run([EDITOR, file])
         else:
-            print("No files found")
+            break
 
 
 def git_ui(REPO_DIR):
