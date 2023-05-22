@@ -6,50 +6,49 @@ import sys
 
 
 def update_packages(XBPS_SRC, updates, num_updates):
-    if num_updates > 1:
-        while True:
-            method_option = input(
-                "Do you want to update ['a']ll packages or ['s']elect which ones to update? "
-            ).lower()
+    if num_updates <= 1:
+        print("\nUpdating packages...")
+        subprocess.run([XBPS_SRC, "update-sys"])
+        return
 
-            match method_option:
-                case "a":
-                    # case "a" is handled with the command after the match statement
-                    break
-                case "s":
-                    selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
-                    num_selections = len(selected_indexes)
+    while True:
+        method_option = input(
+            "Do you want to update ['a']ll packages or ['s']elect which ones to update? "
+        ).lower()
 
-                    valid_selections = [
-                        updates[int(index)]
-                        for index in selected_indexes
-                        if 0 <= int(index) < num_updates
-                    ]
-                    invalid_selections = [
-                        int(index)
-                        for index in selected_indexes
-                        if int(index) not in range(0, num_updates)
-                    ]
+        if method_option == "a":
+            # case "a" is handled with the command after the match statement
+            break
+        elif method_option == "s":
+            selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
+            num_selections = len(selected_indexes)
 
-                    packages = [selection for selection in valid_selections]
+            valid_selections = [
+                updates[int(index)]
+                for index in selected_indexes
+                if 0 <= int(index) < num_updates
+            ]
+            invalid_selections = [
+                int(index)
+                for index in selected_indexes
+                if int(index) not in range(0, num_updates)
+            ]
 
-                    for invalid_sel_index in invalid_selections:
-                        print(f"{invalid_sel_index}: Value out of range, ignoring...")
+            packages = [selection for selection in valid_selections]
 
-                    for pkg in packages:
-                        print(f"\nUpdating package: {pkg}")
-                        subprocess.run([XBPS_SRC, "pkg", pkg])
+            for invalid_sel_index in invalid_selections:
+                print(f"{invalid_sel_index}: Value out of range, ignoring...")
 
-                    xbps_install_cmd = "xi " + " ".join(packages)
-                    subprocess.run(xbps_install_cmd, shell=True)
+            for pkg in packages:
+                print(f"\nUpdating package: {pkg}")
+                subprocess.run([XBPS_SRC, "pkg", pkg])
 
-                    return True
-                case _:
-                    print("Invalid option")
-                    continue
+            xbps_install_cmd = "xi " + " ".join(packages)
+            subprocess.run(xbps_install_cmd, shell=True)
 
-    print("\nUpdating packages...")
-    subprocess.run([XBPS_SRC, "update-sys"])
+            break
+        else:
+            print("Invalid option")
 
 
 def main():
