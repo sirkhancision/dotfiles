@@ -1,0 +1,77 @@
+# Global properties
+title-text: ""
+desktop-image: "background.png"
+desktop-color: "#000000"
+terminal-box: "terminal_box_*.png"
+terminal-left: "0"
+terminal-top: "0"
+terminal-width: "100%"
+terminal-height: "100%"
+terminal-border: "0"
+
+# Line 1
++ label {
+  left = 0
+  top = 8%
+  width = 100%
+  align = "center"
+  text = "GNU GRAND UNIFIED BOOTLOADER VER 2.2"
+  color = "#C88187"
+}
+
+# Line 2
++ label {
+  left = 0
+  top = 8%+30 
+  width = 100%
+  align = "center"
+  text = "-Display 1-"
+  color = "#C88187"
+}
+
+# Line 3
++ label {
+  left = 0
+  top = 8%+60
+  width = 100%
+  align = "center"
+  text = "PLEASE SELECT OPERATING SYSTEM TO BOOT:"
+  color = "#C88187"
+}
+
+# Boot menu
++ boot_menu {
+  left = 15%
+  top = 30%
+  width = 70%
+  height = 60%
+  item_color = "#ED98A1"
+  selected_item_color = "#000000"
+  item_height = 48
+  item_spacing = 8
+  item_icon_space = 12
+  item_pixmap_style = "item_*.png"
+  selected_item_pixmap_style = "selected_item_*.png"
+}
+
+# Countdown message
++ label {
+  left = 0
+  top = 88%-70
+  width = 100%
+  align = "center"
+  id = "__timeout__"
+  text = "STANDBY FOR AUTOMATIC BOOT IN %d"
+  color = "#FFA45E"
+}
+
+# Navigation keys hint 
++ label {
+  left = 0
+  top = 88%-30
+  width = 100%
+  align = "center"
+  # EN
+  text = "↑/↓ - NAVIGATE     C - COMMAND     ↲ - CONFIRM"
+  color = "#FFA45E"
+}
