@@ -10,7 +10,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 - _Sans-serif:_ [Atkinson Hyperlegible](https://brailleinstitute.org/freefont)
 	- `xbps-install font-atkinson-hyperlegible-otf`
-- _Monospaced:_ [Iosevka](https://github.com/be5invis/Iosevka)
+- _Monospaced:_ [Iosevka Fixed](https://github.com/be5invis/Iosevka)
 	- `xbps-install font-iosevka`
 
 **Cursor theme:** Breeze Obsidian
@@ -39,13 +39,15 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **dotman:** Python script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
 
-`./dotman.sh`
+`./dotman`
 
 **.icons:** Configuration to set the cursor theme.
 
-**/etc/lightdm/lightdm-gtk-greeter.conf:** Configuration for the GTK+3 Greeter for LightDM.
+**/boot/grub/themes/lain-glitch-theme:** Theme for GRUB based on Serial Experiments Lain.
 
-`xbps-install lightdm`
+**/usr/share/sddm/themes/sugar-candy:** Theme for SDDM, modified from [sugar-candy](https://store.kde.org/p/1312658/).
+
+`xbps-install sddm`
 
 **.config/kitty:** Configuration for the kitty terminal.
 
@@ -55,9 +57,9 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install nnn`
 
-**lain-pink.png**: Wallpaper slightly edited by me, portraying Lain Iwakura from Serial Experiments Lain.
+**lain-pink.png**: Wallpaper slightly edited by me, portraying Lain Iwakura from Serial Experiments Lain. (with variant for laptops)
 
-**lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen.
+**lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen. (with variant for laptops)
 
 ![oomox-Merionette theme + black folder theme + Papirus icons](screenshots/2022-12-03_04-04-06.png)
 
@@ -95,6 +97,8 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **void_install.sh:** Script to do a lot of post-install stuff on my Void Linux system.
 
-**.zprofile:** ZSH's profile of commannds to be executed when logged in, user-wide.
+**.Xkbmap:** Keyboard layout configuration for X11.
+
+**.xprofile:** X11 profile of commands to be executed when logged in, user-wide.
 
 **.zshrc:** ZSH's main file with configurations, aliases and functions.
