@@ -1,6 +1,6 @@
 # dotfiles
 
-![desktop + dunst + terminal](screenshots/2022-12-03_16-19-14.png)
+![desktop + dunst + terminal](screenshots/2023-05-24_21-23-00.png)
 
 A set of configuration files for my personal system (Void Linux). Refer to **dotman** to automate a lot of this process. There's also **void_install.sh**, to automate stuff after installing Void Linux.
 
@@ -45,6 +45,8 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **/boot/grub/themes/lain-glitch-theme:** Theme for GRUB based on Serial Experiments Lain.
 
+![sddm screen](screenshots/2023-05-24_21-18-24.png)
+
 **/usr/share/sddm/themes/sugar-candy:** Theme for SDDM, modified from [sugar-candy](https://store.kde.org/p/1312658/).
 
 `xbps-install sddm`
@@ -59,9 +61,9 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **lain-pink.png**: Wallpaper slightly edited by me, portraying Lain Iwakura from Serial Experiments Lain. (with variant for laptops)
 
-**lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen. (with variant for laptops)
+![lock screen](screenshots/2023-05-24_21-26-28.png)
 
-![oomox-Merionette theme + black folder theme + Papirus icons](screenshots/2022-12-03_04-04-06.png)
+**lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen. (with variant for laptops)
 
 **.themes/oomox-Merionette**: GTK 2/3 themes from Merionette color scheme. Made by me.
 
