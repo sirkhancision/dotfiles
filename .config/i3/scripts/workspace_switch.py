@@ -30,10 +30,13 @@ def go_to_workspace(target_workspace):
     workspaces = [workspace["name"] for workspace in workspaces_json]
 
     if target_workspace >= 1 and target_workspace <= len(workspaces):
-        subprocess.run(["i3-msg", "workspace", str(target_workspace)])
-    else:
-        print(f"No active workspace found at position {target_workspace}")
-        sys.exit(1)
+        for index, workspace in enumerate(workspaces, start=1):
+            if index == target_workspace:
+                subprocess.run(["i3-msg", "workspace", workspace])
+                return
+
+    print(f"No active workspace found at position {target_workspace}")
+    sys.exit(1)
 
 
 def main():
