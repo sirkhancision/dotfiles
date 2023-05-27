@@ -1,0 +1,24 @@
+#!/bin/sh
+# https://github.com/arp242/uni
+#
+# Usage:
+#
+#   dmenu-uni all            All codepoints, won't include ZWJ emoji sequences.
+#   dmenu-uni emoji          All emojis.
+#
+# NOTE: dmenu will *crash* when using a colour emoji font, this is a bug in Xft:
+# https://bugs.freedesktop.org/show_bug.cgi?id=107534
+
+# dmenu="dmenu -i" # Command to use
+# dmenu="dmenu -x -i -l 20 -fn monospace:size=20"   # Adding some options
+# dmenu="rofi -dmenu"                               # Use Rofi instead
+dmenu="fzf" # Use fzf instead
+
+# Command to copy to clipboard:
+copy="xclip -rmlastnl -selection clipboard"
+
+case "${1:-all}" in
+all) uni -c p all | $dmenu | grep -o "^'.'" | tr -d "'" | $copy ;;
+emoji) uni -c e all | $dmenu | cut -d ' ' -f1 | $copy ;;
+*) uni -c e "$@" | $dmenu | cut -d ' ' -f1 | $copy ;;
+esac

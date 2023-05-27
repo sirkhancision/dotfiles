@@ -1,0 +1,80 @@
+env:
+  TERMINAL: alacritty
+  TERM: alacritty
+
+window:
+  padding:
+    x: 2
+    y: 0
+
+font:
+  size: 11.0
+  normal:
+    style: Medium
+  bold:
+    style: Extrabold
+  italic:
+    style: Medium Italic
+  builtin_box_drawing: false
+
+colors:
+  primary:
+    foreground: '#C88187'
+    background: '#1D1D1D'
+
+  search:
+    matches:
+      foreground: '#404040'
+      background: '#D9D6D9'
+    focused_match:
+      foreground: '#D9D6D9'
+      background: '#404040'
+
+  hints:
+    start:
+     foreground: '#404040'
+     background: '#FF903B'
+
+    end:
+     foreground: '#FF903B'
+     background: '#404040'
+
+  footer_bar:
+    background: '#7F7F7F'
+    foreground: '#404040'
+
+  normal:
+    black:   '#404040'
+    red:     '#FF4F64'
+    green:   '#6C8E67'
+    yellow:  '#FF903B'
+    blue:    '#5779B3'
+    magenta: '#AF5F80'
+    cyan:    '#52A8A8'
+    white:   '#D9D6D9'
+
+  bright:
+    black:   '#7F7F7F'
+    red:     '#C84454'
+    green:   '#577253'
+    yellow:  '#F27C1F'
+    blue:    '#486798'
+    magenta: '#C44269'
+    cyan:    '#459299'
+    white:   '#CAC7CB'
+
+cursor:
+  style:
+    shape: Beam
+    blinking: On
+    unfocused_hollow: false
+    thickness: 0.20
+
+key_bindings:
+- {key: PageUp, mods: Control|Shift, action: ScrollPageUp}
+- {key: Up, mods: Control|Shift, action: ScrollLineUp}
+- {key: PageDown, mods: Control|Shift, action: ScrollPageDown}
+- {key: Down, mods: Control|Shift, action: ScrollLineDown}
+- {key: Home, mods: Control|Shift, action: ScrollToTop}
+- {key: End, mods: Control|Shift, action: ScrollToBottom}
+- {key: U, mods: Control|Shift, command: {program: "alacritty", args: ["-e", "sh", "-c", "dmenu-uni"]}}

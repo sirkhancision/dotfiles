@@ -17,6 +17,10 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install breeze-obsidian-cursor-theme`
 
+**.config/alacritty:** Configuration for the alacritty terminal.
+
+`xbps-install alacritty`
+
 **.config/dunst:** Configuration for the dunst notification manager.
 
 `xbps-install dunst`
@@ -50,10 +54,6 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 **/usr/share/sddm/themes/sugar-candy:** Theme for SDDM, modified from [sugar-candy](https://store.kde.org/p/1312658/).
 
 `xbps-install sddm`
-
-**.config/kitty:** Configuration for the kitty terminal.
-
-`xbps-install kitty`
 
 **.config/nnn:** Configuration for the file manager nnn.
 

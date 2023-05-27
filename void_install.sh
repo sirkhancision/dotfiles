@@ -31,6 +31,7 @@ install_packages() {
         ImageMagick \
         Komikku \
         Thunar \
+				alacritty \
         alsa-pipewire \
         alsa-plugins \
         alsa-plugins-32bit \
@@ -99,7 +100,6 @@ install_packages() {
         jq \
         kcharselect \
         kdenlive \
-        kitty \
         krita \
         libXcomposite \
         libXinerama \
@@ -208,6 +208,7 @@ install_packages() {
         thunderbird \
         timeshift \
         tumbler \
+				uni \
         v4l-utils \
         v4l-utils-32bit \
         vim \

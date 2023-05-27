@@ -10,6 +10,9 @@ export BAT_THEME="base16"
 # add /home/.local/bin to path
 export PATH="$PATH:$HOME/.local/bin"
 
+# default terminal
+export TERM=alacritty
+
 # nnn options
 export NNN_OPTS="r"
 
@@ -25,7 +28,7 @@ export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SO
 export NNN_BMS="D:$HOME/Downloads;d:$HOME/Documentos;g:$HOME/Github;i:$HOME/Imagens;m:$HOME/Músicas;v:$HOME/Vídeos"
 
 # nnn plugins
-export NNN_PLUG='D:dragdrop;F:fixname;G:getplugs;I:imgur;M:mtpmount;O:organize;X:xdgdefault;d:dups;f:finder;i:imgview;m:nmount;o:xdgopen;p:preview-tui;r:renamer;s:suedit;x:togglex;z:autojump'
+export NNN_PLUG='D:dups;F:fixname;G:getplugs;I:imgur;M:mtpmount;O:organize;X:xdgdefault;d:dragdrop;f:finder;i:imgview;m:nmount;o:xdgopen;p:preview-tui;r:renamer;s:suedit;x:togglex;z:autojump'
 
 # exa colors
 export EXA_COLORS="di=1;31"

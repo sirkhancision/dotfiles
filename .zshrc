@@ -106,12 +106,18 @@ n() {
 
 	# The command builtin allows one to alias nnn to n, if desired, without
 	# making an infinitely recursive alias
-	command nnn "$@"
+	if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+		tmux new -s nnn "nnn $@"
+	fi
 
 	[ ! -f "$NNN_TMPFILE" ] || {
 		. "$NNN_TMPFILE"
 		rm -f "$NNN_TMPFILE" >/dev/null
 	}
+
+	if [ -n "${TMUX}" ]; then
+		tmux detach
+	fi
 }
 
 nnn_cd() {
