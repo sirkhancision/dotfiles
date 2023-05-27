@@ -1,4 +1,4 @@
-theme = "ferra"
+theme = "gruvbox"
 
 [editor]
 cursorline = true
