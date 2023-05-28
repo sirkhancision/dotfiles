@@ -32,7 +32,9 @@ def add_workspace():
     new_workspace = num_workspaces + 1
 
     for index, workspace in enumerate(workspaces, start=1):
-        new_workspace = index if workspace != str(index) else new_workspace
+        if workspace != str(index):
+            new_workspace = index
+            break
 
     subprocess.run(["i3-msg", "workspace", str(new_workspace)])
 
