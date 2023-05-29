@@ -200,7 +200,7 @@ bindsym Ctrl+Shift+x exec --no-startup-id dunstctl close-all
 for_window [class="Firefox" title="Picture-in-Picture"] \
     floating enable, sticky enable, resize set 854 480
 for_window [class="update_module"] \
-    floating enable, move position 18 40, resize set 30 ppt 60 ppt
+    floating enable, move position 10 43, resize set 36 ppt 64 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [class="Firefox" title="Firefox - Indicador de compartilhamento"] \
     floating enable, move position 900 0
