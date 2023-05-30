@@ -16,7 +16,7 @@ terminal-border: "0"
   width = 100%
   align = "center"
   text = "GNU GRAND UNIFIED BOOTLOADER VER 2.2"
-  color = "#C88187"
+  color = "#D95362"
 }
 
 # Line 2
@@ -26,7 +26,7 @@ terminal-border: "0"
   width = 100%
   align = "center"
   text = "-Display 1-"
-  color = "#C88187"
+  color = "#D95362"
 }
 
 # Line 3
@@ -36,7 +36,7 @@ terminal-border: "0"
   width = 100%
   align = "center"
   text = "PLEASE SELECT OPERATING SYSTEM TO BOOT:"
-  color = "#C88187"
+  color = "#D95362"
 }
 
 # Boot menu
@@ -46,7 +46,7 @@ terminal-border: "0"
   width = 70%
   height = 60%
   item_color = "#ED98A1"
-  selected_item_color = "#000000"
+  selected_item_color = "#190F0F"
   item_height = 48
   item_spacing = 8
   item_icon_space = 12
@@ -62,7 +62,7 @@ terminal-border: "0"
   align = "center"
   id = "__timeout__"
   text = "STANDBY FOR AUTOMATIC BOOT IN %d"
-  color = "#FFA45E"
+  color = "#EB842B"
 }
 
 # Navigation keys hint 
@@ -73,5 +73,5 @@ terminal-border: "0"
   align = "center"
   # EN
   text = "↑/↓ - NAVIGATE     C - COMMAND     ↲ - CONFIRM"
-  color = "#FFA45E"
+  color = "#EB842B"
 }

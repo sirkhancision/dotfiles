@@ -59,16 +59,16 @@
     per_monitor_dpi = false
 
 [urgency_low]
-    background = "#353535"
-    foreground = "#CAC7CB"
+    background = "#442022"
+    foreground = "#CEBABF"
     timeout = 10
 
 [urgency_normal]
-    background = "#C84454"
-    foreground = "#232323"
+    background = "#D95362"
+    foreground = "#190F0F"
     timeout = 10
 
 [urgency_critical]
-    background = "#F27C1F"
-    foreground = "#232323"
+    background = "#EB842B"
+    foreground = "#190F0F"
     timeout = 0
