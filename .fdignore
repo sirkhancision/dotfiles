@@ -13,10 +13,12 @@
 *.mp4
 *.ogg
 *.pdf
+*.pf2
 *.png
 *.psd
 *.raw
 *.svg
+*.svgz
 *.tiff
 *.wav
 *.webm
