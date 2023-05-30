@@ -34,7 +34,7 @@
 "warning" = "green1"
 
 "ui.background" = { bg = "dark_red0" }
-"ui.cursor.match" = { bg = "pink3", fg = "dark_red0" }
+"ui.cursor.match" = { bg = "pink0", fg = "pink4" }
 "ui.cursor.primary" = { bg = "pink3", fg = "dark_red0" }
 "ui.cursorline" = { bg = "dark_red2" }
 "ui.help" = { bg = "dark_red2", fg = "white0" }
