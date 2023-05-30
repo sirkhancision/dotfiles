@@ -1,8 +1,9 @@
-theme = "gruvbox"
+theme = "merionette"
 
 [editor]
 cursorline = true
 bufferline = "multiple"
+color-modes = true
 
 [editor.statusline]
 left = ["mode", "diagnostics", "version-control"]
