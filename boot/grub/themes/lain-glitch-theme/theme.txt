@@ -46,7 +46,7 @@ terminal-border: "0"
   width = 70%
   height = 60%
   item_color = "#ED98A1"
-  selected_item_color = "#190F0F"
+  selected_item_color = "#CEBABF"
   item_height = 48
   item_spacing = 8
   item_icon_space = 12
