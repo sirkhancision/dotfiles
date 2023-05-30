@@ -70,26 +70,26 @@
 "markup.strikethrough" = { modifiers = ["crossed_out"] }
 
 [palette]
-blue0 = "#3e968c"
+blue0     = "#65aba3"
 
 dark_red0 = "#190f0f"
-dark_red1 = "#261516"
-dark_red2 = "#2d1718"
+dark_red1 = "#331c1e"
+dark_red2 = "#391d1e"
 dark_red3 = "#442022"
-dark_red4 = "#492a2c"
+dark_red4 = "#704144"
 
-green0 = "#87a242"
-green1 = "#6db269"
+green0    = "#8ea84d"
+green1    = "#6db269"
 
-orange0 = "#d15a3a"
-orange1 = "#ea8024"
+orange0   = "#ff7550"
+orange1   = "#eb842b"
 
-pink0 = "#622b30"
-pink1 = "#963e48"
-pink2 = "#d95362"
-pink3 = "#b2696d"
-pink4 = "#e35968"
+pink0     = "#622b30"
+pink1     = "#d2505f"
+pink2     = "#d95362"
+pink3     = "#c79295"
+pink4     = "#e97e8a"
 
-violet0 = "#be6680"
+violet0   = "#ce8b9f"
 
-white0 = "#cebabf"
+white0    = "#cebabf"
