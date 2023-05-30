@@ -71,19 +71,25 @@
 
 [palette]
 blue0 = "#3e968c"
+
 dark_red0 = "#190f0f"
 dark_red1 = "#261516"
 dark_red2 = "#2d1718"
 dark_red3 = "#442022"
 dark_red4 = "#492a2c"
+
 green0 = "#87a242"
 green1 = "#6db269"
+
 orange0 = "#d15a3a"
 orange1 = "#ea8024"
+
 pink0 = "#622b30"
 pink1 = "#963e48"
 pink2 = "#d95362"
 pink3 = "#b2696d"
 pink4 = "#e35968"
+
 violet0 = "#be6680"
+
 white0 = "#cebabf"
