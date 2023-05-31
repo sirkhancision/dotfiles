@@ -43,7 +43,8 @@
 "ui.menu" = { fg = "white0", bg = "dark_red3" }
 "ui.menu.selected" = { fg = "orange1", bg = "dark_red1", modifiers = ["bold"] }
 "ui.popup" = { bg = "dark_red2" }
-"ui.selection" = { bg = "dark_red3" }
+"ui.selection" = { bg = "dark_red4" }
+"ui.selection.primary" = { bg = "dark_red3" }
 "ui.statusline" = { fg = "dark_red0", bg = "pink1" }
 "ui.statusline.inactive" = { fg = "dark_red0", bg = "pink0" }
 "ui.statusline.insert" = { fg = "dark_red0", bg = "green0" }
@@ -51,6 +52,8 @@
 "ui.statusline.select" = { fg = "dark_red0", bg = "blue0" }
 "ui.text" = { fg = "white0" }
 "ui.text.focus" = { fg = "orange1" }
+"ui.virtual" = { fg = "pink1" }
+"ui.virtual.indent-guide" = { fg = "dark_red4" }
 "ui.virtual.inlay-hint" = { fg = "blue0" }
 "ui.virtual.ruler" = { bg = "dark_red2" }
 "ui.virtual.whitespace" = "dark_red4"
