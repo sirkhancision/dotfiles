@@ -10,6 +10,7 @@
 set -e
 
 USING_WIRELESS=false
+USING_BLUETOOTH=false
 
 ### FUNCTIONS
 
@@ -128,7 +129,6 @@ install_packages() {
         libva-glx-32bit \
         libxslt \
         libxslt-32bit \
-        light \
         lightdm \
         lightdm-gtk3-greeter \
         lutris \
@@ -152,6 +152,7 @@ install_packages() {
         nomacs \
         noto-fonts-cjk \
         noto-fonts-emoji \
+				ntp \
 				obs \
         ocl-icd \
         ocl-icd-32bit \
@@ -206,7 +207,6 @@ install_packages() {
         thunar-archive-plugin \
         thunar-media-tags-plugin \
         thunderbird \
-        timeshift \
         tumbler \
 				uni \
         v4l-utils \
@@ -260,6 +260,7 @@ install_packages() {
 	case $PROMPT in
 	"y" | "Y" | "yes" | "Yes")
 		BLUETOOTH="bluez bluez-alsa libspa-bluetooth broadcom-bt-firmware"
+		USING_BLUETOOTH=true
 		;;
 	*) BLUETOOTH="" ;;
 	esac
@@ -285,10 +286,16 @@ runit_services() {
 	printf "Enabling services\n\n"
 
 	# enable services
-	sudo ln -sf /etc/sv/{elogind,dbus,lightdm} /var/service
+	sudo ln -sf /etc/sv/{elogind,dbus,ntpd,sddm} /var/service
+
 	if [ $USING_WIRELESS == true ]; then
 		sudo ln -sf /etc/sv/NetworkManager /var/service
 	fi
+
+	if [ $USING_BLUETOOTH == true ]; then
+		sudo ln -sf /etc/sv/bluetoothd /var/service
+	fi
+
 	sudo ln -sf /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
 }
 
