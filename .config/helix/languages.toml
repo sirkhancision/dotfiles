@@ -7,7 +7,7 @@ file-types = ["sh", "bash", "zsh", ".bash_login", ".bash_logout", ".bash_profile
 [[language]]
 name = "python"
 auto-format = true
-formatter = { command = "black", args = ["--quiet", "-"] }
+formatter = { command = "yapf" }
 
 [[language]]
 name = "git-ignore"
