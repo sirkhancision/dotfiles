@@ -5,10 +5,53 @@ import subprocess
 import sys
 
 
+def get_updates(XBPS_SRC):
+    """
+    Get a list of the packages with available updates
+    """
+    updates = sorted((subprocess.run([XBPS_SRC, "show-sys-updates"],
+                                     capture_output=True,
+                                     text=True).stdout.strip().split("\n")))
+    return updates
+
+
+def select_packages(num_updates, updates):
+    """
+    Select packages to update
+    """
+    selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
+
+    valid_selections = [
+        updates[int(index)] for index in selected_indexes
+        if 0 <= int(index) < num_updates
+    ]
+    invalid_selections = [
+        int(index) for index in selected_indexes
+        if int(index) not in range(0, num_updates)
+    ]
+
+    packages = [selection for selection in valid_selections]
+
+    for invalid_sel_index in invalid_selections:
+        print(f"{invalid_sel_index}: Value out of range, ignoring...")
+
+    return packages
+
+
+def update_all(XBPS_SRC):
+    """
+    Update all packages that have updates available
+    """
+    print("\nUpdating packages...")
+    subprocess.run([XBPS_SRC, "update-sys"])
+
+
 def update_packages(XBPS_SRC, updates, num_updates):
+    """
+    Update packages that have updates available
+    """
     if num_updates <= 1:
-        print("\nUpdating packages...")
-        subprocess.run([XBPS_SRC, "update-sys"])
+        update_all(XBPS_SRC)
         return
 
     while True:
@@ -17,25 +60,10 @@ def update_packages(XBPS_SRC, updates, num_updates):
             "to update? ").lower()
 
         if method_option == "a":
-            # case "a" is handled with the command after the match statement
+            update_all(XBPS_SRC)
             break
         elif method_option == "s":
-            selected_indexes = input(
-                f"Select from 0-{num_updates-1}: ").split()
-
-            valid_selections = [
-                updates[int(index)] for index in selected_indexes
-                if 0 <= int(index) < num_updates
-            ]
-            invalid_selections = [
-                int(index) for index in selected_indexes
-                if int(index) not in range(0, num_updates)
-            ]
-
-            packages = [selection for selection in valid_selections]
-
-            for invalid_sel_index in invalid_selections:
-                print(f"{invalid_sel_index}: Value out of range, ignoring...")
+            packages = select_packages(num_updates, updates)
 
             for pkg in packages:
                 print(f"\nUpdating package: {pkg}")
@@ -65,13 +93,10 @@ def main():
     print("Pulling changes...")
 
     if all(
-            subprocess.run(cmd, shell=True, capture_output=True).returncode ==
-            0 for cmd in git_commands):
-        updates = (subprocess.run([XBPS_SRC, "show-sys-updates"],
-                                  capture_output=True,
-                                  text=True).stdout.strip().split("\n"))
+            subprocess.run(cmd, shell=True).returncode == 0
+            for cmd in git_commands):
+        updates = get_updates(XBPS_SRC)
         num_updates = int(len(updates))
-        updates = sorted(updates)
 
         if num_updates > 1:
             print("The following packages have updates available:")
