@@ -172,8 +172,12 @@ install_packages() {
         polybar \
         poppler \
         pulseaudio \
+        python-yapf \
         python3-lsp-server \
-        python3-pip \
+				python3-mccabe \
+				python3-pip \
+				python3-pycodestyle \
+				python3-pyflakes \
         qalculate-gtk \
         qbittorrent \
         qjackctl \
