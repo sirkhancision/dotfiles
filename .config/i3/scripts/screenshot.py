@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import os
 import subprocess
@@ -19,26 +19,30 @@ def check_dependencies(dependencies):
 
 def screenshot(IMAGE_PATH):
     # use maim to screenshot and paplay to play a sound
-    subprocess.run(["maim", IMAGE_PATH]) and subprocess.run(
-        ["paplay", os.path.expanduser("~/.config/i3/audio/screen-capture.ogg")]
-    )
+    subprocess.run(["maim", IMAGE_PATH]) and subprocess.run([
+        "paplay",
+        os.path.expanduser("~/.config/i3/audio/screen-capture.ogg")
+    ])
 
     # send the image to the system's clipboard
-    subprocess.run(
-        ["xclip", "-selection", "clipboard", "-t", "image/png", "-i", IMAGE_PATH]
-    )
+    subprocess.run([
+        "xclip", "-selection", "clipboard", "-t", "image/png", "-i", IMAGE_PATH
+    ])
 
 
 def send_notification(IMAGE_NAME, IMAGE_PATH):
-    NOTIFICATION_TEXT = f"<i>{IMAGE_NAME}</i>\nCopiado para a área de transferência"
+    NOTIFICATION_TEXT = (f"<i>{IMAGE_NAME}</i>\n"
+                         "Copiado para a área de transferência")
 
     # sends notification with dunst
-    subprocess.run(["dunstify", "Captura de tela", NOTIFICATION_TEXT, "-I", IMAGE_PATH])
+    subprocess.run(
+        ["dunstify", "Captura de tela", NOTIFICATION_TEXT, "-I", IMAGE_PATH])
 
 
 def main():
     """
-    Screenshots the screen, saves it to a file and sends it to the system's clipboard
+    Screenshots the screen, saves it to a file and sends it
+    to the system's clipboard
     """
     dependencies = ["dunstify", "maim", "xclip", "xdg-user-dir"]
 

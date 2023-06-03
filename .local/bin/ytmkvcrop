@@ -1,7 +1,6 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import argparse
-import os
 import subprocess
 import sys
 from datetime import datetime, timedelta
@@ -53,11 +52,14 @@ def parse_time(time):
     return time_parsed
 
 
-def download_cropped_video(start_time, end_time, video_link, audio_link, output_file):
+def download_cropped_video(
+    start_time, end_time, video_link, audio_link, output_file
+):
     """
     Download a portion of a video, using ffmpeg and yt-dlp
     """
-    print(f"Downloading video from {start_time} to {end_time}, into {output_file}.mkv")
+    print(f"Downloading video from {start_time} to {end_time}, "
+          f"into {output_file}.mkv")
 
     command = [
         "ffmpeg",
@@ -86,7 +88,7 @@ def download_cropped_video(start_time, end_time, video_link, audio_link, output_
     ]
 
     try:
-        ffmpeg_process = subprocess.check_call(command)
+        subprocess.check_call(command)
     except subprocess.CalledProcessError:
         print("Error running ffmpeg, exiting")
         sys.exit(1)
@@ -96,13 +98,15 @@ def download_cropped_video(start_time, end_time, video_link, audio_link, output_
 
 def main(argv):
     """
-    Video downloader that supports downloading only a specific part of the video
+    Video downloader that supports downloading only a specific part
+    of the video
     """
     dependencies = ["ffmpeg", "yt-dlp"]
     check_dependencies(dependencies)
 
     parser = argparse.ArgumentParser(
-        prog="ytmkvcrop", description="Video downloader with partial download support"
+        prog="ytmkvcrop",
+        description="Video downloader with partial download support"
     )
     parser.add_argument(
         "-l",
@@ -162,7 +166,8 @@ def main(argv):
         end_time = end_time.strftime("%H:%M:%S")
     start_time = start_time.strftime("%H:%M:%S")
 
-    download_cropped_video(start_time, end_time, video_link, audio_link, output_file)
+    download_cropped_video(start_time, end_time, video_link, audio_link,
+                           output_file)
 
 
 if __name__ == "__main__":

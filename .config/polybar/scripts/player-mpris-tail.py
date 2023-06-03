@@ -55,10 +55,12 @@ class PlayerManager:
             sender_keyword="sender",
         )
 
-    def onChangedProperties(self, interface, properties, signature, sender=None):
+    def onChangedProperties(self, interface, properties, signature,
+                            sender=None):
         if sender in self.players:
             player = self.players[sender]
-            # If we know this player, but haven't been able to set up a signal handler
+            # If we know this player, but haven't been able to set up a
+            # signal handler
             if "properties_changed" not in player._signals:
                 # Then trigger the signal handler manually
                 player.onPropertiesChanged(interface, properties, signature)
@@ -87,7 +89,9 @@ class PlayerManager:
             if self.busNameIsAPlayer(bus_name)
         ]
         for player_bus_name in player_bus_names:
-            player_bus_owner = self._session_bus.get_name_owner(player_bus_name)
+            player_bus_owner = self._session_bus.get_name_owner(
+                player_bus_name
+            )
             if owner == player_bus_owner:
                 return player_bus_name
 
@@ -161,7 +165,9 @@ class PlayerManager:
         ]
         return [
             info["owner"]
-            for info in reversed(sorted(players, key=itemgetter("status", "number")))
+            for info in reversed(sorted(players, key=itemgetter(
+                "status", "number"
+            )))
         ]
 
     # Get latest player that's currently playing
@@ -179,7 +185,7 @@ class PlayerManager:
 
         if self.connected:
             current_player = self.getCurrentPlayer()
-            if current_player != None:
+            if current_player is not None:
                 _printFlush(self.player_states[current_player.bus_name])
             else:
                 _printFlush(ICON_STOPPED)
@@ -193,7 +199,8 @@ class PlayerManager:
 
 
 class Player:
-    def __init__(self, session_bus, bus_name, owner=None, connect=True, _print=None):
+    def __init__(self, session_bus, bus_name, owner=None, connect=True,
+                 _print=None):
         self._session_bus = session_bus
         self.bus_name = bus_name
         self._disconnecting = False
@@ -294,7 +301,8 @@ class Player:
                 self._signals[
                     "track_metadata_changed"
                 ] = self._session_bus.add_signal_receiver(
-                    self.onMetadataChanged, "TrackMetadataChanged", self.bus_name
+                    self.onMetadataChanged, "TrackMetadataChanged",
+                    self.bus_name
                 )
             self._signals["seeked"] = self._player_interface.connect_to_signal(
                 "Seeked", self.onSeeked
@@ -312,11 +320,12 @@ class Player:
             del self._signals[signal_name]
 
     def refreshStatus(self):
-        # Some clients (VLC) will momentarily create a new player before removing it again
-        # so we can't be sure the interface still exists
+        # Some clients (VLC) will momentarily create a new player before
+        # removing it again so we can't be sure the interface still exists
         try:
             self.status = str(
-                self._getProperty("org.mpris.MediaPlayer2.Player", "PlaybackStatus")
+                self._getProperty("org.mpris.MediaPlayer2.Player",
+                                  "PlaybackStatus")
             ).lower()
             self.updateIcon()
             self.checkPositionTimer()
@@ -324,8 +333,8 @@ class Player:
             self.disconnect()
 
     def refreshMetadata(self):
-        # Some clients (VLC) will momentarily create a new player before removing it again
-        # so we can't be sure the interface still exists
+        # Some clients (VLC) will momentarily create a new player before
+        # removing it again so we can't be sure the interface still exists
         try:
             self._metadata = self._getProperty(
                 "org.mpris.MediaPlayer2.Player", "Metadata"
@@ -350,7 +359,7 @@ class Player:
         self.__print(status, self)
 
     def _parseMetadata(self):
-        if self._metadata != None:
+        if self._metadata is not None:
             # Obtain properties from _metadata
             _artist = _getProperty(self._metadata, "xesam:artist", [""])
             _album = _getProperty(self._metadata, "xesam:album", "")

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import argparse
 import os
@@ -48,11 +48,8 @@ def is_archive(url):
 
     match = re.search(r"[^/]+$", url)
 
-    return (
-        any(extension in file_name for extension in extensions)
-        if (file_name := match.group())
-        else False
-    )
+    return (any(extension in file_name for extension in extensions) if
+            (file_name := match.group()) else False)
 
 
 def download_and_extract(url, output_dir):
@@ -63,7 +60,8 @@ def download_and_extract(url, output_dir):
     bsdtar_command = ["bsdtar", "-xf", "-", "--directory", output_dir]
 
     curl_process = subprocess.Popen(curl_command, stdout=subprocess.PIPE)
-    bsdtar_process = subprocess.Popen(bsdtar_command, stdin=curl_process.stdout)
+    bsdtar_process = subprocess.Popen(bsdtar_command,
+                                      stdin=curl_process.stdout)
 
     bsdtar_process.wait()
 
@@ -75,8 +73,8 @@ def main(argv):
     output_dir = os.getcwd()
 
     parser = argparse.ArgumentParser(
-        prog="curltar", description="Download files and extract them automatically"
-    )
+        prog="curltar",
+        description="Download files and extract them automatically")
     parser.add_argument(
         "-u",
         "--url",

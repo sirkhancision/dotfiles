@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import os
 import subprocess
@@ -13,24 +13,22 @@ def update_packages(XBPS_SRC, updates, num_updates):
 
     while True:
         method_option = input(
-            "Do you want to update ['a']ll packages or ['s']elect which ones to update? "
-        ).lower()
+            "Do you want to update ['a']ll packages or ['s']elect which ones "
+            "to update? ").lower()
 
         if method_option == "a":
             # case "a" is handled with the command after the match statement
             break
         elif method_option == "s":
-            selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
-            num_selections = len(selected_indexes)
+            selected_indexes = input(
+                f"Select from 0-{num_updates-1}: ").split()
 
             valid_selections = [
-                updates[int(index)]
-                for index in selected_indexes
+                updates[int(index)] for index in selected_indexes
                 if 0 <= int(index) < num_updates
             ]
             invalid_selections = [
-                int(index)
-                for index in selected_indexes
+                int(index) for index in selected_indexes
                 if int(index) not in range(0, num_updates)
             ]
 
@@ -67,16 +65,11 @@ def main():
     print("Pulling changes...")
 
     if all(
-        subprocess.run(cmd, shell=True, capture_output=True).returncode == 0
-        for cmd in git_commands
-    ):
-        updates = (
-            subprocess.run(
-                [XBPS_SRC, "show-sys-updates"], capture_output=True, text=True
-            )
-            .stdout.strip()
-            .split("\n")
-        )
+            subprocess.run(cmd, shell=True, capture_output=True).returncode ==
+            0 for cmd in git_commands):
+        updates = (subprocess.run([XBPS_SRC, "show-sys-updates"],
+                                  capture_output=True,
+                                  text=True).stdout.strip().split("\n"))
         num_updates = int(len(updates))
         updates = sorted(updates)
 
@@ -87,7 +80,8 @@ def main():
 
             print("\nNOTE: the packages will be built before being installed")
 
-            update_option = input("Do you want to update any of them? <y/n> ").lower()
+            update_option = input(
+                "Do you want to update any of them? <y/n> ").lower()
 
             if update_option == "y":
                 update_packages(XBPS_SRC, updates, num_updates)

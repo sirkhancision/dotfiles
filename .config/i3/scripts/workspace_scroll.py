@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import json
 import subprocess
@@ -36,14 +36,15 @@ def go_to_next_workspace():
     """
     # gets the existing workspaces in json format
     workspaces_json = json.loads(
-        subprocess.check_output(["i3-msg", "-t", "get_workspaces"]).decode("utf-8")
-    )
+        subprocess.check_output(["i3-msg", "-t",
+                                 "get_workspaces"]).decode("utf-8"))
 
     # gets the workspaces' names
     workspaces = [workspace["name"] for workspace in workspaces_json]
 
     current_workspace = next(
-        (workspace["name"] for workspace in workspaces_json if workspace["focused"]),
+        (workspace["name"]
+         for workspace in workspaces_json if workspace["focused"]),
         None,
     )
 
@@ -54,7 +55,8 @@ def go_to_next_workspace():
 
 def main():
     """
-    Scrolls through existing workspaces in i3wm, wrapping to the first one after the last
+    Scrolls through existing workspaces in i3wm, wrapping to the
+    first one after the last
     """
     dependencies = ["i3-msg", "jq"]
 

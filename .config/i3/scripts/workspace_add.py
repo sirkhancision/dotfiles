@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import json
 import subprocess
@@ -22,8 +22,8 @@ def add_workspace():
     Add a new workspace to i3wm at the first empty position
     """
     workspaces_json = json.loads(
-        subprocess.check_output(["i3-msg", "-t", "get_workspaces"]).decode("utf-8")
-    )
+        subprocess.check_output(["i3-msg", "-t",
+                                 "get_workspaces"]).decode("utf-8"))
 
     workspaces = [workspace["name"] for workspace in workspaces_json]
 
