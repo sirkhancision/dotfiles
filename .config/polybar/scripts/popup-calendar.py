@@ -127,7 +127,7 @@ def show_popup():
             "yad", "--calendar", "--undecorated", "--fixed",
             "--close-on-unfocus", "--no-buttons", f"--width={YAD_WIDTH}",
             f"height={YAD_HEIGHT}", f"--posx={position_x}",
-            f"--posy={position_y}", '--title="yad-calendar"', "--borders=0"
+            f"--posy={position_y}", '--title=yad-calendar', "--borders=0"
         ])
     except subprocess.CalledProcessError:
         handle_error("Could not print yad-calendar")
