@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import os
 import subprocess
@@ -18,6 +18,9 @@ def check_dependencies(dependencies):
 
 
 def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
+    """
+    Create symbolic links of the dotfiles to their correct path in the system
+    """
     if len(files) == 0:
         print("No files added, please add at least one file")
         return
@@ -29,7 +32,9 @@ def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
             repo_config_dir = os.path.join(REPO_DIR, ".config")
             if os.path.exists(repo_config_dir):
                 for config_file in os.listdir(repo_config_dir):
-                    config_file_path = os.path.join(repo_config_dir, config_file)
+                    config_file_path = os.path.join(
+                        repo_config_dir, config_file
+                    )
                     link_commands.append((config_file_path, CONFIG_DIR))
         elif file == ".local/bin":
             repo_local_bin_dir = os.path.join(REPO_DIR, ".local/bin")
@@ -58,6 +63,10 @@ def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
 
 
 def edit_file(REPO_DIR):
+    """
+    Display a fuzzy picker list of the files under REPO_DIR and edit
+    the selected one with the user's default editor
+    """
     if os.getenv("EDITOR") is None:
         print("No default editor found, setting it to vi")
         os.putenv("EDITOR", "vi")
@@ -88,11 +97,17 @@ def edit_file(REPO_DIR):
 
 
 def git_ui(REPO_DIR):
+    """
+    Open gitui in REPO_DIR
+    """
     os.chdir(REPO_DIR)
     subprocess.run(["gitui"])
 
 
 def update_dotfiles(REPO_DIR):
+    """
+    Update the local dotfiles by pulling remote changes
+    """
     before = subprocess.getoutput("git rev-parse HEAD")
     subprocess.run(["git", "-C", REPO_DIR, "pull", "origin", "i3wm"])
     after = subprocess.getoutput("git rev-parse HEAD")
@@ -106,7 +121,7 @@ def main():
     REPO_DIR = os.path.expanduser("~/dotfiles")
     if not os.path.exists(REPO_DIR):
         print("The dotfiles directory pointed to by REPO_DIR doesn't exist")
-        while (mkdir_option := input(f"Create {REPO_DIR}? <y/n> ").lower()) != "y":
+        while input(f"Create {REPO_DIR}? <y/n> ").lower() != "y":
             print("Please, create it and put dotman in it")
             sys.exit(1)
         os.makedirs(REPO_DIR)
@@ -134,7 +149,8 @@ def main():
         ".Xkbmap",
     ]
 
-    print("dotman - Dotfiles Manager\n" "by sirkhancision")
+    print("dotman - Dotfiles Manager\n"
+          "by sirkhancision")
 
     while True:
         choice = input(
@@ -147,7 +163,9 @@ def main():
 
         match choice:
             case "1":
-                link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR)
+                link_files(
+                    files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR
+                )
             case "2":
                 edit_file(REPO_DIR)
             case "3":
