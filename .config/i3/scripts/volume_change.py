@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from shutil import which
 import re
 import subprocess
 import sys
+from shutil import which
 
 
 def check_dependencies(dependencies):
