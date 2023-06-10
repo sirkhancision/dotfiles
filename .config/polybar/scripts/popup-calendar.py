@@ -7,7 +7,7 @@ import sys
 from shutil import which
 
 BAR_HEIGHT = 24  # polybar height
-BORDER_SIZE = 1  # border size from your wm settings
+BORDER_SIZE = 3  # border size from your wm settings
 YAD_WIDTH = 222  # 222 is minimum possible value
 YAD_HEIGHT = 193  # 193 is minimum possible value
 ICON = ""
@@ -34,7 +34,7 @@ def handle_error(error):
 
 def get_window_name():
     """
-    Gets the focused window's name
+    Get the focused window's name
     """
     try:
         window_name = subprocess.run(
@@ -59,7 +59,7 @@ def get_mouse_location():
         handle_error("Could not get the mouse's location")
 
     mouse_location = re.findall(r"\b.:(\d+)", mouse_location)
-    mouse_x, mouse_y = int(mouse_location[0]), int(mouse_location[1])
+    mouse_x, mouse_y = map(int, mouse_location)
 
     return mouse_x, mouse_y
 
@@ -75,8 +75,7 @@ def get_screen_resolution():
     except subprocess.CalledProcessError:
         handle_error("Could not get the screen's resolution")
 
-    screen_width, screen_height = int(screen_resolution[0]), int(
-        screen_resolution[1])
+    screen_width, screen_height = map(int, screen_resolution)
     return screen_width, screen_height
 
 
@@ -85,17 +84,14 @@ def get_yad_position(YAD_WIDTH, YAD_HEIGHT, BORDER_SIZE, BAR_HEIGHT, mouse_x,
     """
     Gets the position where yad-calendar will be opened at
     """
-    if (mouse_x + YAD_WIDTH / 2 + BORDER_SIZE) > screen_width:
-        position_x = screen_width - YAD_WIDTH - BORDER_SIZE - 30
-    elif (mouse_x - YAD_WIDTH / 2 - BORDER_SIZE) < 0:
-        position_x = BORDER_SIZE
-    else:
-        position_x = mouse_x - YAD_WIDTH / 2
+    position_x = (screen_width - YAD_WIDTH - BORDER_SIZE - 30 if mouse_x +
+                  YAD_WIDTH / 2 +
+                  BORDER_SIZE > screen_width else BORDER_SIZE if mouse_x -
+                  YAD_WIDTH / 2 - BORDER_SIZE < 0 else mouse_x - YAD_WIDTH / 2)
 
-    if mouse_y > screen_height / 2:
-        position_y = screen_height - YAD_HEIGHT - BAR_HEIGHT - BORDER_SIZE
-    else:
-        position_y = BAR_HEIGHT + BORDER_SIZE
+    position_y = (screen_height - YAD_HEIGHT - BAR_HEIGHT -
+                  BORDER_SIZE if mouse_y > screen_height / 2 else BAR_HEIGHT +
+                  BORDER_SIZE)
 
     return position_x, position_y
 
@@ -110,7 +106,7 @@ def show_popup():
 
     # if yad-calendar is open and focused, do nothing
     if window_name == "yad-calendar":
-        sys.exit(0)
+        return
 
     mouse_x, mouse_y = get_mouse_location()
 
@@ -130,7 +126,7 @@ def show_popup():
             f"--posy={position_y}", '--title=yad-calendar', "--borders=0"
         ])
     except subprocess.CalledProcessError:
-        handle_error("Could not print yad-calendar")
+        handle_error("Could not open yad-calendar")
 
 
 def main():
