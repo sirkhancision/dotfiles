@@ -66,12 +66,10 @@ def download_and_extract(url, output_dir):
     bsdtar_process.wait()
 
 
-def main(argv):
-    dependencies = ["curl", "bsdtar"]
-    check_dependencies(dependencies)
-
-    output_dir = os.getcwd()
-
+def parse_args(argv):
+    """
+    Parse arguments given to the program
+    """
     parser = argparse.ArgumentParser(
         prog="curltar",
         description="Download files and extract them automatically")
@@ -88,9 +86,16 @@ def main(argv):
         dest="output_dir",
         help="The directory where the file will be downloaded to",
     )
-    args = parser.parse_args(argv)
+    return parser.parse_args(argv)
 
-    output_dir = args.output_dir if args.output_dir else output_dir
+
+def main(argv):
+    dependencies = ["curl", "bsdtar"]
+    check_dependencies(dependencies)
+
+    args = parse_args(argv)
+
+    output_dir = args.output_dir if args.output_dir else os.getcwd()
     url = args.url
 
     if not os.path.exists(output_dir) or not os.path.isdir(output_dir):

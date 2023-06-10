@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import git
 import os
 import subprocess
 import sys
@@ -21,16 +22,14 @@ def select_packages(num_updates, updates):
     """
     selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
 
-    valid_selections = [
-        updates[int(index)] for index in selected_indexes
-        if 0 <= int(index) < num_updates
-    ]
-    invalid_selections = [
-        int(index) for index in selected_indexes
-        if int(index) not in range(0, num_updates)
-    ]
+    packages = []
+    invalid_selections = []
 
-    packages = [selection for selection in valid_selections]
+    for index in selected_indexes:
+        if index.isdigit() and 0 <= int(index) < num_updates:
+            packages.append(updates[int(index)])
+        else:
+            invalid_selections.append(int(index))
 
     for invalid_sel_index in invalid_selections:
         print(f"{invalid_sel_index}: Value out of range, ignoring...")
@@ -46,10 +45,12 @@ def update_all(XBPS_SRC):
     subprocess.run([XBPS_SRC, "update-sys"])
 
 
-def update_packages(XBPS_SRC, updates, num_updates):
+def update_packages(XBPS_SRC, updates):
     """
     Update packages that have updates available
     """
+    num_updates = len(updates)
+
     if num_updates <= 1:
         update_all(XBPS_SRC)
         return
@@ -77,6 +78,21 @@ def update_packages(XBPS_SRC, updates, num_updates):
             print("Invalid option")
 
 
+def pull_changes(VOID_PKGS_DIR):
+    """
+    Pull changes from the remote repository
+    """
+    repository = git.Repo(VOID_PKGS_DIR)
+
+    if not repository.is_dirty():
+        print("Pulling changes...")
+        repository.remote("upstream").fetch()
+        repository.git.rebase("upstream/master")
+    else:
+        print("Failed to update repository")
+        sys.exit(1)
+
+
 def main():
     VOID_PKGS_DIR = os.path.expanduser("~/Github/void-packages")
     XBPS_SRC = os.path.join(VOID_PKGS_DIR, "./xbps-src")
@@ -86,36 +102,25 @@ def main():
         os.chdir(VOID_PKGS_DIR)
 
     # pull changes and update packages
-    git_commands = [
-        "git fetch --quiet upstream",
-        "git rebase --quiet upstream/master",
-    ]
-    print("Pulling changes...")
+    pull_changes(VOID_PKGS_DIR)
+    updates = get_updates(XBPS_SRC)
 
-    if all(
-            subprocess.run(cmd, shell=True).returncode == 0
-            for cmd in git_commands):
-        updates = get_updates(XBPS_SRC)
-        num_updates = int(len(updates))
+    if not updates:
+        print("No updates available")
+        return
 
-        if num_updates > 1:
-            print("The following packages have updates available:")
-            for index, pkg in enumerate(updates):
-                print(f"[{index}] {pkg}")
+    print("The following packages have updates available:")
+    for index, pkg in enumerate(updates):
+        print(f"[{index}] {pkg}")
 
-            print("\nNOTE: the packages will be built before being installed")
+    print("\nNOTE: the packages will be built before being installed")
 
-            update_option = input(
-                "Do you want to update any of them? <y/n> ").lower()
+    update_option = input("Do you want to update any of them? <y/n> ").lower()
 
-            if update_option == "y":
-                update_packages(XBPS_SRC, updates, num_updates)
-            else:
-                print("\nUpdates cancelled")
-        else:
-            print("No updates available")
+    if update_option == "y":
+        update_packages(XBPS_SRC, updates)
     else:
-        print("Failed to update repository")
+        print("\nUpdates cancelled")
 
 
 if __name__ == "__main__":

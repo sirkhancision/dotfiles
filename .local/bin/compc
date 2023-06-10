@@ -18,6 +18,45 @@ def check_dependencies(dependencies):
         sys.exit(1)
 
 
+def is_c_file(file):
+    """
+    Check if the given file has a .c extension
+    """
+    return re.search(r"\.c$", file) is not None
+
+
+def compile_c_file(file):
+    """
+    Compile a C file using gcc
+    """
+    output_file = file.replace(".c", "")
+    subprocess.run([
+        "gcc",
+        "-o",
+        output_file,
+        file,
+        "-O2",
+        "-pedantic",
+        "-pipe",
+        "-Wall",
+        "-Werror",
+        "-lm",
+    ])
+
+
+def compile_c_files(files):
+    """
+    Compile multiple C files
+    """
+    for file in files:
+        if not os.path.isfile(file):
+            print(f"{file} not found, ignoring")
+        elif not is_c_file(file):
+            print(f"{file} is not a C file, ignoring")
+        else:
+            compile_c_file(file)
+
+
 def main(argv):
     """
     Takes one or more C files and compiles them with the same input name
@@ -29,27 +68,7 @@ def main(argv):
         print("usage: compc [-h] file_1.c [file_2.c ...]")
         sys.exit(0)
 
-    for file in argv:
-        if not os.path.isfile(file):
-            print(f"{file} not found, ignoring")
-            continue
-        elif not re.search(r"\.c$", file):
-            print(f"{file} is not a C file, ignoring")
-            continue
-        else:
-            output_file = file.replace(".c", "")
-            subprocess.run([
-                "gcc",
-                "-o",
-                output_file,
-                file,
-                "-O2",
-                "-pedantic",
-                "-pipe",
-                "-Wall",
-                "-Werror",
-                "-lm",
-            ])
+    compile_c_files(argv)
 
 
 if __name__ == "__main__":
