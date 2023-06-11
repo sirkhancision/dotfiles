@@ -12,7 +12,8 @@ def get_updates(XBPS_SRC):
     """
     updates = sorted((subprocess.run([XBPS_SRC, "show-sys-updates"],
                                      capture_output=True,
-                                     text=True).stdout.strip().split("\n")))
+                                     text=True).stdout.strip().split()))
+
     return updates
 
 
