@@ -12,9 +12,8 @@ def check_dependencies(dependencies):
     """
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
+        raise SystemExit("The following dependencies are missing:" +
+                         "\n".join(missing_deps))
 
 
 def go_to_workspace(target_workspace):
@@ -35,8 +34,8 @@ def go_to_workspace(target_workspace):
                 subprocess.run(["i3-msg", "workspace", workspace])
                 return
 
-    print(f"No active workspace found at position {target_workspace}")
-    sys.exit(1)
+    raise ValueError(
+        f"No active workspace found at position {target_workspace}")
 
 
 def main():
@@ -46,12 +45,20 @@ def main():
     """
     dependencies = ["i3-msg", "jq"]
 
-    check_dependencies(dependencies)
+    try:
+        check_dependencies(dependencies)
+    except SystemExit as e:
+        print(e)
+        sys.exit(1)
 
     # workspace that you want to go to
     target_workspace = int(sys.argv[1])
 
-    go_to_workspace(target_workspace)
+    try:
+        go_to_workspace(target_workspace)
+    except ValueError as e:
+        print(e)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

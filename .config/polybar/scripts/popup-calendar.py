@@ -19,17 +19,8 @@ def check_dependencies(dependencies):
     """
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
-
-
-def handle_error(error):
-    """
-    Prints a custom message for an error and exits
-    """
-    print(error)
-    sys.exit(1)
+        raise SystemExit("The following dependencies are missing:" +
+                         "\n".join(missing_deps))
 
 
 def get_window_name():
@@ -42,7 +33,8 @@ def get_window_name():
             capture_output=True,
             text=True).stdout
     except subprocess.CalledProcessError:
-        handle_error("Could not get the active window's name")
+        raise subprocess.CalledProcessError(
+            "Could not get the active window's name")
 
     return window_name
 
@@ -56,7 +48,8 @@ def get_mouse_location():
                                         capture_output=True,
                                         text=True).stdout
     except subprocess.CalledProcessError:
-        handle_error("Could not get the mouse's location")
+        raise subprocess.CalledProcessError(
+            "Could not get the mouse's location")
 
     mouse_location = re.findall(r"\b.:(\d+)", mouse_location)
     mouse_x, mouse_y = map(int, mouse_location)
@@ -73,7 +66,8 @@ def get_screen_resolution():
                                            capture_output=True,
                                            text=True).stdout.split()
     except subprocess.CalledProcessError:
-        handle_error("Could not get the screen's resolution")
+        raise subprocess.CalledProcessError(
+            "Could not get the screen's resolution")
 
     screen_width, screen_height = map(int, screen_resolution)
     return screen_width, screen_height
@@ -126,7 +120,7 @@ def show_popup():
             f"--posy={position_y}", '--title=yad-calendar', "--borders=0"
         ])
     except subprocess.CalledProcessError:
-        handle_error("Could not open yad-calendar")
+        subprocess.CalledProcessError("Could not open yad-calendar")
 
 
 def main():
@@ -137,10 +131,18 @@ def main():
     args = parser.parse_args()
 
     dependencies = ["xdotool", "yad"]
-    check_dependencies(dependencies)
+    try:
+        check_dependencies(dependencies)
+    except SystemExit as e:
+        print(e)
+        sys.exit(1)
 
     if args.popup:
-        show_popup()
+        try:
+            show_popup()
+        except subprocess.CalledProcessError as e:
+            print(e)
+            sys.exit(1)
     else:
         global ICON
         print(ICON)

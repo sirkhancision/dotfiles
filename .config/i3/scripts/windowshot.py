@@ -12,9 +12,8 @@ def check_dependencies(dependencies):
     """
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
+        raise SystemExit("The following dependencies are missing:" +
+                         "\n".join(missing_deps))
 
 
 def windowshot(IMAGE_PATH):
@@ -23,10 +22,13 @@ def windowshot(IMAGE_PATH):
 
     # use maim to select the area of the window
     # and play a sound
-    subprocess.run(["maim", "-i", window, IMAGE_PATH]) and subprocess.run([
-        "paplay",
-        os.path.expanduser("~/.config/i3/audio/screen-capture.ogg")
-    ])
+    subprocess.run(["maim", "-i", window, IMAGE_PATH])
+
+    if os.path.isfile(IMAGE_PATH):
+        subprocess.run([
+            "paplay",
+            os.path.expanduser("~/.config/i3/audio/screen-capture.ogg")
+        ])
 
     # send the image to the system's clipboard
     subprocess.run([
@@ -51,7 +53,11 @@ def main():
     """
     dependencies = ["dunstify", "maim", "xclip", "xdg-user-dir", "xdotool"]
 
-    check_dependencies(dependencies)
+    try:
+        check_dependencies(dependencies)
+    except SystemExit as e:
+        print(e)
+        sys.exit(1)
 
     PIC_DIR = subprocess.getoutput("xdg-user-dir PICTURES")
     IMAGE_NAME = subprocess.getoutput("date +%Y-%m-%d_%H-%M-%S") + ".png"

@@ -12,9 +12,8 @@ def check_dependencies(dependencies):
     """
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
+        raise SystemExit("The following dependencies are missing:" +
+                         "\n".join(missing_deps))
 
 
 def get_next_workspace(workspaces, current_workspace):
@@ -60,7 +59,11 @@ def main():
     """
     dependencies = ["i3-msg", "jq"]
 
-    check_dependencies(dependencies)
+    try:
+        check_dependencies(dependencies)
+    except SystemExit as e:
+        print(e)
+        sys.exit(1)
 
     go_to_next_workspace()
 

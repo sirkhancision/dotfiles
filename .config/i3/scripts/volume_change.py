@@ -12,33 +12,21 @@ def check_dependencies(dependencies):
     """
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
-
-
-def handle_error(error):
-    """
-    Prints a custom message for an error and exits
-    """
-    print(error)
-    sys.exit(1)
+        raise SystemExit("The following dependencies are missing:" +
+                         "\n".join(missing_deps))
 
 
 def parse_argument():
     """
     Gets the type of change desired (increasing or decreasing)
     """
-    if len(sys.argv) < 2:
-        handle_error("Invalid operation: either 'increase' or 'decrease'"
-                     "has to be passed")
+    valid_operations = ["increase", "decrease"]
 
-    change_type = sys.argv[1]
-    if change_type not in ["increase", "decrease"]:
-        handle_error("Invalid operation: either 'increase' or 'decrease'"
-                     "has to be passed")
+    if len(sys.argv) < 2 or sys.argv[1] not in valid_operations:
+        raise ValueError("Invalid operation: either 'increase' or 'decrease'"
+                         "has to be passed")
 
-    return change_type
+    return sys.argv[1]
 
 
 def get_current_volume():
@@ -51,7 +39,7 @@ def get_current_volume():
             capture_output=True,
             text=True).stdout
     except subprocess.CalledProcessError:
-        handle_error("Failed to get system's volume")
+        raise subprocess.CalledProcessError("Failed to get system's volume")
 
     volume = int(re.search(r"(\d+)%", sink_volume).group(1))
     return volume
@@ -89,7 +77,8 @@ def change_volume(target_volume):
             "pactl", "set-sink-volume", "@DEFAULT_SINK@", f"{target_volume}%"
         ])
     except subprocess.CalledProcessError:
-        handle_error("Failed to change the system's volume")
+        raise subprocess.CalledProcessError(
+            "Failed to change the system's volume")
 
 
 def main():
@@ -98,15 +87,31 @@ def main():
     a hexagon
     """
     dependencies = ["pactl"]
-    check_dependencies(dependencies)
+    try:
+        check_dependencies(dependencies)
+    except SystemExit as e:
+        print(e)
+        sys.exit(1)
 
-    change_type = parse_argument()
+    try:
+        change_type = parse_argument()
+    except ValueError as e:
+        print(e)
+        sys.exit(1)
 
-    volume = get_current_volume()
+    try:
+        volume = get_current_volume()
+    except subprocess.CalledProcessError as e:
+        print(e)
+        sys.exit(1)
 
     target_volume = get_target_volume(volume, change_type)
 
-    change_volume(target_volume)
+    try:
+        change_volume(target_volume)
+    except subprocess.CalledProcessError as e:
+        print(e)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
