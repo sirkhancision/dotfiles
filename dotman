@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import git
 import os
 import subprocess
 import sys
@@ -25,7 +26,7 @@ def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
         print("No files added, please add at least one file")
         return
 
-    link_commands = []
+    link_commands = {}
 
     for file in files:
         if file == ".config":
@@ -35,7 +36,7 @@ def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
                     config_file_path = os.path.join(
                         repo_config_dir, config_file
                     )
-                    link_commands.append((config_file_path, CONFIG_DIR))
+                    link_commands[config_file_path] = CONFIG_DIR
         elif file == ".local/bin":
             repo_local_bin_dir = os.path.join(REPO_DIR, ".local/bin")
             if os.path.exists(repo_local_bin_dir):
@@ -43,12 +44,12 @@ def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
                     local_bin_file_path = os.path.join(
                         repo_local_bin_dir, local_bin_file
                     )
-                    link_commands.append((local_bin_file_path, LOCAL_BIN_DIR))
+                    link_commands[local_bin_file_path] = LOCAL_BIN_DIR
         else:
             file_path = os.path.join(REPO_DIR, file)
-            link_commands.append((file_path, HOME_DIR))
+            link_commands[file_path] = HOME_DIR
 
-    for source, target in link_commands:
+    for source, target in link_commands.items():
         target_full = os.path.join(target, os.path.basename(source))
 
         os.makedirs(os.path.dirname(target), exist_ok=True)
@@ -108,12 +109,16 @@ def update_dotfiles(REPO_DIR):
     """
     Update the local dotfiles by pulling remote changes
     """
-    before = subprocess.getoutput("git rev-parse HEAD")
-    subprocess.run(["git", "-C", REPO_DIR, "pull", "origin", "i3wm"])
-    after = subprocess.getoutput("git rev-parse HEAD")
+    repository = git.Repo(REPO_DIR)
+
+    before = repository.head.commit
+    repository.remotes.origin.pull("i3wm")
+    after = repository.head.commit
 
     if before != after:
         link_files()
+    else:
+        print("No updates available")
 
 
 def main():
