@@ -20,22 +20,21 @@ def go_to_workspace(target_workspace):
     """
     Go to the specified workspace
     """
-    # gets the existing workspaces in json format
     workspaces_json = json.loads(
         subprocess.check_output(["i3-msg", "-t",
                                  "get_workspaces"]).decode("utf-8"))
 
-    # gets the workspaces' names
-    workspaces = [workspace["name"] for workspace in workspaces_json]
+    workspace_dict = {
+        index: workspace["name"]
+        for index, workspace in enumerate(workspaces_json, start=1)
+    }
 
-    if target_workspace >= 1 and target_workspace <= len(workspaces):
-        for index, workspace in enumerate(workspaces, start=1):
-            if index == target_workspace:
-                subprocess.run(["i3-msg", "workspace", workspace])
-                return
-
-    raise ValueError(
-        f"No active workspace found at position {target_workspace}")
+    if target_workspace in workspace_dict:
+        subprocess.run(
+            ["i3-msg", "workspace", workspace_dict[target_workspace]])
+    else:
+        raise ValueError(
+            f"No active workspace found at position {target_workspace}")
 
 
 def main():

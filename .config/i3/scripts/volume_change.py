@@ -38,8 +38,9 @@ def get_current_volume():
             ["pactl", "get-sink-volume", "@DEFAULT_SINK@"],
             capture_output=True,
             text=True).stdout
-    except subprocess.CalledProcessError:
-        raise subprocess.CalledProcessError("Failed to get system's volume")
+    except subprocess.CalledProcessError as e:
+        raise subprocess.CalledProcessError("Failed to get system's volume: " +
+                                            str(e))
 
     volume = int(re.search(r"(\d+)%", sink_volume).group(1))
     return volume
@@ -49,22 +50,19 @@ def get_target_volume(volume, change_type):
     """
     Calculates the target value for the system's volume to be changed into
     """
-    # each of these values (except from 0) are from ceil(100/12):
-    # because volume will have 12 possible values, I'm dividing the maximum
-    # possible value for the volume (100) by the possible amount of values,
-    # and rounding them up to an integer
     volume_values = [0, 9, 17, 25, 34, 42, 50, 59, 67, 75, 84, 92, 100]
+    num_values = len(volume_values)
 
-    # the addition or subtraction is by 9 because 100/12 is approximately
-    # 8.3, which rounds up to 9
-    if change_type == "increase":
-        changed_volume = volume + 9
-    else:
-        changed_volume = volume - 9
+    current_index = min(range(num_values),
+                        key=lambda i: abs(volume_values[i] - volume))
 
-    # get the value from volume_values that is the closest to
-    # changed_volume, and change the volume to that value
-    target_volume = min(volume_values, key=lambda x: abs(x - changed_volume))
+    target_index = (current_index +
+                    1 if change_type == "increase" else current_index - 1)
+
+    target_index = max(0, min(target_index, num_values - 1))
+
+    target_volume = volume_values[target_index]
+
     return target_volume
 
 
@@ -89,27 +87,11 @@ def main():
     dependencies = ["pactl"]
     try:
         check_dependencies(dependencies)
-    except SystemExit as e:
-        print(e)
-        sys.exit(1)
-
-    try:
         change_type = parse_argument()
-    except ValueError as e:
-        print(e)
-        sys.exit(1)
-
-    try:
         volume = get_current_volume()
-    except subprocess.CalledProcessError as e:
-        print(e)
-        sys.exit(1)
-
-    target_volume = get_target_volume(volume, change_type)
-
-    try:
+        target_volume = get_target_volume(volume, change_type)
         change_volume(target_volume)
-    except subprocess.CalledProcessError as e:
+    except (SystemExit, ValueError, subprocess.CalledProcessError) as e:
         print(e)
         sys.exit(1)
 

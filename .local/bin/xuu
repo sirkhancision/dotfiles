@@ -10,27 +10,29 @@ def get_updates(XBPS_SRC):
     """
     Get a list of the packages with available updates
     """
-    updates = sorted((subprocess.run([XBPS_SRC, "show-sys-updates"],
-                                     capture_output=True,
-                                     text=True).stdout.strip().split()))
+    updates = subprocess.run([XBPS_SRC, "show-sys-updates"],
+                             capture_output=True,
+                             text=True)
+    if updates.returncode != 0:
+        raise subprocess.CalledProcessError("Error running xbps-src")
 
-    return updates
+    return sorted(updates.stdout.strip().split())
 
 
 def select_packages(num_updates, updates):
     """
     Select packages to update
     """
-    selected_indexes = input(f"Select from 0-{num_updates-1}: ").split()
+    selected_indexes_input = input(f"Select from 1-{num_updates}: ")
+    selected_indexes = [
+        int(index) - 1 for index in selected_indexes_input.split()
+        if index.isdigit()
+    ]
 
-    packages = []
-    invalid_selections = []
+    valid_indexes = set(range(num_updates))
+    invalid_selections = set(selected_indexes) - valid_indexes
 
-    for index in selected_indexes:
-        if index.isdigit() and 0 <= int(index) < num_updates:
-            packages.append(updates[int(index)])
-        else:
-            invalid_selections.append(int(index))
+    packages = [updates[index] for index in selected_indexes]
 
     for invalid_sel_index in invalid_selections:
         print(f"{invalid_sel_index}: Value out of range, ignoring...")
@@ -43,7 +45,9 @@ def update_all(XBPS_SRC):
     Update all packages that have updates available
     """
     print("\nUpdating packages...")
-    subprocess.run([XBPS_SRC, "update-sys"])
+    result = subprocess.run([XBPS_SRC, "update-sys"])
+    if result.returncode != 0:
+        raise subprocess.CalledProcessError("Error running xbps-src")
 
 
 def update_packages(XBPS_SRC, updates):
@@ -66,17 +70,26 @@ def update_packages(XBPS_SRC, updates):
             break
         elif method_option == "s":
             packages = select_packages(num_updates, updates)
-
-            for pkg in packages:
-                print(f"\nUpdating package: {pkg}")
-                subprocess.run([XBPS_SRC, "pkg", pkg])
-
-            xbps_install_cmd = "xi " + " ".join(packages)
-            subprocess.run(xbps_install_cmd, shell=True)
-
+            update_selected_packages(XBPS_SRC, packages)
             break
         else:
             print("Invalid option")
+
+
+def update_selected_packages(XBPS_SRC, packages):
+    """
+    Updates selected packages with xbps-install
+    """
+    for pkg in packages:
+        print(f"\nUpdating package: {pkg}")
+        result = subprocess.run([XBPS_SRC, "pkg", pkg])
+        if result.returncode != 0:
+            raise subprocess.CalledProcessError("Error running xbps-src")
+
+    xbps_install_cmd = "xi " + " ".join(packages)
+    result = subprocess.run(xbps_install_cmd, shell=True)
+    if result.returncode != 0:
+        raise subprocess.CalledProcessError("Error running xbps-install")
 
 
 def pull_changes(VOID_PKGS_DIR):
@@ -85,16 +98,39 @@ def pull_changes(VOID_PKGS_DIR):
     """
     repository = git.Repo(VOID_PKGS_DIR)
 
-    if not repository.is_dirty():
-        print("Pulling changes...")
-        repository.remote("upstream").fetch()
-        repository.git.rebase("upstream/master")
-    else:
+    if repository.is_dirty():
         print("Failed to update repository")
         sys.exit(1)
 
+    print("Pulling changes...")
+
+    try:
+        repository.remote("upstream").fetch()
+    except git.exc.GitCommandError as e:
+        raise git.exc.GitCommandError("Failed to fetch from upstream: " +
+                                      str(e))
+
+    repository.git.rebase("upstream/master")
+
+
+def print_updates(updates):
+    """
+    Prints the list of updates available
+    """
+    print("The following packages have updates available:")
+    for index, pkg in enumerate(updates):
+        print(f"[{index + 1}] {pkg}")
+
+    print("\nNOTE: the packages will be built before being installed")
+
 
 def main():
+    """
+    Tool to update all packages from void-packages, including packages not in
+    the package manager's repository
+
+    xuu stands for xbps-update²
+    """
     VOID_PKGS_DIR = os.path.expanduser("~/Github/void-packages")
     XBPS_SRC = os.path.join(VOID_PKGS_DIR, "./xbps-src")
 
@@ -103,18 +139,19 @@ def main():
         os.chdir(VOID_PKGS_DIR)
 
     # pull changes and update packages
-    pull_changes(VOID_PKGS_DIR)
+    try:
+        pull_changes(VOID_PKGS_DIR)
+    except git.exc.GitCommandError as e:
+        print(e)
+        sys.exit(1)
+
     updates = get_updates(XBPS_SRC)
 
     if not updates:
         print("No updates available")
         return
 
-    print("The following packages have updates available:")
-    for index, pkg in enumerate(updates):
-        print(f"[{index}] {pkg}")
-
-    print("\nNOTE: the packages will be built before being installed")
+    print_updates(updates)
 
     update_option = input("Do you want to update any of them? <y/n> ").lower()
 

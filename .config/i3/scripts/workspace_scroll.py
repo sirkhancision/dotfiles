@@ -16,38 +16,25 @@ def check_dependencies(dependencies):
                          "\n".join(missing_deps))
 
 
-def get_next_workspace(workspaces, current_workspace):
-    """
-    Get the workspace after the current one
-    """
-    # if at the last workspace, wrap around to the first one
-    if current_workspace == workspaces[-1]:
-        return workspaces[0]
-    # otherwise just go next
-    else:
-        index = workspaces.index(current_workspace)
-        return workspaces[index + 1]
-
-
 def go_to_next_workspace():
     """
     Switch to the workspace after the current one
     """
-    # gets the existing workspaces in json format
     workspaces_json = json.loads(
         subprocess.check_output(["i3-msg", "-t",
                                  "get_workspaces"]).decode("utf-8"))
 
-    # gets the workspaces' names
-    workspaces = [workspace["name"] for workspace in workspaces_json]
-
     current_workspace = next(
         (workspace["name"]
-         for workspace in workspaces_json if workspace["focused"]),
-        None,
-    )
+         for workspace in workspaces_json if workspace["focused"]), None)
 
-    next_workspace = get_next_workspace(workspaces, current_workspace)
+    if current_workspace is not None:
+        workspaces = [workspace["name"] for workspace in workspaces_json]
+        index = workspaces.index(current_workspace)
+        next_index = (index + 1) % len(workspaces)
+        next_workspace = workspaces[next_index]
+    else:
+        next_workspace = workspaces_json[0]["name"]
 
     subprocess.run(["i3-msg", "workspace", next_workspace])
 

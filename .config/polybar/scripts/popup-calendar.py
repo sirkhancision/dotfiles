@@ -32,9 +32,9 @@ def get_window_name():
             ["xdotool", "getwindowfocus", "getwindowname"],
             capture_output=True,
             text=True).stdout
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
         raise subprocess.CalledProcessError(
-            "Could not get the active window's name")
+            "Could not get the active window's name: " + str(e))
 
     return window_name
 
@@ -47,9 +47,9 @@ def get_mouse_location():
         mouse_location = subprocess.run(["xdotool", "getmouselocation"],
                                         capture_output=True,
                                         text=True).stdout
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
         raise subprocess.CalledProcessError(
-            "Could not get the mouse's location")
+            "Could not get the mouse's location: " + str(e))
 
     mouse_location = re.findall(r"\b.:(\d+)", mouse_location)
     mouse_x, mouse_y = map(int, mouse_location)
@@ -65,9 +65,9 @@ def get_screen_resolution():
         screen_resolution = subprocess.run(["xdotool", "getdisplaygeometry"],
                                            capture_output=True,
                                            text=True).stdout.split()
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
         raise subprocess.CalledProcessError(
-            "Could not get the screen's resolution")
+            "Could not get the screen's resolution: " + str(e))
 
     screen_width, screen_height = map(int, screen_resolution)
     return screen_width, screen_height
@@ -119,8 +119,8 @@ def show_popup():
             f"height={YAD_HEIGHT}", f"--posx={position_x}",
             f"--posy={position_y}", '--title=yad-calendar', "--borders=0"
         ])
-    except subprocess.CalledProcessError:
-        subprocess.CalledProcessError("Could not open yad-calendar")
+    except subprocess.CalledProcessError as e:
+        subprocess.CalledProcessError("Could not open yad-calendar: " + str(e))
 
 
 def main():

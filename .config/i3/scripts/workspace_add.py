@@ -24,16 +24,16 @@ def add_workspace():
         subprocess.check_output(["i3-msg", "-t",
                                  "get_workspaces"]).decode("utf-8"))
 
-    workspaces = [workspace["name"] for workspace in workspaces_json]
+    occupied_workspaces = {
+        int(workspace["name"])
+        for workspace in workspaces_json
+    }
 
-    num_workspaces = len(workspaces)
+    num_workspaces = len(workspaces_json)
 
-    new_workspace = num_workspaces + 1
-
-    for index, workspace in enumerate(workspaces, start=1):
-        if workspace != str(index):
-            new_workspace = index
-            break
+    available_positions = set(range(1,
+                                    num_workspaces + 2)) - occupied_workspaces
+    new_workspace = min(available_positions)
 
     subprocess.run(["i3-msg", "workspace", str(new_workspace)])
 
