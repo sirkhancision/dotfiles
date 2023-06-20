@@ -23,7 +23,7 @@ def select_packages(num_updates, updates):
     """
     Select packages to update
     """
-    selected_indexes_input = input(f"Select from 1-{num_updates}: ")
+    selected_indexes_input = input(f"Select packages from 1-{num_updates}: ")
     selected_indexes = [
         int(index) - 1 for index in selected_indexes_input.split()
         if index.isdigit()
