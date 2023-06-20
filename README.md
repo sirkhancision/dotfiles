@@ -51,9 +51,9 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 ![sddm screen](screenshots/2023-05-24_21-18-24.png)
 
-**/usr/share/sddm/themes/sugar-candy:** Theme for SDDM, modified from [sugar-candy](https://store.kde.org/p/1312658/).
+**/etc/greetd/config.toml:** Configuration file for greetd, using tuigreet.
 
-`xbps-install sddm`
+`xbps-install greetd tuigreet`
 
 **.config/nnn:** Configuration for the file manager nnn.
 
@@ -99,7 +99,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **void_install.sh:** Script to do a lot of post-install stuff on my Void Linux system.
 
-**.Xkbmap:** Keyboard layout configuration for X11.
+**.xinitrc:** X11 init file.
 
 **.xprofile:** X11 profile of commands to be executed when logged in, user-wide.
 

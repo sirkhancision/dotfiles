@@ -43,15 +43,15 @@ install_packages() {
         bash-language-server \
 				bat \
         betterlockscreen \
-        black \
         breeze-obsidian-cursor-theme \
         bsdtar \
         btop \
-        clang \
-        cmark \
+        chrony \
+				clang \
+				cmark \
         cups \
-				curl \
-        dbus-elogind \
+        curl \
+				dbus-elogind \
         diskonaut \
         dosbox \
         dragon \
@@ -63,23 +63,24 @@ install_packages() {
         feh \
         file-roller \
         firefox \
-				flatpak \
-        font-atkinson-hyperlegible-otf \
-				font-awesome \
-        font-iosevka \
+        flatpak \
+				font-atkinson-hyperlegible-otf \
+        font-awesome \
+				font-iosevka \
         fontmanager \
         fonts-croscore-ttf \
         freetype \
         fzf \
         gamemode \
         ghostwriter \
-				git \
-        gitui \
+        git \
+				gitui \
         glow \
         gnome-disk-utility \
         gnome-epub-thumbnailer \
         gnutls \
         gnutls-32bit \
+        greetd \
         gst-plugins-bad1 \
         gst-plugins-bad1-32bit \
         gst-plugins-base1 \
@@ -88,11 +89,11 @@ install_packages() {
         gst-plugins-good1-32bit \
         gst-plugins-ugly1 \
         gst-plugins-ugly1-32bit \
-        gvfs \
-				gvfs-mtp \
+				gvfs \
+        gvfs-mtp \
 				helix \
 				hexchat \
-        hunspell-en_US \
+				hunspell-en_US \
         hunspell-pt_BR \
         i3-gaps \
         i3ipc-glib \
@@ -117,11 +118,11 @@ install_packages() {
         libpulseaudio \
         libpulseaudio-32bit \
         libreoffice-calc \
-				libreoffice-fonts \
+        libreoffice-fonts \
 				libreoffice-gnome \
 				libreoffice-i18n-pt \
 				libreoffice-impress \
-        libreoffice-math \
+				libreoffice-math \
         libreoffice-writer \
         libreoffice-xtensions \
         libstdc++-32bit \
@@ -129,8 +130,6 @@ install_packages() {
         libva-glx-32bit \
         libxslt \
         libxslt-32bit \
-        lightdm \
-        lightdm-gtk3-greeter \
         lutris \
         lxappearance \
         lxsession \
@@ -141,20 +140,19 @@ install_packages() {
         mesa-dri \
         mesa-dri-32bit \
         mono \
-				mpg123 \
+        mpg123 \
 				mpv \
 				mpv-mpris \
 				musescore \
 				ncurses \
 				neofetch \
-        nerd-fonts \
+				nerd-fonts \
         nnn \
         nomacs \
         noto-fonts-cjk \
         noto-fonts-emoji \
-				ntp \
-				obs \
-        ocl-icd \
+        obs \
+				ocl-icd \
         ocl-icd-32bit \
         okular \
         p7zip \
@@ -164,25 +162,25 @@ install_packages() {
         patch \
         pavucontrol \
         picard \
-				picom \
-        pipewire \
+        picom \
+				pipewire \
         playerctl \
         pmount \
         pnpm \
         polybar \
         poppler \
         pulseaudio \
-        python-yapf \
         python3-lsp-server \
-				python3-mccabe \
-				python3-pip \
+        python3-mccabe \
+        python3-pip \
 				python3-pycodestyle \
 				python3-pyflakes \
-        qalculate-gtk \
+				python3-yapf \
+				qalculate-gtk \
         qbittorrent \
         qjackctl \
-				qpwgraph \
-        qt5ct \
+        qpwgraph \
+				qt5ct \
         qt6ct \
         quodlibet \
         rclone \
@@ -198,19 +196,21 @@ install_packages() {
         sd \
         shellcheck \
         shfmt \
-				skim \
-        snooze \
+        skim \
+				snooze \
         starship \
         steam \
         sxiv \
-				syncplay \
-        taplo \
+        syncplay \
+				taplo \
         tealdeer \
         telegram-desktop \
         tg_owt \
+        thermald \
         thunar-archive-plugin \
         thunar-media-tags-plugin \
         thunderbird \
+				tuigreet \
         tumbler \
 				uni \
         v4l-utils \
@@ -235,6 +235,7 @@ install_packages() {
         xtools \
         yad \
         yt-dlp \
+				zip \
         zoxide \
         zsh \
         zsh-syntax-highlighting"
@@ -272,7 +273,6 @@ install_packages() {
 	# shellcheck disable=2086
 	# this is by design so that the packages are one after the other
 	sudo xbps-install -Su $PACKAGES $GPU $WIRELESS $BLUETOOTH
-	tldr --update
 }
 
 ## CREATE DIRECTORIES INSIDE THE USER'S DIRECTORY, AND SET SOME DEFAULT APPS
@@ -290,7 +290,7 @@ runit_services() {
 	printf "Enabling services\n\n"
 
 	# enable services
-	sudo ln -sf /etc/sv/{elogind,dbus,ntpd,sddm} /var/service
+	sudo ln -sf /etc/sv/{elogind,dbus,chrony,thermald,greetd} /var/service
 
 	if [ $USING_WIRELESS == true ]; then
 		sudo ln -sf /etc/sv/NetworkManager /var/service
@@ -433,6 +433,7 @@ shift $((OPTIND - 1))
 
 add_repos_mirrors
 install_packages
+tldr --update
 
 ### POST-INSTALL COMMANDS
 

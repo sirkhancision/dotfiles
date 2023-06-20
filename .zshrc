@@ -40,6 +40,9 @@ else
 	export EDITOR='hx'
 fi
 
+# fix network problem on laptop
+nmcli c down enp3s0 >/dev/null 2>&1
+
 # ALIASES
 
 # xbps aliases

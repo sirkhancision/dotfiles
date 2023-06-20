@@ -6,8 +6,9 @@ set $calculator qalculate-gtk
 set $file_manager nnn
 set $launcher $HOME/.config/rofi/launchers/type-3/launcher.sh
 set $logout $HOME/.config/rofi/applets/bin/powermenu.sh
-set $lock betterlockscreen -l dim
+set $locker betterlockscreen -l dim
 set $import_gsettings $HOME/.config/i3/scripts/import-gsettings.sh
+
 set $screenclip $HOME/.config/i3/scripts/screenclip.py
 set $screenshot $HOME/.config/i3/scripts/screenshot.py
 set $windowshot $HOME/.config/i3/scripts/windowshot.py
@@ -15,10 +16,8 @@ set $scroll_workspace $HOME/.config/i3/scripts/workspace_scroll.py
 set $add_workspace $HOME/.config/i3/scripts/workspace_add.py
 set $switch_workspace $HOME/.config/i3/scripts/workspace_switch.py
 set $volume_change $HOME/.config/i3/scripts/volume_change.py
-font pango:monospace 12
 
-# Sets wallpaper
-exec --no-startup-id feh --bg-fill $HOME/dotfiles/lain-pink-laptop.png
+font pango:monospace 12
 
 ### Window borders
 default_border pixel 3
@@ -40,38 +39,14 @@ client.unfocused        $cl_back $cl_back $cl_fore $cl_back $cl_back
 client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 ### Autostart
-# Autostart dunst (notification manager)
-exec --no-startup-id dunst
 # Workaround for GTK theme
 exec_always --no-startup-id $import_gsettings
-# Starts CopyQ (a clipboard manager) with i3
-exec --no-startup-id copyq
-# Starts LXDE polkit agent
-exec --no-startup-id lxpolkit
-# Starts playerctl as a daemon
-exec --no-startup-id playerctld daemon
-# Starts redshift
-exec --no-startup-id redshift
-# Starts picom
-exec --no-startup-id picom --daemon
 # Starts polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh&
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh &
 # Starts autotiling
 exec_always --no-startup-id autotiling
-# Starts qbittorrent
-exec --no-startup-id qbittorrent
-# Turn off wired network (conflicts with wireless network)
-exec --no-startup-id nmcli c down enp3s0
-
-# Set keyboard repeat rate
-exec --no-startup-id xset r rate 600 25
-
-# Lock screen after 10 minutes
-exec --no-startup-id xset s on && xset s 600
-exec --no-startup-id xss-lock -- $lock
-
-# Enable core dumps in case something goes wrong
-exec --no-startup-id ulimit -c unlimited
+# Starts dunst
+exec --no-startup-id dunst
 
 ### Key bindings
 # Basics:
@@ -82,7 +57,7 @@ exec --no-startup-id ulimit -c unlimited
     # Start your launcher
     bindsym Menu exec $launcher
     # Lock the screen
-    bindsym $mod+l exec $lock
+    bindsym $mod+l exec $locker
     # Kill focused window
     bindsym Mod1+F4 kill
     # Reload the configuration file

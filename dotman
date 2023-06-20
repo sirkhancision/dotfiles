@@ -149,9 +149,9 @@ def main():
         ".local/bin",
         ".themes",
         ".tmux.conf",
-        ".zshrc",
+        ".xinitrc",
         ".xprofile",
-        ".Xkbmap",
+        ".zshrc",
     ]
 
     print("dotman - Dotfiles Manager\n"

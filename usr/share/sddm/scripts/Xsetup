@@ -1,3 +1,0 @@
-#!/bin/sh
-# Xsetup - run as root before the login dialog appears
-setxkbmap -model pc105 -layout br,br -variant ,nodeadkeys -option grp:rctrl_toggle
