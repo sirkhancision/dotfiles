@@ -1,6 +1,6 @@
 # dotfiles
 
-![desktop + dunst + terminal](screenshots/2023-05-24_21-23-00.png)
+![desktop + dunst + terminal](screenshots/2023-06-21_01-32-57.png)
 
 A set of configuration files for my personal system (Void Linux). See **dotman** to automate much of this process. There's also **void_configure.sh**, to automate things after installing Void Linux.
 
@@ -59,7 +59,12 @@ A set of configuration files for my personal system (Void Linux). See **dotman**
 
 **lain-pink.png**: Slightly modified wallpaper featuring Lain Iwakura from Serial Experiments Lain. (with variant for laptops)
 
-![lock screen](screenshots/2023-05-24_21-26-28.png)
+<details>
+<summary>lock screen preview</summary>
+
+![lock screen](screenshots/2023-06-21_01-34-36.png)
+
+</details>
 
 **lain-white-lock.png**: Slightly modified version of the above wallpaper, for use on the lock screen. (with variant for laptops)
 
