@@ -2,7 +2,7 @@
 
 ![desktop + dunst + terminal](screenshots/2023-05-24_21-23-00.png)
 
-A set of configuration files for my personal system (Void Linux). Refer to **dotman** to automate a lot of this process. There's also **void_install.sh**, to automate stuff after installing Void Linux.
+A set of configuration files for my personal system (Void Linux). See **dotman** to automate much of this process. There's also **void_configure.sh**, to automate things after installing Void Linux.
 
 ---
 
@@ -17,11 +17,11 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install breeze-obsidian-cursor-theme`
 
-**.config/alacritty:** Configuration for the alacritty terminal.
+**.config/alacritty:** Configuration for the Alacritty terminal.
 
 `xbps-install alacritty`
 
-**.config/dunst:** Configuration for the dunst notification manager.
+**.config/dunst:** Configuration for the Dunst notification manager.
 
 `xbps-install dunst`
 
@@ -49,8 +49,6 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **/boot/grub/themes/lain-glitch-theme:** Theme for GRUB based on Serial Experiments Lain.
 
-![sddm screen](screenshots/2023-05-24_21-18-24.png)
-
 **/etc/greetd/config.toml:** Configuration file for greetd, using tuigreet.
 
 `xbps-install greetd tuigreet`
@@ -59,11 +57,11 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install nnn`
 
-**lain-pink.png**: Wallpaper slightly edited by me, portraying Lain Iwakura from Serial Experiments Lain. (with variant for laptops)
+**lain-pink.png**: Slightly modified wallpaper featuring Lain Iwakura from Serial Experiments Lain. (with variant for laptops)
 
 ![lock screen](screenshots/2023-05-24_21-26-28.png)
 
-**lain-white-lock.png**: Slightly modified version of the aforementioned wallpaper, for use on the lock screen. (with variant for laptops)
+**lain-white-lock.png**: Slightly modified version of the above wallpaper, for use on the lock screen. (with variant for laptops)
 
 **.themes/oomox-Merionette**: GTK 2/3 themes from Merionette color scheme. Made by me.
 
@@ -71,7 +69,7 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 `xbps-install papirus-folders`
 
-**.config/picom:** Configuration for the picom compositor.
+**.config/picom:** Configuration for the Picom compositor.
 
 `xbps-install picom`
 
@@ -99,8 +97,10 @@ A set of configuration files for my personal system (Void Linux). Refer to **dot
 
 **void_install.sh:** Script to do a lot of post-install stuff on my Void Linux system.
 
+**void_packages:** File to be sourced by void_install.sh, containing packages to be downloaded by it.
+
 **.xinitrc:** X11 init file.
 
-**.xprofile:** X11 profile of commands to be executed when logged in, user-wide.
+**.xprofile:** X11 profile of commands to be executed when logged in, user wide.
 
 **.zshrc:** ZSH's main file with configurations, aliases and functions.
