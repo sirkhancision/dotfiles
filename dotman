@@ -164,6 +164,7 @@ def main():
             "[2] Edit file\n"
             "[3] Open gitui\n"
             "[4] Update dotfiles\n"
+            "Ctrl-C to exit\n"
         )
 
         match choice:
