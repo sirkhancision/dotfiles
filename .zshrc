@@ -15,6 +15,7 @@ plugins=(
 	copybuffer
 	copypath
 	dirhistory
+	doas
 	extract
 	fd
 	git
@@ -22,9 +23,9 @@ plugins=(
 	ripgrep
 	rust
 	safe-paste
-	sudo
 	starship
 	universalarchive
+	voidlinux
 	zoxide
 	zsh-interactive-cd
 )
@@ -40,17 +41,7 @@ else
 	export EDITOR='hx'
 fi
 
-# fix network problem on laptop
-nmcli c down enp3s0 >/dev/null 2>&1
-
 # ALIASES
-
-# xbps aliases
-# from xtools:
-## xi = xbps-install -S
-## xrs = xbps-query -Rs
-alias xr="sudo xbps-remove -R"
-alias xu="sudo xbps-install -Su"
 
 # youtube-dlp aliases
 alias ytdlp="yt-dlp --cookies $SUCC/cookies.txt --downloader aria2c"

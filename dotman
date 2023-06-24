@@ -18,7 +18,8 @@ def check_dependencies(dependencies):
         sys.exit(1)
 
 
-def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
+def link_files(files, HOME_DIR,
+               CONFIG_DIR, LOCAL_BIN_DIR, OMZ_PLUGIN_DIR, REPO_DIR):
     """
     Create symbolic links of the dotfiles to their correct path in the system
     """
@@ -45,6 +46,15 @@ def link_files(files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR):
                         repo_local_bin_dir, local_bin_file
                     )
                     link_commands[local_bin_file_path] = LOCAL_BIN_DIR
+        elif file == ".oh-my-zsh":
+            repo_omz_plugin_dir = os.path.join(
+                REPO_DIR, ".oh-my-zsh/custom/plugins")
+            if os.path.exists(repo_omz_plugin_dir):
+                for omz_plugin_file in os.listdir(repo_omz_plugin_dir):
+                    omz_plugin_file_path = os.path.join(
+                        repo_omz_plugin_dir, omz_plugin_file
+                    )
+                    link_commands[omz_plugin_file_path] = OMZ_PLUGIN_DIR
         else:
             file_path = os.path.join(REPO_DIR, file)
             link_commands[file_path] = HOME_DIR
@@ -136,6 +146,7 @@ def main():
     # if don't, create them
     CONFIG_DIR = os.path.expanduser("~/.config")
     LOCAL_BIN_DIR = os.path.expanduser("~/.local/bin")
+    OMZ_PLUGIN_DIR = os.path.expanduser("~/.oh-my-zsh/custom/plugins")
     for dir in [CONFIG_DIR, LOCAL_BIN_DIR]:
         os.makedirs(dir, exist_ok=True)
 
@@ -147,6 +158,7 @@ def main():
         ".config",
         ".icons",
         ".local/bin",
+        ".oh-my-zsh",
         ".themes",
         ".tmux.conf",
         ".xinitrc",
@@ -170,7 +182,8 @@ def main():
         match choice:
             case "1":
                 link_files(
-                    files, HOME_DIR, CONFIG_DIR, LOCAL_BIN_DIR, REPO_DIR
+                    files, HOME_DIR, CONFIG_DIR,
+                    LOCAL_BIN_DIR, OMZ_PLUGIN_DIR, REPO_DIR
                 )
             case "2":
                 edit_file(REPO_DIR)

@@ -31,12 +31,8 @@ read_prompt() {
 add_repos_mirrors() {
 	printf "Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
 
-	sudo sh -c '
-		xbps-install -S void-repo-nonfree void-repo-multilib void-repo-multilib-nonfree &&
-		mkdir -p /etc/xbps.d &&
-		cp /usr/share/xbps.d/*-repository-*.conf /etc/xbps.d &&	
-		sed -i "s|https://repo-default.voidlinux.org|https://mirrors.servercentral.com/voidlinux|g" /etc/xbps.d/*-repository-*.conf	
-	'
+	doas xbps-install -S xmirror void-repo-{nonfree,multilib,multilib-nonfree}
+	doas xmirror -s "https://repo-fastly.voidlinux.org/current"
 }
 
 ## INSTALL PACKAGES AND UPDATE SYSTEM
@@ -82,7 +78,7 @@ install_packages() {
 
 	# shellcheck disable=2086
 	# this is by design so that the packages are sequential
-	sudo xbps-install -Su $PACKAGES
+	doas xbps-install -Su $PACKAGES
 }
 
 ## CREATE DIRECTORIES IN THE USER'S HOME DIRECTORY AND SET SOME DEFAULT
@@ -115,17 +111,17 @@ runit_services() {
 			continue
 		fi
 
-		sudo ln -sf "/etc/sv/$service" /var/service
+		doas ln -sf "/etc/sv/$service" /var/service
 	done
 
-	sudo ln -sf /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
+	doas ln -sf /usr/share/applications/pipewire.desktop /etc/xdg/autostart/pipewire.desktop
 }
 
 ## ADDS FLATHUB REMOTE
 add_flathub() {
 	printf "Adding Flathub as a flatpak remote\n\n"
 
-	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	doas flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
@@ -139,7 +135,7 @@ change_folders_colors() {
 update_winetricks() {
 	printf "Updating winetricks\n\n"
 
-	sudo winetricks --self-update
+	doas winetricks --self-update
 }
 
 ## INSTALL STUFF WITH NPM
@@ -150,7 +146,7 @@ npm_install() {
 	printf "Updating npm and installing the following npm packages:\n"
 	echo "${PACKAGES[*]}"
 
-	sudo npm i -g npm "${PACKAGES[*]}"
+	doas npm i -g npm "${PACKAGES[*]}"
 }
 
 ## CLONE THE VOID-PACKAGES REPO
@@ -166,12 +162,12 @@ void_packages_git() {
 
 	mkdir "$HOME/Github"
 
-	if ! git clone https://github.com/sirkhancision/void-packages.git "$HOME/Github/void-packages"; then
+	if ! git clone https://github.com/sirkhancision/void-packages.git "$HOME/void-packages"; then
 		echo "Failed to clone the repository."
 		return 1
 	fi
 
-	cd "$HOME/Github/void-packages" || return 1
+	cd "$HOME/void-packages" || return 1
 
 	if ! git remote | grep -q upstream; then
 		git remote add upstream https://github.com/void-linux/void-packages.git
@@ -207,7 +203,7 @@ oh_my_zsh() {
 
 disable_bitmap() {
 	printf "Disabling bitmap fonts\n\n"
-	sudo ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
+	doas ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
 }
 
 add_lock_screen() {

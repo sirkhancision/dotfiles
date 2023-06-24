@@ -47,6 +47,12 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh &
 exec_always --no-startup-id autotiling
 # Starts dunst
 exec --no-startup-id dunst
+# Starts copyq
+exec --no-startup-id copyq
+
+# Set screen locker
+exec --no-startup-id xset s on && xset s 600
+exec --no-startup-id xss-lock -- $locker
 
 ### Key bindings
 # Basics:
