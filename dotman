@@ -18,6 +18,20 @@ def check_dependencies(dependencies):
         sys.exit(1)
 
 
+def get_link_commands(REPO_DIR, TARGET_DIR, file, target):
+    link_commands = {}
+
+    repo_target_dir = os.path.join(REPO_DIR, target)
+    if os.path.exists(repo_target_dir):
+        for target_file in os.listdir(repo_target_dir):
+            target_file_path = os.path.join(
+                repo_target_dir, target_file
+            )
+            link_commands[target_file_path] = TARGET_DIR
+
+    return link_commands
+
+
 def link_files(files, HOME_DIR,
                CONFIG_DIR, LOCAL_BIN_DIR, OMZ_PLUGIN_DIR, REPO_DIR):
     """
@@ -31,33 +45,22 @@ def link_files(files, HOME_DIR,
 
     for file in files:
         if file == ".config":
-            repo_config_dir = os.path.join(REPO_DIR, ".config")
-            if os.path.exists(repo_config_dir):
-                for config_file in os.listdir(repo_config_dir):
-                    config_file_path = os.path.join(
-                        repo_config_dir, config_file
-                    )
-                    link_commands[config_file_path] = CONFIG_DIR
+            target = ".config"
+            target_dir = CONFIG_DIR
         elif file == ".local/bin":
-            repo_local_bin_dir = os.path.join(REPO_DIR, ".local/bin")
-            if os.path.exists(repo_local_bin_dir):
-                for local_bin_file in os.listdir(repo_local_bin_dir):
-                    local_bin_file_path = os.path.join(
-                        repo_local_bin_dir, local_bin_file
-                    )
-                    link_commands[local_bin_file_path] = LOCAL_BIN_DIR
+            target = ".local/bin"
+            target_dir = LOCAL_BIN_DIR
         elif file == ".oh-my-zsh":
-            repo_omz_plugin_dir = os.path.join(
-                REPO_DIR, ".oh-my-zsh/custom/plugins")
-            if os.path.exists(repo_omz_plugin_dir):
-                for omz_plugin_file in os.listdir(repo_omz_plugin_dir):
-                    omz_plugin_file_path = os.path.join(
-                        repo_omz_plugin_dir, omz_plugin_file
-                    )
-                    link_commands[omz_plugin_file_path] = OMZ_PLUGIN_DIR
+            target = ".oh-my-zsh/custom/plugins"
+            target_dir = OMZ_PLUGIN_DIR
         else:
             file_path = os.path.join(REPO_DIR, file)
             link_commands[file_path] = HOME_DIR
+            continue
+
+        link_commands.update(
+            get_link_commands(REPO_DIR, target_dir, file, target)
+        )
 
     for source, target in link_commands.items():
         target_full = os.path.join(target, os.path.basename(source))
@@ -70,7 +73,7 @@ def link_files(files, HOME_DIR,
             print(f"Creating symbolic link: {source} -> {target_full}")
             os.symlink(source, target_full)
 
-    print("Done linking files")
+    print("\nDone linking files")
 
 
 def edit_file(REPO_DIR):
@@ -136,10 +139,8 @@ def main():
     REPO_DIR = os.path.expanduser("~/dotfiles")
     if not os.path.exists(REPO_DIR):
         print("The dotfiles directory pointed to by REPO_DIR doesn't exist")
-        while input(f"Create {REPO_DIR}? <y/n> ").lower() != "y":
-            print("Please, create it and put dotman in it")
-            sys.exit(1)
-        os.makedirs(REPO_DIR)
+        print("Please, create it and put dotman in it")
+        sys.exit(1)
 
     HOME_DIR = os.path.expanduser("~")
     # check if .config and .local/bin exist
@@ -154,17 +155,11 @@ def main():
     check_dependencies(dependencies)
 
     # List of files/dirs to link and edit
-    files = [
-        ".config",
-        ".icons",
-        ".local/bin",
-        ".oh-my-zsh",
-        ".themes",
-        ".tmux.conf",
-        ".xinitrc",
-        ".xprofile",
-        ".zshrc",
-    ]
+    with open("dotman_files", "r") as dotman_files:
+        files = []
+
+        for file in dotman_files:
+            files.append(str(file.strip()))
 
     print("dotman - Dotfiles Manager\n"
           "by sirkhancision")

@@ -1,0 +1,9 @@
+.config
+.icons
+.local/bin
+.oh-my-zsh
+.themes
+.tmux.conf
+.xinitrc
+.xprofile
+.zshrc
