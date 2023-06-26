@@ -141,7 +141,7 @@ def main():
     check_dependencies(dependencies)
 
     # List of files/dirs to link and edit
-    with open("dotman_files", "r") as dotman_files:
+    with open(os.path.join(REPO_DIR, "dotman_files"), "r") as dotman_files:
         files = []
 
         for file in dotman_files:
