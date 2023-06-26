@@ -22,48 +22,42 @@ def get_link_commands(REPO_DIR, TARGET_DIR, file, target):
     link_commands = {}
 
     repo_target_dir = os.path.join(REPO_DIR, target)
-    if os.path.exists(repo_target_dir):
+    if os.path.isdir(repo_target_dir):
         for target_file in os.listdir(repo_target_dir):
             target_file_path = os.path.join(
                 repo_target_dir, target_file
             )
             link_commands[target_file_path] = TARGET_DIR
+    elif os.path.exists(repo_target_dir):
+        link_commands[repo_target_dir] = TARGET_DIR
 
     return link_commands
 
 
-def link_files(files, HOME_DIR,
-               CONFIG_DIR, LOCAL_BIN_DIR, OMZ_PLUGIN_DIR, REPO_DIR):
+def link_files(files, HOME_DIR, REPO_DIR):
     """
     Create symbolic links of the dotfiles to their correct path in the system
     """
-    if len(files) == 0:
+    if not files:
         print("No files added, please add at least one file")
         return
 
     link_commands = {}
 
     for file in files:
-        if file == ".config":
-            target = ".config"
-            target_dir = CONFIG_DIR
-        elif file == ".local/bin":
-            target = ".local/bin"
-            target_dir = LOCAL_BIN_DIR
-        elif file == ".oh-my-zsh":
-            target = ".oh-my-zsh/custom/plugins"
-            target_dir = OMZ_PLUGIN_DIR
-        else:
-            file_path = os.path.join(REPO_DIR, file)
-            link_commands[file_path] = HOME_DIR
-            continue
+        target_dir = os.path.expanduser(file)
+        target_file = target_dir.replace(HOME_DIR + "/", "")
 
         link_commands.update(
-            get_link_commands(REPO_DIR, target_dir, file, target)
+            get_link_commands(REPO_DIR, target_dir, file, target_file)
         )
 
     for source, target in link_commands.items():
-        target_full = os.path.join(target, os.path.basename(source))
+        source_basename = os.path.basename(source)
+        if source_basename in target:
+            target_full = target
+        else:
+            target_full = os.path.join(target, source_basename)
 
         os.makedirs(os.path.dirname(target), exist_ok=True)
         if os.path.lexists(target_full):
@@ -143,14 +137,6 @@ def main():
         sys.exit(1)
 
     HOME_DIR = os.path.expanduser("~")
-    # check if .config and .local/bin exist
-    # if don't, create them
-    CONFIG_DIR = os.path.expanduser("~/.config")
-    LOCAL_BIN_DIR = os.path.expanduser("~/.local/bin")
-    OMZ_PLUGIN_DIR = os.path.expanduser("~/.oh-my-zsh/custom/plugins")
-    for dir in [CONFIG_DIR, LOCAL_BIN_DIR]:
-        os.makedirs(dir, exist_ok=True)
-
     dependencies = ["bat", "fd", "gitui", "sk"]
     check_dependencies(dependencies)
 
@@ -177,8 +163,7 @@ def main():
         match choice:
             case "1":
                 link_files(
-                    files, HOME_DIR, CONFIG_DIR,
-                    LOCAL_BIN_DIR, OMZ_PLUGIN_DIR, REPO_DIR
+                    files, HOME_DIR, REPO_DIR
                 )
             case "2":
                 edit_file(REPO_DIR)
