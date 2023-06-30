@@ -4,7 +4,7 @@
     width = 300
     height = 300
     origin = top-right
-    offset = 10x43
+    offset = 10x10
     scale = 0
     notification_limit = 0
     progress_bar = true
@@ -20,7 +20,7 @@
     text_icon_padding = 0
     frame_width = 0
     gap_size = 0
-    separator_color = frame
+    separator_color = "#331C1E"
     sort = yes
     font = Sans-serif 11
     line_height = 0

@@ -2,7 +2,8 @@ PACKAGES="CopyQ \
 	ImageMagick \
 	Komikku \
 	Thunar \
-	alacritty \
+	Waybar \
+	acpilight \
 	alsa-pipewire \
 	alsa-plugins \
 	alsa-plugins-32bit \
@@ -16,6 +17,7 @@ PACKAGES="CopyQ \
 	breeze-obsidian-cursor-theme \
 	bsdtar \
 	btop \
+	chafa \
 	chrony \
 	clang \
 	cmark \
@@ -39,9 +41,11 @@ PACKAGES="CopyQ \
 	font-iosevka \
 	fontmanager \
 	fonts-croscore-ttf \
+	foot \
 	freetype \
 	fzf \
 	gamemode \
+	gammastep \
 	ghostwriter \
 	git \
 	gitui \
@@ -51,6 +55,7 @@ PACKAGES="CopyQ \
 	gnutls \
 	gnutls-32bit \
 	greetd \
+	gsimplecal-gtk3 \
 	gst-plugins-bad1 \
 	gst-plugins-bad1-32bit \
 	gst-plugins-base1 \
@@ -65,9 +70,6 @@ PACKAGES="CopyQ \
 	hexchat \
 	hunspell-en_US \
 	hunspell-pt_BR \
-	i3-gaps \
-	i3ipc-glib \
-	i3lock-color \
 	jack \
 	jq \
 	kcharselect \
@@ -95,6 +97,7 @@ PACKAGES="CopyQ \
 	libreoffice-math \
 	libreoffice-writer \
 	libreoffice-xtensions \
+	libsixel \
 	libstdc++-32bit \
 	libva-glx \
 	libva-glx-32bit \
@@ -137,7 +140,6 @@ PACKAGES="CopyQ \
 	playerctl \
 	pmount \
 	pnpm \
-	polybar \
 	poppler \
 	pulseaudio \
 	python3-lsp-server \
@@ -154,7 +156,6 @@ PACKAGES="CopyQ \
 	qt6ct \
 	quodlibet \
 	rclone \
-	redshift \
 	renameutils \
 	retroarch \
 	ripgrep \
@@ -170,6 +171,10 @@ PACKAGES="CopyQ \
 	snooze \
 	starship \
 	steam \
+	sway \
+	swaybg \
+	swayidle \
+	swaylock \
 	sxiv \
 	syncplay \
 	taplo \
@@ -196,14 +201,13 @@ PACKAGES="CopyQ \
 	wine-mono \
 	winetricks \
 	wireplumber \
+	wl-clipboard \
 	xclip \
 	xdg-user-dirs \
-	xdotool \
 	xorg \
 	xorg-server-xephyr \
 	xss-lock \
 	xtools \
-	yad \
 	yt-dlp \
 	zip \
 	zoxide \

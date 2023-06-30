@@ -17,9 +17,9 @@ A set of configuration files for my personal system (Void Linux). See **dotman**
 
 `xbps-install breeze-obsidian-cursor-theme`
 
-**.config/alacritty:** Configuration for the Alacritty terminal.
+**.config/foot:** Configuration for the foot terminal.
 
-`xbps-install alacritty`
+`xbps-install foot`
 
 **.config/dunst:** Configuration for the Dunst notification manager.
 

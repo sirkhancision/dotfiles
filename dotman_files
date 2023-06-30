@@ -2,8 +2,7 @@
 ~/.icons
 ~/.local/bin
 ~/.oh-my-zsh/custom/plugins
+~/.profile
 ~/.themes
 ~/.tmux.conf
-~/.xinitrc
-~/.xprofile
 ~/.zshrc

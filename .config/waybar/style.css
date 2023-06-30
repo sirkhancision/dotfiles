@@ -1,0 +1,159 @@
+/* waybar style.css */
+@define-color dark_gray #221717;
+@define-color white #dbcccf;
+@define-color pink #c79295;
+@define-color orange #eb842b;
+@define-color red #d2505f;
+@define-color gray #704144;
+
+/* Reset all styles */
+* {
+	border: none;
+	border-radius: 0;
+	min-height: 32px;
+	font-family: monospace;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+#waybar {
+	margin: 24;
+	background: @dark_gray;
+	color: @white;
+}
+
+.topbar {
+	border-bottom: 1px solid @red;
+}
+
+.bottombar {
+	border-top: 1px solid @red;
+}
+
+#workspaces button {
+	background: transparent;
+	margin: 0 5px;
+	color: @white;
+}
+
+#workspaces button.focused {
+	background: transparent;
+	color: @pink;
+}
+
+#workspaces button.urgent {
+	background: transparent;
+	color: @orange;
+}
+
+#workspaces button:hover {
+	background: @hover;
+	color: @pink;
+	transition: none;
+	box-shadow: inherit;
+	text-shadow: inherit;
+}
+
+#idle_inhibitor {
+	background: @red;
+	font-size: 22px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#custom-powermenu {
+	background: @red;
+	font-size: 22px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#window {
+	background: transparent;
+	color: @pink;
+	padding-left: 10px;
+}
+
+#keyboard-state {
+	background: transparent;
+	color: @orange
+}
+
+#language,
+#custom-scratchpad_indicator {
+	background: transparent;
+	padding-left: 10px;
+	color: @pink;
+}
+
+#cpu,
+#memory,
+#tray,
+#battery,
+#backlight,
+#pulseaudio,
+#network,
+#custom-calendar,
+#custom-xbps {
+	background: transparent;
+	color: @pink;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+#clock {
+	background: transparent;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+#cpu.critical {
+	color: @orange;
+}
+
+#memory.critical {
+	color: @orange;
+}
+
+@keyframes blink1 {
+	to {
+		color: @orange;
+	}
+}
+
+#battery.plugged {
+	animation-name: blink1;
+	animation-duration: 0.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+@keyframes blink2 {
+	to {
+		background-color: @orange;
+	}
+}
+
+#battery.warning:not(.charging) {
+	animation-name: blink2;
+	animation-duration: 0.7s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+@keyframes blink3 {
+	to {
+		background-color: @red;
+	}
+}
+
+#battery.critical:not(.charging) {
+	animation-name: blink3;
+	animation-duration: 0.8s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}

@@ -1,0 +1,236 @@
+// ░░░░░░░ ░░ ░░░░░░  ░░   ░░ ░░   ░░  ░░░░░  ░░░    ░░  ░░░░░░ ░░ ░░░░░░░ ░░  ░░░░░░  ░░░    ░░
+// ▒▒      ▒▒ ▒▒   ▒▒ ▒▒  ▒▒  ▒▒   ▒▒ ▒▒   ▒▒ ▒▒▒▒   ▒▒ ▒▒      ▒▒ ▒▒      ▒▒ ▒▒    ▒▒ ▒▒▒▒   ▒▒
+// ▒▒▒▒▒▒▒ ▒▒ ▒▒▒▒▒▒  ▒▒▒▒▒   ▒▒▒▒▒▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒  ▒▒ ▒▒      ▒▒ ▒▒▒▒▒▒▒ ▒▒ ▒▒    ▒▒ ▒▒ ▒▒  ▒▒
+//      ▓▓ ▓▓ ▓▓   ▓▓ ▓▓  ▓▓  ▓▓   ▓▓ ▓▓   ▓▓ ▓▓  ▓▓ ▓▓ ▓▓      ▓▓      ▓▓ ▓▓ ▓▓    ▓▓ ▓▓  ▓▓ ▓▓
+// ███████ ██ ██   ██ ██   ██ ██   ██ ██   ██ ██   ████  ██████ ██ ███████ ██  ██████  ██   ████
+[
+  {
+    "name": "topbar",
+    "layer": "top",
+    "position": "top",
+    "height": 24,
+    "modules-left": [
+      "idle_inhibitor",
+      "sway/window"
+    ],
+    "modules-center": [
+      "sway/mode",
+      "sway/workspaces",
+      "custom/scratchpad_indicator"
+    ],
+    "modules-right": [
+      "custom/xbps",
+      "custom/flatpak",
+      "backlight",
+      "pulseaudio",
+      "memory",
+      "cpu",
+      "network",
+      "clock",
+      "custom/calendar"
+    ],
+    "idle_inhibitor": {
+      "tooltip": false,
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "<span color=\"#221717\"></span>",
+        "deactivated": ""
+      }
+    },
+    "sway/window": {
+      "format": " <span color=\"#dbcccf\">{title}</span>",
+      "max-length": 50,
+      "on-click": "~/.config/rofi/applets/bin/windows.sh",
+    },
+    "sway/mode": {
+      "tooltip": false,
+      "max-length": 50
+    },
+    "sway/workspaces": {
+      "format": "{icon}",
+      "format-icons": {
+        "default": "",
+        "focused": "",
+        "urgent": ""
+      },
+      "tooltip": false,
+      "disable-scroll": true
+    },
+    "custom/scratchpad_indicator": {
+      "interval": 3,
+      "return-type": "json",
+      "exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '(recurse(.nodes[]) | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | if ($scratch_nodes|length) > 0 then { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") } else empty end'",
+      "format": " <span color=\"#dbcccf\">{}</span>",
+      "on-click": "swaymsg 'scratchpad show'",
+      "on-click-right": "swaymsg 'move scratchpad'"
+    },
+    "custom/xbps": {
+      "tooltip": false,
+      "format": "󰏓 <span color=\"#dbcccf\">{}</span>",
+      "interval": 3600,
+      "exec": "~/.config/waybar/scripts/updates-xbps.sh",
+      "on-click": "foot --app-id update_module sh -c 'doas xbps-install -Su'"
+    },
+    "custom/flatpak": {
+      "tooltip": false,
+      "format": " <span color=\"#dbcccf\">{}</span>",
+      "interval": 3600,
+      "exec": "~/.config/waybar/scripts/updates-flatpak.sh",
+      "on-click": "foot --app-id update_module sh -c 'flatpak update'"
+    },
+    "backlight": {
+      "format": "{icon}",
+      "states": [
+        0,
+        25,
+        50,
+        75,
+        100
+      ],
+      "format-icons": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "pulseaudio": {
+      "format": "{icon}",
+      "format-muted": "<span color=\"#704144\">󰋙</span>",
+      "format-icons": {
+        "default": [
+          "󰋙",
+          "󰫃",
+          "󰫄",
+          "󰫅",
+          "󰫆",
+          "󰫇",
+          "󰫈",
+          "<span color=\"#eb842b\">󰋙</span>",
+          "<span color=\"#eb842b\">󰫃</span>",
+          "<span color=\"#eb842b\">󰫄</span>",
+          "<span color=\"#eb842b\">󰫅</span>",
+          "<span color=\"#eb842b\">󰫆</span>",
+          "<span color=\"#eb842b\">󰫇</span>",
+          "<span color=\"#eb842b\">󰫈</span>"
+        ]
+      },
+      "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+      "on-click-right": "pavucontrol"
+    },
+    "memory": {
+      "format": " <span color=\"#dbcccf\">{percentage:2}%</span>",
+      "interval": 2,
+      "states": {
+        "critical": 90
+      }
+    },
+    "cpu": {
+      "interval": 2,
+      "format": "󰍛 <span color=\"#dbcccf\">{usage:2}%</span>",
+      "tooltip": false,
+      "states": {
+        "critical": 80
+      }
+    },
+    "network": {
+      "interval": 5,
+      "format-wifi": " <span color=\"#dbcccf\">{essid}</span>",
+      "format-ethernet": "󰈀",
+      "format-disconnected": "",
+      "format-disabled": "",
+      "tooltip-format-wifi": "{essid}",
+      "tooltip-format-ethernet": "",
+      "tooltip-format-disconnected": "Disconnected",
+      "max-length": 7
+    },
+    "clock": {
+      "format": "{:%H:%M}",
+      "format-alt": "{:%d/%m/%Y}",
+      "locale": "pt_BR.UTF-8",
+      "interval": 1
+    },
+    "custom/calendar": {
+      "tooltip": false,
+      "format": "",
+      "on-click": "gsimplecal"
+    },
+    "custom/media": {
+      "tooltip": false,
+      "escape": true,
+      "return-type": "json",
+      "max-length": 40,
+      "on-click": "playerctl play-pause",
+      "on-click-right": "playerctl stop",
+      "exec": "~/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
+    },
+  },
+  {
+    "name": "bottombar",
+    "layer": "top",
+    "position": "bottom",
+    "height": 24,
+    "modules-left": [
+      "tray"
+    ],
+    "modules-center": [
+      "mpris"
+    ],
+    "modules-right": [
+      "sway/language",
+      "keyboard-state",
+      "battery",
+      "custom/powermenu"
+    ],
+    "tray": {
+      "icon-size": 18,
+      "spacing": 2
+    },
+    "mpris": {
+      "format": "{player_icon} {artist} - {title}",
+      "player-icons": {
+        "default": ""
+      },
+      "status-icons": {
+        "paused": ""
+      }
+    },
+    "sway/language": {
+      "format": "󰌌 <span color=\"#dbcccf\">{} {variant}</span>",
+      "tooltip": false
+    },
+    "keyboard-state": {
+      "capslock": true,
+      "format": {
+        "capslock": "{icon}"
+      },
+      "format-icons": {
+        "locked": "",
+        "unlocked": ""
+      }
+    },
+    "battery": {
+      "states": {
+        "full": 90,
+        "warning": 20,
+        "critical": 10
+      },
+      "tooltip": false,
+      "full-at": 90,
+      "format-plugged": "{icon} {capacity}%",
+      "format-charging": "{icon} {capacity}%",
+      "format": "{icon} <span color=\"#dbcccf\">{capacity}%</span>",
+      "format-icons": [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "custom/powermenu": {
+      "format": "",
+      "on-click": "~/.config/rofi/applets/bin/powermenu.sh"
+    }
+  }
+]

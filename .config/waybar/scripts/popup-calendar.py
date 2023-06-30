@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import re
+import json
 import subprocess
 import sys
 from shutil import which
@@ -23,38 +23,46 @@ def check_dependencies(dependencies):
                          "\n".join(missing_deps))
 
 
+def find_focused_node(nodes):
+    """
+    Get the focused Sway node
+    """
+    stack = list(nodes)
+
+    while stack:
+        node = stack.pop()
+
+        if node.get("focused"):
+            return node
+
+        if "nodes" in node:
+            stack.extend(node["nodes"])
+
+    return None
+
+
 def get_window_name():
     """
     Get the focused window's name
     """
     try:
-        window_name = subprocess.run(
-            ["xdotool", "getwindowfocus", "getwindowname"],
-            capture_output=True,
-            text=True).stdout
+        sway_tree = subprocess.run(["swaymsg", "-t", "get_tree"],
+                                   capture_output=True,
+                                   text=True)
     except subprocess.CalledProcessError as e:
         raise subprocess.CalledProcessError(
             "Could not get the active window's name: " + str(e))
 
+    sway_tree = json.loads(sway_tree.stdout)
+
+    focused_node = find_focused_node(sway_tree["nodes"])
+
+    if focused_node:
+        window_name = focused_node.get("name")
+    else:
+        window_name = None
+
     return window_name
-
-
-def get_mouse_location():
-    """
-    Gets the mouse's location in the screen
-    """
-    try:
-        mouse_location = subprocess.run(["xdotool", "getmouselocation"],
-                                        capture_output=True,
-                                        text=True).stdout
-    except subprocess.CalledProcessError as e:
-        raise subprocess.CalledProcessError(
-            "Could not get the mouse's location: " + str(e))
-
-    mouse_location = re.findall(r"\b.:(\d+)", mouse_location)
-    mouse_x, mouse_y = map(int, mouse_location)
-
-    return mouse_x, mouse_y
 
 
 def get_screen_resolution():
@@ -62,14 +70,23 @@ def get_screen_resolution():
     Gets the screen's resolution
     """
     try:
-        screen_resolution = subprocess.run(["xdotool", "getdisplaygeometry"],
+        screen_resolution = subprocess.run(["swaymsg", "-t", "get_outputs"],
                                            capture_output=True,
-                                           text=True).stdout.split()
+                                           text=True)
     except subprocess.CalledProcessError as e:
         raise subprocess.CalledProcessError(
             "Could not get the screen's resolution: " + str(e))
 
-    screen_width, screen_height = map(int, screen_resolution)
+    outputs = json.loads(screen_resolution.stdout)
+    focused_output = next(
+        (output for output in outputs if output.get("focused")), None)
+
+    if focused_output:
+        screen_width = focused_output["current_mode"]["width"]
+        screen_height = focused_output["current_mode"]["height"]
+    else:
+        raise ValueError("Could not get the screen's resolution")
+
     return screen_width, screen_height
 
 
@@ -87,6 +104,8 @@ def get_yad_position(YAD_WIDTH, YAD_HEIGHT, BORDER_SIZE, BAR_HEIGHT, mouse_x,
                   BORDER_SIZE if mouse_y > screen_height / 2 else BAR_HEIGHT +
                   BORDER_SIZE)
 
+    print(position_x, position_y)
+
     return position_x, position_y
 
 
@@ -102,7 +121,7 @@ def show_popup():
     if window_name == "yad-calendar":
         return
 
-    mouse_x, mouse_y = get_mouse_location()
+    mouse_x, mouse_y = 688, 42
 
     screen_width, screen_height = get_screen_resolution()
 
@@ -130,7 +149,7 @@ def main():
                         help="Show yad-calendar as a popup")
     args = parser.parse_args()
 
-    dependencies = ["xdotool", "yad"]
+    dependencies = ["swaymsg", "yad"]
     try:
         check_dependencies(dependencies)
     except SystemExit as e:
