@@ -102,6 +102,10 @@
 	padding-right: 8px;
 }
 
+#network.disconnected {
+	color: @orange;
+}
+
 #clock {
 	background: transparent;
 	padding-left: 8px;
