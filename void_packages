@@ -55,6 +55,7 @@ PACKAGES="CopyQ \
 	gnutls \
 	gnutls-32bit \
 	greetd \
+	grimshot \
 	gsimplecal-gtk3 \
 	gst-plugins-bad1 \
 	gst-plugins-bad1-32bit \
@@ -107,7 +108,6 @@ PACKAGES="CopyQ \
 	lxappearance \
 	lxsession \
 	lynx \
-	maim \
 	mediainfo \
 	meld \
 	mesa-dri \

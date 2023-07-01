@@ -81,6 +81,15 @@ install_packages() {
 	doas xbps-install -Su $PACKAGES
 }
 
+set_doas() {
+	printf "Setting doas as the root-access command\n\n"
+	su -c 'echo "permit setenv {PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin} :wheel
+permit setenv { XAUTHORITY LANG LC_ALL COLORTERM HOME } :wheel" >/etc/doas.conf'
+	su -c "chmod -c 0400 /etc/doas.conf"
+	su -c 'echo "ignorepkg=sudo" >>/etc/xbps.d/10-ignore.conf'
+	su -c "xbps-remove sudo"
+}
+
 ## CREATE DIRECTORIES IN THE USER'S HOME DIRECTORY AND SET SOME DEFAULT
 ## APPLICATIONS
 create_home_dirs() {
@@ -206,13 +215,17 @@ disable_bitmap() {
 	doas ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
 }
 
-add_lock_screen() {
-	printf "Adding lock screen\n\n"
-	betterlockscreen -u "$HOME/dotfiles/lain-white-lock.png"
+enable_light() {
+	printf "Enabling the light backlight controller\n\n"
+	mkdir -p /etc/udev/rules.d
+	doas echo "SUBSYSTEM==\"backlight\", ACTION==\"add\", \
+  RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\", \
+  RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >/etc/udev/rules.d/90-backlight.rules
+	doas usermod --append --groups video "$(whoami)"
 }
 
 # read arguments/flags
-while getopts ":hmpHsfcbwngdz" OPT; do
+while getopts ":hmpDHsfcbwngdlz" OPT; do
 	case $OPT in
 	h)
 		printf "void_configure: script to install and configure stuff on my system\n\n"
@@ -220,6 +233,7 @@ while getopts ":hmpHsfcbwngdz" OPT; do
 		echo "-h: print help text"
 		echo "-m: add repository mirrors"
 		echo "-p: install listed packages"
+		echo "-D: set doas as the root-access command"
 		echo "-H: create XDG home directories"
 		echo "-s: enable runit services"
 		echo "-f: add flathub as a flatpak remote"
@@ -229,11 +243,13 @@ while getopts ":hmpHsfcbwngdz" OPT; do
 		echo "-n: install listed npm packages"
 		echo "-g: clone void-packages and install listed packages"
 		echo "-d: clone my dotfiles and run dotman"
+		echo "-l: enable backlight controlling"
 		echo "-z: install oh-my-zsh"
 		exit 0
 		;;
 	m) add_repos_mirrors && exit 0 ;;
 	p) install_packages && exit 0 ;;
+	D) set_doas && exit 0 ;;
 	H) create_home_dirs && exit 0 ;;
 	s) runit_services && exit 0 ;;
 	f) add_flathub && exit 0 ;;
@@ -243,6 +259,7 @@ while getopts ":hmpHsfcbwngdz" OPT; do
 	n) npm_install && exit 0 ;;
 	g) void_packages_git && exit 0 ;;
 	d) dotfiles && exit 0 ;;
+	l) enable_light && exit 0 ;;
 	z) oh_my_zsh && exit 0 ;;
 	\?)
 		echo "Invalid option: -$OPTARG"
@@ -256,6 +273,7 @@ shift $((OPTIND - 1))
 
 add_repos_mirrors
 install_packages
+set_doas
 tldr --update
 
 ### POST-INSTALL COMMANDS
@@ -270,7 +288,7 @@ npm_install
 rustup-init
 void_packages_git
 dotfiles
-add_lock_screen
+enable_light
 oh_my_zsh
 
 echo "Installation complete! :)"
