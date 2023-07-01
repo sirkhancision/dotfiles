@@ -27,11 +27,3 @@ export EXA_COLORS="di=1;31"
 
 # fix network problem on laptop
 nmcli c down enp3s0 >/dev/null 2>&1
-
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-	# autostart programs
-	lxpolkit &
-	playerctld daemon &
-
-	exec dbus-run-session sway
-fi

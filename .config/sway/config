@@ -18,8 +18,6 @@ set $switch_workspace $HOME/.config/sway/scripts/workspace_switch.py
 set $volume_change $HOME/.config/sway/scripts/volume_change.py
 set $wallpaper $HOME/dotfiles/lain-pink-laptop.png
 
-font pango:monospace 12
-
 input * {
     xkb_model "pc105"
     xkb_layout "br,br(nodeadkeys)"
@@ -51,19 +49,23 @@ client.urgent           $cl_urge $cl_urge $cl_fore $cl_urge $cl_urge
 
 ### Autostart
 # Workaround for GTK theme
-exec_always --no-startup-id $import_gsettings
+exec_always $import_gsettings
 # Starts autotiling
-exec --no-startup-id autotiling
+exec autotiling &
 # Starts dunst
-exec --no-startup-id dunst
+exec dunst &
 # Starts copyq
-exec --no-startup-id copyq
+exec copyq &
 # Starts gammastep
-exec gammastep -l "-22.8:-43.3"
+exec gammastep -l "-22.8:-43.3" &
 # Starts qbittorrent
-exec qbittorrent
+exec qbittorrent &
 # Starts sway-audio-idle-inhibit
-exec sway-audio-idle-inhibit
+exec sway-audio-idle-inhibit &
+# Starts lxpolkit
+exec lxpolkit &
+# Starts playerctld
+exec playerctld daemon &
 
 # Set screen locker
 exec swayidle -w $locker timeout
@@ -87,20 +89,20 @@ bar {
     bindsym Mod1+F4 kill
     # Reload the configuration file
     bindsym $mod+Shift+c reload
-    # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+    # Restart Sway inplace
     bindsym $mod+Shift+r restart
     # Take a screenshot
-    bindsym Print exec --no-startup-id $screenshot
+    bindsym Print exec $screenshot
     # Take a screenshot of a window
-    bindsym $mod+Print exec --no-startup-id $windowshot
+    bindsym $mod+Print exec $windowshot
     # Take an interactive screenshot
     bindsym --release $mod+Shift+Print exec $screenclip
     # Open logout manager
     bindsym Ctrl+Mod1+Delete exec $logout
     # Add a new workspace to the first non-empty position
-    bindsym $mod+Insert exec --no-startup-id $add_workspace
+    bindsym $mod+Insert exec $add_workspace
     # Go to the next non-empty workspace
-    bindsym Mod1+Tab exec --no-startup-id $scroll_workspace
+    bindsym Mod1+Tab exec $scroll_workspace
 
 # Moving around:
     # Move your focus around
@@ -117,16 +119,16 @@ bar {
 
 # Workspaces:
         # Switch to workspace
-        bindsym $mod+1 exec --no-startup-id "$switch_workspace 1"
-        bindsym $mod+2 exec --no-startup-id "$switch_workspace 2"
-        bindsym $mod+3 exec --no-startup-id "$switch_workspace 3"
-        bindsym $mod+4 exec --no-startup-id "$switch_workspace 4"
-        bindsym $mod+5 exec --no-startup-id "$switch_workspace 5"
-        bindsym $mod+6 exec --no-startup-id "$switch_workspace 6"
-        bindsym $mod+7 exec --no-startup-id "$switch_workspace 7"
-        bindsym $mod+8 exec --no-startup-id "$switch_workspace 8"
-        bindsym $mod+9 exec --no-startup-id "$switch_workspace 9"
-        bindsym $mod+0 exec --no-startup-id "$switch_workspace 10"
+        bindsym $mod+1 exec "$switch_workspace 1"
+        bindsym $mod+2 exec "$switch_workspace 2"
+        bindsym $mod+3 exec "$switch_workspace 3"
+        bindsym $mod+4 exec "$switch_workspace 4"
+        bindsym $mod+5 exec "$switch_workspace 5"
+        bindsym $mod+6 exec "$switch_workspace 6"
+        bindsym $mod+7 exec "$switch_workspace 7"
+        bindsym $mod+8 exec "$switch_workspace 8"
+        bindsym $mod+9 exec "$switch_workspace 9"
+        bindsym $mod+0 exec "$switch_workspace 10"
         # Move focused container to workspace
         bindsym $mod+Shift+1 move container to workspace number 1
         bindsym $mod+Shift+2 move container to workspace number 2
@@ -177,24 +179,24 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Multimedia
-bindsym XF86AudioRaiseVolume exec --no-startup-id $volume_change increase
-bindsym XF86AudioLowerVolume exec --no-startup-id $volume_change decrease
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioRaiseVolume exec $volume_change increase
+bindsym XF86AudioLowerVolume exec $volume_change decrease
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # Brightness controls
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 25
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 25
+bindsym XF86MonBrightnessUp exec xbacklight -inc 25
+bindsym XF86MonBrightnessDown exec xbacklight -dec 25
 
 # Compose mail
 bindsym XF86Mail exec thunderbird -compose
 # Open calculator
 bindsym XF86Calculator exec $calculator
 # Notifications
-bindsym Ctrl+Mod1+x exec --no-startup-id dunstctl close
-bindsym Ctrl+Shift+x exec --no-startup-id dunstctl close-all
+bindsym Ctrl+Mod1+x exec dunstctl close
+bindsym Ctrl+Shift+x exec dunstctl close-all
 
 # Misc. settings
 # Configure Firefox's Picture-in-Picture mode
@@ -215,6 +217,6 @@ for_window [class="^steam_app_\d+$"] floating enable
 for_window [class=".+\.exe$"] floating enable
 for_window [app_id="thunar" title="Progresso da operação de arquivo"] floating enable
 for_window [app_id="com\.github\.hluk\.copyq"] floating enable
-for_window [app_id="gsimplecal"] floating enable, move position 1098 -10
+for_window [app_id="gsimplecal"] floating enable, move position 1107 0
 
 include /etc/sway/config.d/*
