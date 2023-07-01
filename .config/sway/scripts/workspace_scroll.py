@@ -21,7 +21,7 @@ def go_to_next_workspace():
     Switch to the workspace after the current one
     """
     workspaces_json = json.loads(
-        subprocess.check_output(["i3-msg", "-t",
+        subprocess.check_output(["swaymsg", "-t",
                                  "get_workspaces"]).decode("utf-8"))
 
     current_workspace = next(
@@ -36,15 +36,15 @@ def go_to_next_workspace():
     else:
         next_workspace = workspaces_json[0]["name"]
 
-    subprocess.run(["i3-msg", "workspace", next_workspace])
+    subprocess.run(["swaymsg", "workspace", next_workspace])
 
 
 def main():
     """
-    Scrolls through existing workspaces in i3wm, wrapping to the
+    Scrolls through existing workspaces in Sway, wrapping to the
     first one after the last
     """
-    dependencies = ["i3-msg", "jq"]
+    dependencies = ["swaymsg", "jq"]
 
     try:
         check_dependencies(dependencies)

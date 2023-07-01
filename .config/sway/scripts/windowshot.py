@@ -17,31 +17,22 @@ def check_dependencies(dependencies):
 
 
 def windowshot(IMAGE_PATH):
-    # get the dimensions of the active window
-    window = subprocess.getoutput("xdotool getactivewindow")
-
-    # use maim to select the area of the window
-    # and play a sound
-    subprocess.run(["maim", "-i", window, IMAGE_PATH])
+    subprocess.run(["grimshot", "save", "active", IMAGE_PATH])
 
     if os.path.isfile(IMAGE_PATH):
         subprocess.run([
             "paplay",
-            os.path.expanduser("~/.config/i3/audio/screen-capture.ogg")
+            os.path.expanduser("~/.config/sway/audio/screen-capture.ogg")
         ])
 
-    # send the image to the system's clipboard
-    subprocess.run([
-        "xclip", "-selection", "clipboard", "-target", "image/png", "-in",
-        IMAGE_PATH
-    ])
+    subprocess.run(["wl-copy", "--type", "image/png"],
+                   input=open(IMAGE_PATH, "rb").read())
 
 
 def send_notification(IMAGE_NAME, IMAGE_PATH):
     NOTIFICATION_TEXT = (f"<i>{IMAGE_NAME}</i>\n"
                          "Copiado para a área de transferência")
 
-    # sends notification with dunst
     subprocess.run(
         ["dunstify", "Captura de tela", NOTIFICATION_TEXT, "-I", IMAGE_PATH])
 
@@ -51,7 +42,7 @@ def main():
     Screenshots the active window, saves it to a file and sends it
     to the system's clipboard
     """
-    dependencies = ["dunstify", "maim", "xclip", "xdg-user-dir", "xdotool"]
+    dependencies = ["dunstify", "grimshot", "wl-copy", "xdg-user-dir"]
 
     try:
         check_dependencies(dependencies)

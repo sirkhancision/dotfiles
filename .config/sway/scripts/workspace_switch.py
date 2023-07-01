@@ -21,7 +21,7 @@ def go_to_workspace(target_workspace):
     Go to the specified workspace
     """
     workspaces_json = json.loads(
-        subprocess.check_output(["i3-msg", "-t",
+        subprocess.check_output(["swaymsg", "-t",
                                  "get_workspaces"]).decode("utf-8"))
 
     workspace_dict = {
@@ -31,7 +31,7 @@ def go_to_workspace(target_workspace):
 
     if target_workspace in workspace_dict:
         subprocess.run(
-            ["i3-msg", "workspace", workspace_dict[target_workspace]])
+            ["swaymsg", "workspace", workspace_dict[target_workspace]])
     else:
         raise ValueError(
             f"No active workspace found at position {target_workspace}")
@@ -39,10 +39,10 @@ def go_to_workspace(target_workspace):
 
 def main():
     """
-    Scrolls through existing workspaces in i3wm, wrapping to the
+    Scrolls through existing workspaces in Sway, wrapping to the
     first one after the last
     """
-    dependencies = ["i3-msg", "jq"]
+    dependencies = ["swaymsg", "jq"]
 
     try:
         check_dependencies(dependencies)

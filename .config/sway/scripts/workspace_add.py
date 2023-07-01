@@ -18,10 +18,10 @@ def check_dependencies(dependencies):
 
 def add_workspace():
     """
-    Add a new workspace to i3wm at the first empty position
+    Add a new workspace to Sway at the first empty position
     """
     workspaces_json = json.loads(
-        subprocess.check_output(["i3-msg", "-t",
+        subprocess.check_output(["swaymsg", "-t",
                                  "get_workspaces"]).decode("utf-8"))
 
     occupied_workspaces = {
@@ -35,14 +35,14 @@ def add_workspace():
                                     num_workspaces + 2)) - occupied_workspaces
     new_workspace = min(available_positions)
 
-    subprocess.run(["i3-msg", "workspace", str(new_workspace)])
+    subprocess.run(["swaymsg", "workspace", str(new_workspace)])
 
 
 def main():
     """
-    Adds a new workspace to i3wm, at the first empty position
+    Adds a new workspace to Sway, at the first empty position
     """
-    dependencies = ["i3-msg", "jq"]
+    dependencies = ["swaymsg", "jq"]
 
     try:
         check_dependencies(dependencies)

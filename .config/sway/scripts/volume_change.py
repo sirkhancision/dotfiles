@@ -50,7 +50,7 @@ def get_target_volume(volume, change_type):
     """
     Calculates the target value for the system's volume to be changed into
     """
-    volume_values = [0, 9, 17, 25, 34, 42, 50, 59, 67, 75, 84, 92, 100]
+    volume_values = [0, 8, 17, 25, 33, 39, 50, 58, 67, 75, 83, 90, 100]
     num_values = len(volume_values)
 
     current_index = min(range(num_values),
