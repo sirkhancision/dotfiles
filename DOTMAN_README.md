@@ -20,7 +20,7 @@ dotman is a Python script that acts as a minimalist dotfiles manager.
 
    - If it's a directory, everything inside it will be linked, so something like `~/.config` will link every file and directory inside `~/.config`
 
-3. You'll probably want to link the new file to its path outside of `REPO_DIR`, (e.g. link `REPO_DIR/.config/i3` to `~/.config/i3`), so:
+3. You'll probably want to link the new file to its path outside of `REPO_DIR`, (e.g. link `REPO_DIR/.config/sway` to `~/.config/sway`), so:
    
    1. Run dotman (`./dotman`)
    

@@ -37,9 +37,9 @@ A set of configuration files for my personal system (Void Linux). See **dotman**
 
 `xbps-install helix`
 
-**.config/i3:** i3wm's configuration directory.
+**.config/sway:** Sway's configuration directory.
 
-`xbps-install i3-gaps`
+`xbps-install sway`
 
 **dotman:** Python script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
 
