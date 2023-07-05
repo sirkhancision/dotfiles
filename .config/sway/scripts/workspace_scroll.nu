@@ -1,18 +1,13 @@
 #!/usr/bin/env nu
 
 def main [] {
-  let workspaces = (get_workspaces)
-  let current = (get_current_workspace | into int)
-  let next = (get_next_workspace $workspaces $current | into int)
-  (goto_next_workspace $next)
-}
+  let workspaces_table = (swaymsg -t get_workspaces | from json)
+  let workspaces_list = ($workspaces_table | each { |x| $x.name | into int })
 
-def get_workspaces [] {
-  swaymsg -t get_workspaces | from json | each { |x| $x.name | into int }
-}
+  let current = ($workspaces_table | where focused == true | get name.0 | into int)
+  let next = (get_next_workspace $workspaces_list $current | into int)
 
-def get_current_workspace [] {
-  swaymsg -t get_workspaces | from json | where focused == true | get name.0
+  swaymsg workspace $next
 }
 
 def get_next_workspace [
@@ -22,12 +17,6 @@ def get_next_workspace [
   if ($current == ($workspaces | last)) {
     ($workspaces | first)
   } else {
-    let next_index = ($workspaces | enumerate | where item > $current | get index.0)
-
-    ($next_index + 1)
+    ($workspaces | enumerate | where item > $current | get item.0)
   }
-}
-
-def goto_next_workspace [next: int] {
-  swaymsg workspace $next
 }
