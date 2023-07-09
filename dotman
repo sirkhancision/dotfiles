@@ -1,172 +1,131 @@
-#!/usr/bin/env python3
+#!/usr/bin/env nu
 
-import git
-import os
-import subprocess
-import sys
-from shutil import which
+export def main [] {
+  let repo_dir = ("~/dotfiles" | path expand)
+  let dotman_files = $"($repo_dir)/dotman_files"
 
+  if not ($repo_dir | path exists) {
+    error make {msg: $"($repo_dir) does not exist, please create it"}
+  }
+  if not ($dotman_files | path exists) {
+    error make {msg: "No files added to dotman_files, please add at least one file"}
+  }
 
-def check_dependencies(dependencies):
-    """
-    Check if the required programs are installed
-    """
-    missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
-    if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
+  let deps_table = (check_deps ["bat" "fd" "gitui" "sk"])
+  if not ($deps_table | get missing | all { is-empty }) {
+    print "There are dependencies missing:"
+    return ($deps_table)
+  }
 
+  let files = (open $"($repo_dir)/dotman_files"
+    | parse -r '~/(\S+)'
+    | values
+    | flatten)
 
-def get_link_commands(REPO_DIR, TARGET_DIR, file, target):
-    link_commands = {}
+  let all_deps = (check_deps [
+    "bat"
+    "dunstify"
+    "fd"
+    "gitui"
+    "grimshot"
+    "pactl"
+    "paplay"
+    "sk"
+    "swaymsg"
+    "wl-copy"
+    "xdg-user-dir"
+  ] | sort)
 
-    repo_target_dir = os.path.join(REPO_DIR, target)
-    if os.path.isdir(repo_target_dir):
-        for target_file in os.listdir(repo_target_dir):
-            target_file_path = os.path.join(repo_target_dir, target_file)
-            link_commands[target_file_path] = TARGET_DIR
-    elif os.path.exists(repo_target_dir):
-        link_commands[repo_target_dir] = TARGET_DIR
+  print "dotman - Dotfiles Manager"
+  print "by sirkhancision\n"
 
-    return link_commands
+  let options = [
+    "[1] Link dotfiles"
+    "[2] Edit file"
+    "[3] Open gitui"
+    "[4] Check dependencies for scripts"
+    "[0] Exit"
+  ]
 
+  # main loop
+  while true {
+    mut choice = ($options
+      | input list "Options"
+      | parse -r '\[(\d)\] .+'
+      | get capture0.0
+      | into int)
 
-def link_files(files, HOME_DIR, REPO_DIR):
-    """
-    Create symbolic links of the dotfiles to their correct path in the system
-    """
-    if not files:
-        print("No files added, please add at least one file")
-        return
+    match $choice {
+      0 => { return },
+      1 => { link_files $files $repo_dir },
+      2 => { edit_files $repo_dir },
+      3 => { ^gitui --directory $repo_dir --workdir $repo_dir },
+      4 => { print $all_deps },
+      _ => { "Invalid option" }
+    }
+  }
+}
 
-    link_commands = {}
+def check_deps [deps] {
+  let deps_table = ([[dependencies]; [null]]
+    | upsert dependencies $deps
+    | flatten)
+  let missing_deps = ($deps_table
+    | par-each {|x|
+    if (which $x.dependencies
+    | is-empty) { $x.dependencies } })
 
-    for file in files:
-        target_dir = os.path.expanduser(file)
-        target_file = target_dir.replace(HOME_DIR + "/", "")
+  $deps_table | enumerate | par-each {|x|
+  if $x.index < ($missing_deps | length) {
+      upsert missing $missing_deps
+    } else {
+      upsert missing null
+    }
+  } | flatten
+}
 
-        link_commands.update(
-            get_link_commands(REPO_DIR, target_dir, file, target_file))
+def edit_files [repo_dir: string] {
+  if ($env.EDITOR | is-empty) {
+    print "Default editor not set, defaulting to vi"
+    let-env EDITOR = "vi"
+    sleep 2sec
+  }
 
-    for source, target in link_commands.items():
-        source_basename = os.path.basename(source)
-        if source_basename in target:
-            target_full = target
-        else:
-            target_full = os.path.join(target, source_basename)
+  cd $repo_dir
+  let files = (^fd --type f --hidden)
 
-        os.makedirs(os.path.dirname(target), exist_ok=True)
-        if os.path.lexists(target_full):
-            print(f"Skipping {target_full}, symlink already exists")
-            continue
-        else:
-            print(f"Creating symbolic link: {source} -> {target_full}")
-            os.symlink(source, target_full)
+  while true {
+    mut file = ($files
+      | ^sk --multi --preview "bat {} --color=always"
+      | lines
+      | str join ' ')
 
-    print("\nDone linking files")
+    if not ($file | is-empty) {
+      ^nu -c $"($env.EDITOR) ($file)"
+    } else {
+      break
+    }
+  }
+}
 
+def link_files [files, repo_dir: string] {
+  let files_paths = (
+  [null]
+    | append (
+      $files
+      | par-each {|x|
+        if (($"($repo_dir)/($x)" | path type) == dir) {
+          glob $"($repo_dir)/($x)/*"
+        } else {
+          $"($repo_dir)/($x)"
+        }
+      }
+    )
+    | compact
+    | flatten
+  )
 
-def edit_file(REPO_DIR):
-    """
-    Display a fuzzy picker list of the files under REPO_DIR and edit
-    the selected one with the user's default editor
-    """
-    if os.getenv("EDITOR") is None:
-        print("No default editor found, setting it to vi")
-        os.putenv("EDITOR", "vi")
-    EDITOR = os.getenv("EDITOR")
-
-    os.chdir(REPO_DIR)
-
-    files = (subprocess.run(["fd", "--type", "f", "--hidden"],
-                            capture_output=True,
-                            text=True).stdout.strip().split("\n"))
-
-    while files:
-        file = subprocess.run(
-            ["sk", "--preview", "bat {} --color=always"],
-            input="\n".join(files),
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-
-        if file:
-            subprocess.run([EDITOR, file])
-        else:
-            break
-
-
-def git_ui(REPO_DIR):
-    """
-    Open gitui in REPO_DIR
-    """
-    os.chdir(REPO_DIR)
-    subprocess.run(["gitui"])
-
-
-def update_dotfiles(REPO_DIR):
-    """
-    Update the local dotfiles by pulling remote changes
-    """
-    repository = git.Repo(REPO_DIR)
-
-    before = repository.head.commit
-    repository.remotes.origin.pull("swaywm")
-    after = repository.head.commit
-
-    if before != after:
-        link_files()
-    else:
-        print("No updates available")
-
-
-def main():
-    # Directory of the dotfiles repository
-    REPO_DIR = os.path.expanduser("~/dotfiles")
-    if not os.path.exists(REPO_DIR):
-        print("The dotfiles directory pointed to by REPO_DIR doesn't exist")
-        print("Please, create it and put dotman in it")
-        sys.exit(1)
-
-    HOME_DIR = os.path.expanduser("~")
-    dependencies = ["bat", "fd", "gitui", "sk"]
-    check_dependencies(dependencies)
-
-    # List of files/dirs to link and edit
-    with open(os.path.join(REPO_DIR, "dotman_files"), "r") as dotman_files:
-        files = []
-
-        for file in dotman_files:
-            files.append(str(file.strip()))
-
-    print("dotman - Dotfiles Manager\n"
-          "by sirkhancision")
-
-    while True:
-        choice = input("\nOptions:\n"
-                       "[1] Link dotfiles\n"
-                       "[2] Edit file\n"
-                       "[3] Open gitui\n"
-                       "[4] Update dotfiles\n"
-                       "Ctrl-C to exit\n")
-
-        match choice:
-            case "1":
-                link_files(files, HOME_DIR, REPO_DIR)
-            case "2":
-                edit_file(REPO_DIR)
-            case "3":
-                git_ui(REPO_DIR)
-            case "4":
-                update_dotfiles(REPO_DIR)
-            case _:
-                print("Invalid option")
-
-
-if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\nExiting dotman")
-        sys.exit(0)
+  $files_paths | par-each {|x|
+    ^ln -sfv $x ($x | str replace 'dotfiles/' '' | path dirname)
+  }
+}
