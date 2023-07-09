@@ -50,7 +50,7 @@ export def main [] {
   # main loop
   while true {
     mut choice = ($options
-      | input list "Options"
+      | input list -f "Options"
       | parse -r '\[(\d)\] .+'
       | get capture0.0
       | into int)
