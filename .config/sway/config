@@ -3,27 +3,35 @@
 set $mod Mod4
 set $term foot
 set $calculator qalculate-gtk
-set $file_manager nnn
-set $locker $HOME/.config/sway/scripts/screen-lock/locker.sh
-set $launcher $HOME/.config/rofi/launchers/type-3/launcher.sh
-set $logout $HOME/.config/rofi/applets/bin/powermenu.sh
+set $file_manager nnn -a
+set $lock_config $HOME/.config/sway/swaylock_config
+set $launcher $HOME/.config/rofi/launchers/type-3/launcher.sh | xargs swaymsg exec --
+set $logout $HOME/.config/rofi/applets/bin/powermenu.sh | xargs swaymsg exec --
 set $import_gsettings $HOME/.config/sway/scripts/import-gsettings.sh
 
-set $screenclip $HOME/.config/sway/scripts/screenclip.py
-set $screenshot $HOME/.config/sway/scripts/screenshot.py
-set $windowshot $HOME/.config/sway/scripts/windowshot.py
-set $scroll_workspace $HOME/.config/sway/scripts/workspace_scroll.py
+set $screenshot $HOME/.config/sway/scripts/screenshot.nu screen
+set $screenclip $HOME/.config/sway/scripts/screenshot.nu area
+set $windowshot $HOME/.config/sway/scripts/screenshot.nu active
+set $scroll_workspace $HOME/.config/sway/scripts/workspace_scroll.nu
 set $add_workspace $HOME/.config/sway/scripts/workspace_add.py
-set $switch_workspace $HOME/.config/sway/scripts/workspace_switch.py
-set $volume_change $HOME/.config/sway/scripts/volume_change.py
+set $switch_workspace $HOME/.config/sway/scripts/workspace_switch.nu
+set $volume_change $HOME/.config/sway/scripts/volume_change.nu
 set $wallpaper $HOME/dotfiles/lain-pink-laptop.png
 
+# Keyboard
 input * {
     xkb_model "pc105"
     xkb_layout "br,br(nodeadkeys)"
     xkb_options "grp:rctrl_toggle"
     repeat_delay "600"
     repeat_rate "25"
+}
+
+# Touchpad
+input 2:7:SynPS/2_Synaptics_TouchPad {
+    tap enabled
+    drag enabled
+    scroll_method two_finger
 }
 
 output "*" bg $wallpaper fill
@@ -68,7 +76,10 @@ exec lxpolkit &
 exec playerctld daemon &
 
 # Set screen locker
-exec swayidle -w $locker timeout
+exec swayidle -w \
+         timeout 600 'swaylock -C $lock_config' \
+         timeout 720 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock -C $lock_config'
 
 # Set statusbar
 bar {
@@ -80,17 +91,18 @@ bar {
     # Start a terminal
     bindsym $mod+Return exec $term
     # Open the default file manager
-    bindsym $mod+e exec "$term -e zsh -ic 'source $HOME/.zshrc && n'"
+    bindsym $mod+e exec $term $file_manager
     # Start your launcher
     bindsym Menu exec $launcher
     # Lock the screen
-    bindsym $mod+l exec $locker instant
+    bindsym $mod+l exec swaylock -C $lock_config & \
+        swayidle -w timeout 120 'swaymsg "output * power off"' \
+        resume 'swaymsg "output * power on"' \
+        before-sleep 'swaylock $lock_config'
     # Kill focused window
     bindsym Mod1+F4 kill
     # Reload the configuration file
     bindsym $mod+Shift+c reload
-    # Restart Sway inplace
-    bindsym $mod+Shift+r restart
     # Take a screenshot
     bindsym Print exec $screenshot
     # Take a screenshot of a window
@@ -203,7 +215,7 @@ bindsym Ctrl+Shift+x exec dunstctl close-all
 for_window [app_id="Firefox" title="Picture-in-Picture"] \
     floating enable, sticky enable, resize set 854 480
 for_window [app_id="update_module"] \
-    floating enable, move position -111 -34, resize set 36 ppt 64 ppt
+    floating enable, move position -111 px -34 px, resize set 36 ppt 64 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [app_id="Firefox" title="Firefox - Indicador de compartilhamento"] \
     floating enable, move position 900 0
@@ -217,6 +229,7 @@ for_window [class="^steam_app_\d+$"] floating enable
 for_window [class=".+\.exe$"] floating enable
 for_window [app_id="thunar" title="Progresso da operação de arquivo"] floating enable
 for_window [app_id="com\.github\.hluk\.copyq"] floating enable
-for_window [app_id="gsimplecal"] floating enable, move position 1107 0
+for_window [app_id="gsimplecal"] floating enable, move position 1097 px -10 px
+for_window [class="gamescope"] floating enable
 
 include /etc/sway/config.d/*
