@@ -1,6 +1,6 @@
 # dotman
 
-dotman is a Python script that acts as a minimalist dotfiles manager.
+dotman is a Nushell script that acts as a minimalist dotfiles manager.
 
 ## How to use it:
 
@@ -10,17 +10,17 @@ dotman is a Python script that acts as a minimalist dotfiles manager.
 
 - Edit your files
 
-- Update your dotfiles from a remote repository
+- Check the dependencies for the scripts in the dotfiles (and if they're missing in your system)
 
 ### To add new files to dotman:
 
-1. Create the file or directory within the path pointed to by the `REPO_DIR` variable (e.g. `~/dotfiles`)
+1. Create the file or directory within the path pointed to by the `repo_dir` variable (e.g. `~/dotfiles`)
 
 2. Put its name and path as a new line in `dotman_files`
 
    - If it's a directory, everything inside it will be linked, so something like `~/.config` will link every file and directory inside `~/.config`
 
-3. You'll probably want to link the new file to its path outside of `REPO_DIR`, (e.g. link `REPO_DIR/.config/sway` to `~/.config/sway`), so:
+3. You'll probably want to link the new file to its path outside of `repo_dir`, (e.g. link `repo_dir/.config/sway` to `~/.config/sway`), so:
    
    1. Run dotman (`./dotman`)
    
@@ -43,5 +43,7 @@ All you have to do is run dotman (`./dotman`) and select to edit your files, whi
 - [fd](https://github.com/sharkdp/fd)
 
 - [skim](https://github.com/lotabout/skim)
+
+- [gitui](https://github.com/extrawurst/gitui)
 
 - Any text editor set as the default editor (set as the value of the `EDITOR` environment variable)

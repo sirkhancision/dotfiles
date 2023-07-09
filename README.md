@@ -37,11 +37,15 @@ A set of configuration files for my personal system (Void Linux). See **dotman**
 
 `xbps-install helix`
 
+**.config/nushell:** Configuration file for Nushell.
+
+`xbps-install nushell`
+
 **.config/sway:** Sway's configuration directory.
 
 `xbps-install sway`
 
-**dotman:** Python script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/i3wm/DOTMAN_README.md)).
+**dotman:** Nushell script to manage dotfiles ([here's its readme](https://github.com/sirkhancision/dotfiles/blob/swaywm/DOTMAN_README.md)).
 
 `./dotman`
 
