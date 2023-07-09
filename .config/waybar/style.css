@@ -95,6 +95,7 @@
 #pulseaudio,
 #network,
 #custom-calendar,
+#custom-flatpak,
 #custom-xbps {
 	background: transparent;
 	color: @pink;

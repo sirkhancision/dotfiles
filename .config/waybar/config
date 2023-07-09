@@ -79,6 +79,7 @@
       "on-click": "foot --app-id update_module sh -c 'flatpak update'"
     },
     "backlight": {
+      "tooltip": false,
       "format": "{icon}",
       "states": [
         0,
@@ -188,12 +189,11 @@
       "spacing": 2
     },
     "mpris": {
-      "format": "{player_icon} {artist} - {title}",
-      "player-icons": {
-        "default": ""
-      },
+      "format": "{status_icon} {artist} - {title}",
       "status-icons": {
-        "paused": ""
+        "playing": "",
+        "paused": "",
+        "stopped": ""
       }
     },
     "sway/language": {
@@ -229,6 +229,7 @@
       ]
     },
     "custom/powermenu": {
+      "tooltip": false,
       "format": "",
       "on-click": "~/.config/rofi/applets/bin/powermenu.sh"
     }
