@@ -186,6 +186,7 @@ void_packages_git() {
 
 	./xbps-src binary-bootstrap
 	echo XBPS_ALLOW_RESTRICTED=yes >>etc/conf
+	echo XBPS_CHECK_PKGS=yes >>etc/conf
 
 	for PACKAGE in "${PACKAGES[@]}"; do
 		./xbps-src pkg "$PACKAGE"
