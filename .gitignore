@@ -3,3 +3,4 @@
 .config/fontconfig/conf.d/78-Reject.conf
 .config/nnn/finderbms
 .config/nnn/plugins-*.tar.gz
+.config/nushell/history.txt
