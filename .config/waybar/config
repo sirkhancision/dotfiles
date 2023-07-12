@@ -40,7 +40,6 @@
     "sway/window": {
       "format": " <span color=\"#dbcccf\">{title}</span>",
       "max-length": 50,
-      "on-click": "~/.config/rofi/applets/bin/windows.sh",
     },
     "sway/mode": {
       "tooltip": false,
