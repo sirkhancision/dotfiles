@@ -2,12 +2,13 @@
 
 export def main [query_term: string] {
   let query = (xq $query_term)
-  let query_table = ($query | parse -r 'pkgver: (?<pkgver>\S+)\nshort_desc: (?<short_desc>.+)\n(?:alternatives:\n(?<alternatives>(?:\s+\S+\n)*))?architecture: (?<architecture>\S+)\n(?:build-options: (?<build_options>.+)\n)?(?:conflicts:\n(?<conflicts>(?:\s+\S+\n)*))?(?:changelog: (?<changelog>\S+)\n)?filename-sha256: (?<filename_sha256>\S+)\nfilename-size: (?<filename_size>\S+)\nhomepage: (?<homepage>\S+)\ninstalled_size: (?<installed_size>\S+)\nlicense: (?<license>.+)\nmaintainer: (?<maintainer>.+)\npkgname: (?<pkgname>\S+)\n(?:replaces:\n(?<replaces>(?:\s+\S+\n)*))?(?:preserve: (?<preserve>\S+)\n)?repository: (?<repository>\S+)\n(?:run_depends:\n(?<run_depends>(?:\s+\S+\n)*))?(?:shlib-provides:\n(?<shlib_provides>(?:\s+\S+\n)*))?(?:shlib-requires:\n(?<shlib_requires>(?:\s+\S+\n)*))?source-revisions: (?<source_revisions>\S+)\n(?:depends:\n(?<depends>(?:\s+\S+\n?)*))?(?:required-by:\n(?<required_by>(?:\s+\S+(?:\n)?)*))?')
+  let query_table = ($query | parse -r 'pkgver: (?<pkgver>\S+)\nshort_desc: (?<short_desc>.+)\n(?:alternatives:\n(?<alternatives>(?:\s+\S+\n)*))?architecture: (?<architecture>\S+)\n(?:build-options: (?<build_options>.+)\n)?(?:conflicts:\n(?<conflicts>(?:\s+\S+\n)*))?(?:changelog: (?<changelog>\S+)\n)?(?:conf_files:\n(?<conf_files>(?:\s+\S+\n)*))?filename-sha256: (?<filename_sha256>\S+)\nfilename-size: (?<filename_size>\S+)\nhomepage: (?<homepage>\S+)\ninstalled_size: (?<installed_size>\S+)\nlicense: (?<license>.+)\nmaintainer: (?<maintainer>.+)\npkgname: (?<pkgname>\S+)\n(?:replaces:\n(?<replaces>(?:\s+\S+\n)*))?(?:preserve: (?<preserve>\S+)\n)?repository: (?<repository>\S+)\n(?:run_depends:\n(?<run_depends>(?:\s+\S+\n)*))?(?:shlib-provides:\n(?<shlib_provides>(?:\s+\S+\n)*))?(?:shlib-requires:\n(?<shlib_requires>(?:\s+\S+\n)*))?source-revisions: (?<source_revisions>\S+)\n(?:depends:\n(?<depends>(?:\s+\S+\n?)*))?(?:required-by:\n(?<required_by>(?:\s+\S+(?:\n)?)*))?')
 
   $query_table
     | (split_alternatives $in)
     | (spaces_to_rows $in build_options)
     | (lines_to_rows $in conflicts)
+    | (lines_to_rows $in conf_files)
     | (split_licenses $in)
     | (lines_to_rows $in replaces)
     | (lines_to_rows $in run_depends)
@@ -50,7 +51,7 @@ def lines_to_rows [
   column: string
   ] {
   let rows = ($in | get $column | into string | lines
-    | each { |line| $line | str trim })
+    | par-each { |line| $line | str trim })
 
   if ($rows | is-empty) {
     $table | reject $column

@@ -5,7 +5,7 @@ export def main [change: string] {
   let volume = (get_volume | into int)
   let target_volume = (get_target_volume $volume $change $do_increase
     | into int)
-  (change_volume $target_volume)
+  change_volume $target_volume
 }
 
 def get_volume [] {
@@ -30,17 +30,15 @@ def get_target_volume [
   )
 
   if $do_increase {
-    ($values
+    $values
       | enumerate
       | where index == ($closest_value_index + 1)
       | get item.0
-    )
   } else {
-    ($values
+    $values
       | enumerate
       | where index == ($closest_value_index - 1)
       | get item.0
-    )
   }
 }
 

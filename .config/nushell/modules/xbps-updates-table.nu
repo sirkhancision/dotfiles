@@ -8,5 +8,5 @@ export def main [] {
   let updates = (xbps-checkvers -If "%n %r %s"
     | parse -r '(?<package>\S+)\s+(?<current>\S+)\s+(?<update>\S+)')
 
-  if ($updates | is-empty) { "" } else { $updates }
+  if ($updates | is-empty) { [] } else { $updates }
 }

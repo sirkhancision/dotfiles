@@ -18,12 +18,12 @@ def get_next_workspace [
   workspaces
   current: int
   ] {
-  if ($current == ($workspaces | last)) {
-    ($workspaces | first)
+  if $current == ($workspaces | last) {
+    $workspaces | first
   } else {
-    ($workspaces
+    $workspaces
       | enumerate
       | where item > $current
-      | get item.0)
+      | get item.0
   }
 }
