@@ -204,8 +204,9 @@ PACKAGES="CopyQ \
 	wl-clipboard \
 	xclip \
 	xdg-user-dirs \
-	xorg \
+	xorg-minimal \
 	xorg-server-xephyr \
+	xorg-server-xwayland \
 	xss-lock \
 	xtools \
 	yt-dlp \
