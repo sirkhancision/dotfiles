@@ -4,9 +4,8 @@ def main [] {
   let workspaces = (^swaymsg -t get_workspaces
   | from json
   | par-each { |x| $x.name | into int})
-  let available = (get_available_workspace $workspaces)
 
-  ^swaymsg workspace $available
+  ^swaymsg workspace (get_available_workspace $workspaces)
 }
 
 def get_available_workspace [workspaces] {

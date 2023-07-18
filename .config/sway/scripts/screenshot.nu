@@ -7,7 +7,15 @@ def main [shot_type: string] {
   let image_path = $"($screenshots_dir)/($image_name)"
 
   if $shot_type not-in ["screen", "active", "area"] {
-    error make {msg: "The type of screenshot has to be either screen, active or area"}
+    let span = (metadata $shot_type).span
+    error make {
+      msg: "invalid type parameter",
+      label: {
+        text: "has to be either screen, active or area",
+        start: $span.start,
+        end: $span.end
+      }
+    }
   }
 
   mkdir $screenshots_dir

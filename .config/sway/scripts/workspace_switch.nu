@@ -1,13 +1,11 @@
 #!/usr/bin/env nu
 
 def main [target: int] {
-  let workspaces_table = (^swaymsg -t get_workspaces | from json)
-  let workspaces_list = ($workspaces_table
+  let workspaces = (^swaymsg -t get_workspaces
+    | from json
     | par-each { |x| $x.name | into int })
 
-  let workspace = (get_workspace $workspaces_list $target | into int)
-
-  ^swaymsg workspace $workspace
+  ^swaymsg workspace (get_workspace $workspaces $target | into int)
 }
 
 def get_workspace [

@@ -9,9 +9,8 @@ def main [] {
     | where focused == true
     | get name.0
     | into int)
-  let next = (get_next_workspace $workspaces_list $current | into int)
 
-  ^swaymsg workspace $next
+  ^swaymsg workspace (get_next_workspace $workspaces_list $current | into int)
 }
 
 def get_next_workspace [
