@@ -1,6 +1,4 @@
-#!/usr/bin/env nu
-
-export def main [search_term: string] {
+export def xrst [search_term: string] {
   ^xrs $search_term
   | parse -r '(?<installed>\[[-*]\])\s+(?<package>\S+)-(?<version>[\S+]+_\d+)\s+(?<description>.+)'
   | move version --after description

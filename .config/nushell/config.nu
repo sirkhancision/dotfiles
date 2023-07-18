@@ -176,12 +176,6 @@ let light_theme = {
     shape_vardecl: purple
 }
 
-# External completer example
-# let carapace_completer = {|spans|
-#     carapace $spans.0 nushell $spans | from json
-# }
-
-
 # The default config record. This is where much of your global configuration is setup.
 let-env config = {
   # true or false to enable or disable the welcome banner at startup
@@ -191,7 +185,7 @@ let-env config = {
     clickable_links: true # enable or disable clickable links. Your terminal has to support links.
   }
   rm: {
-    always_trash: false # always act as if -t was given. Can be overridden with -p
+    always_trash: true # always act as if -t was given. Can be overridden with -p
   }
   cd: {
     abbreviations: false # allows `cd s/o/f` to expand to `cd some/other/folder`
@@ -207,13 +201,8 @@ let-env config = {
     }
   }
 
-  # datetime_format determines what a datetime rendered in the shell would look like.
-  # Behavior without this configuration point will be to "humanize" the datetime display,
-  # showing something like "a day ago."
-
   datetime_format: {
-    normal: '%a, %d %b %Y %H:%M:%S %z'  # shows up in displays of variables or other datetime's outside of tables
-    # table: '%m/%d/%y %I:%M:%S%p'        # generally shows up in tabular outputs such as ls. commenting this out will change it to the default human readable datetime format
+    normal: '%a, %d %b %Y %H:%M:%S %z'
   }
  
   explore: {
@@ -556,6 +545,20 @@ let-env config = {
     }
     # Keybindings used to trigger the user defined menus
     {
+      name: doas_insert
+      modifier: alt
+      keycode: char_d
+      mode: emacs
+      event: [
+        { edit: MoveToLineStart }
+        {
+          edit: InsertString
+          value: "doas "
+        }
+        { edit: MoveToLineEnd }
+      ]
+    }
+    {
       name: commands_menu
       modifier: control
       keycode: char_t
@@ -578,20 +581,80 @@ let-env config = {
     }
   ]
 }
+
+def __zoxide_menu [] {
+    {
+      name: zoxide_menu
+      only_buffer_difference: true
+      marker: "| "
+      type: {
+          layout: columnar
+          page_size: 20
+      }
+      style: {
+          text: green
+          selected_text: green_reverse
+          description_text: yellow
+      }
+      source: { |buffer, position|
+          zoxide query -ls $buffer
+          | parse -r '(?P<description>[0-9]+) (?P<value>.+)'
+      }
+    }
+}
+
+def __zoxide_keybinding [] {
+    {
+      name: zoxide_menu
+      modifier: control
+      keycode: char_z
+      mode: [emacs, vi_normal, vi_insert]
+      event: [
+        { send: menu name: zoxide_menu }
+      ]
+    }
+}
+
+def __edit_keybinding [] {
+    {
+      name: edit
+      modifier: alt
+      keycode: char_e
+      mode: [emacs, vi_normal, vi_insert]
+      event: [
+        { send: OpenEditor }
+      ]
+    }
+}
+
+export-env {
+    $env.config  = ($env.config
+                  | upsert menus ($env.config.menus | append (__zoxide_menu))
+                  | upsert keybindings ($env.config.keybindings | append [(__zoxide_keybinding) (__edit_keybinding)])
+                  )
+}
+
 # modules
-use ~/.config/nushell/modules/ultimate_extractor.nu *
-use ~/.config/nushell/modules/xbps-search-table.nu *
-use ~/.config/nushell/modules/xbps-query-table.nu *
-use ~/.config/nushell/modules/xbps-updates-table.nu *
+use gitignore.nu *
+use ultimate_archiver.nu *
+use ultimate_extractor.nu *
+use xbps-query-table.nu *
+use xbps-search-table.nu *
+use xbps-updates-table.nu *
 
 # aliases
-use ~/.config/nushell/aliases/git-aliases.nu *
-use ~/.config/nushell/aliases/void-linux-aliases.nu *
+use git-aliases.nu *
+use void-linux-aliases.nu *
 
 # completions
-use ~/.config/nushell/completions/git-completions.nu *
-use ~/.config/nushell/completions/cargo-completions.nu *
-use ~/.config/nushell/completions/man-completions.nu *
+use cargo-completions.nu *
+use git-completions.nu *
+use man-completions.nu *
+use xbps-completions.nu *
+
+# theme
+use merionette.nu
+$env.config = ($env.config | merge {color_config: (merionette)})
 
 source ~/.cache/starship/init.nu
 source ~/.zoxide.nu

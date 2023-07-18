@@ -1,6 +1,4 @@
-#!/usr/bin/env nu
-
-export def main [] {
+export def xvert [] {
   cd ~/void-packages
   git fetch upstream master
   git pull upstream master
