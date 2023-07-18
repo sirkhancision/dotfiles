@@ -13,7 +13,6 @@ PACKAGES="CopyQ \
 	autotiling \
 	bash-language-server \
 	bat \
-	betterlockscreen \
 	breeze-obsidian-cursor-theme \
 	bsdtar \
 	btop \
@@ -30,9 +29,7 @@ PACKAGES="CopyQ \
 	dunst \
 	ebook-tools \
 	elogind \
-	exa \
 	fd \
-	feh \
 	file-roller \
 	firefox \
 	flatpak \
@@ -135,7 +132,6 @@ PACKAGES="CopyQ \
 	patch \
 	pavucontrol \
 	picard \
-	picom \
 	pipewire \
 	playerctl \
 	pmount \
@@ -211,6 +207,4 @@ PACKAGES="CopyQ \
 	xtools \
 	yt-dlp \
 	zip \
-	zoxide \
-	zsh \
-	zsh-syntax-highlighting"
+	zoxide"

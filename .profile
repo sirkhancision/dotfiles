@@ -26,8 +26,6 @@ export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SO
 export NNN_BMS="D:$HOME/Downloads;d:$HOME/Documentos;g:$HOME/Github;i:$HOME/Imagens;m:$HOME/Músicas;V:$HOME/void-packages;v:$HOME/Vídeos;.:$HOME/dotfiles"
 # nnn plugins
 export NNN_PLUG='D:dups;F:fixname;G:getplugs;I:imgur;M:mtpmount;O:organize;X:xdgdefault;d:dragdrop;f:finder;i:imgview;m:nmount;o:xdgopen;p:preview-tui;r:renamer;s:suedit;x:togglex;z:autojump'
-# exa colors
-export EXA_COLORS="di=1;31"
 # run firefox in wayland
 export MOZ_ENABLE_WAYLAND=1
 
