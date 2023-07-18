@@ -34,7 +34,7 @@ export def main [] {
     "swaymsg"
     "wl-copy"
     "xdg-user-dir"
-  ] | sort)
+  ])
 
   print "dotman - Dotfiles Manager"
   print "by sirkhancision\n"
@@ -71,11 +71,11 @@ def check_deps [deps] {
     | upsert dependencies $deps
     | flatten)
   let missing_deps = ($deps_table
-    | par-each {|x|
+    | each {|x|
     if (which $x.dependencies
     | is-empty) { $x.dependencies } })
 
-  $deps_table | enumerate | par-each {|x|
+  $deps_table | enumerate | each {|x|
   if $x.index < ($missing_deps | length) {
       upsert missing $missing_deps
     } else {
@@ -101,7 +101,7 @@ def edit_files [repo_dir: string] {
       | str join ' ')
 
     if not ($file | is-empty) {
-      ^nu -c $"($env.EDITOR) ($file)"
+      nu -c $"($env.EDITOR) ($file)"
     } else {
       break
     }
