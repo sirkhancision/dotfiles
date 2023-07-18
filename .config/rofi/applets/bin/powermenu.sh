@@ -15,30 +15,26 @@ mesg="Uptime : $(uptime -p | sed -e 's/up //g')"
 
 if [[ ($theme == *'type-1'*) || ($theme == *'type-3'*) || ($theme == *'type-5'*) ]]; then
 	list_col='1'
-	list_row='6'
+	list_row='4'
 elif [[ ($theme == *'type-2'*) || ($theme == *'type-4'*) ]]; then
-	list_col='6'
+	list_col='4'
 	list_row='1'
 fi
 
 # Options
 layout=$(grep <"${theme}" 'USE_ICON' | cut -d'=' -f2)
 if [[ $layout == 'NO' ]]; then
-	option_1=" Bloquear"
-	option_2=" Deslogar"
-	option_3=" Suspender"
-	option_4=" Hibernar"
-	option_5=" Reiniciar"
-	option_6=" Desligar"
+	option_1=" Deslogar"
+	option_2="󰤄 Hibernar"
+	option_3=" Reiniciar"
+	option_4=" Desligar"
 	yes=' Sim'
 	no=' Não'
 else
-	option_1=""
-	option_2=""
-	option_3=""
-	option_4=""
-	option_5=""
-	option_6=""
+	option_1=""
+	option_2="󰤄"
+	option_3=""
+	option_4=""
 	yes=''
 	no=''
 fi
@@ -56,7 +52,7 @@ rofi_cmd() {
 
 # Pass variables to rofi dmenu
 run_rofi() {
-	echo -e "$option_1\n$option_2\n$option_3\n$option_4\n$option_5\n$option_6" | rofi_cmd
+	echo -e "$option_1\n$option_2\n$option_3\n$option_4" | rofi_cmd
 }
 
 # Confirmation CMD
@@ -90,16 +86,12 @@ confirm_run() {
 # Execute Command
 run_cmd() {
 	if [[ $1 == "--opt1" ]]; then
-		betterlockscreen -l dim
-	elif [[ $1 == "--opt2" ]]; then
 		confirm_run "loginctl terminate-user $USER"
-	elif [[ $1 == "--opt3" ]]; then
-		confirm_run "mpc -q pause" "amixer set Master mute" "loginctl suspend"
-	elif [[ $1 == "--opt4" ]]; then
+	elif [[ $1 == "--opt2" ]]; then
 		confirm_run "loginctl hibernate"
-	elif [[ $1 == "--opt5" ]]; then
+	elif [[ $1 == "--opt3" ]]; then
 		confirm_run "loginctl reboot"
-	elif [[ $1 == "--opt6" ]]; then
+	elif [[ $1 == "--opt4" ]]; then
 		confirm_run "loginctl poweroff"
 	fi
 }
@@ -118,11 +110,5 @@ case ${chosen} in
 	;;
 "$option_4")
 	run_cmd --opt4
-	;;
-"$option_5")
-	run_cmd --opt5
-	;;
-"$option_6")
-	run_cmd --opt6
 	;;
 esac
