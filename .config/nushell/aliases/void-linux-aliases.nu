@@ -1,7 +1,3 @@
-use xbps-query-table
-use xbps-search-table
-use xbps-updates-table
-
 ######################################
 #                 XBPS                #
 #######################################
@@ -15,8 +11,6 @@ export alias xdba = doas xbps-pkgdb -a
 export alias xf = xbps-fetch
 export alias xqh = xbps-query -H
 export alias xqo = xbps-query -O
-export alias xqt = xbps-query-table
-export alias xrst = xbps-search-table
 export alias xr = doas xbps-remove
 export alias xrc = doas xbps-reconfigure
 export alias xrca = doas xbps-reconfigure -a
@@ -25,7 +19,6 @@ export alias xrsr = xbps-query --regex -Rs
 export alias xu = doas xbps-install -Su
 export alias xuu = xbps-src-update
 export alias xver = xbps-checkvers -If "%n %r -> %s"
-export alias xvert = xbps-updates-table
 
 #######################################
 #               SERVICES              #
