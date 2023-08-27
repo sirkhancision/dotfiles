@@ -147,7 +147,6 @@ PACKAGES="CopyQ \
 	qalculate-gtk \
 	qbittorrent \
 	qjackctl \
-	qpwgraph \
 	qt5ct \
 	qt6ct \
 	quodlibet \
