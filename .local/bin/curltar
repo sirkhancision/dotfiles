@@ -1,116 +1,46 @@
-#!/usr/bin/env python3
+#!/usr/bin/env nu
 
-import argparse
-import os
-import re
-import subprocess
-import sys
-from shutil import which
+export def main [url: string, dir: path = "."] {
+  if (is_archive $url) {
+    (print "Downloading file...")
+    http get $url | bsdtar -xf - --directory $dir
+  } else {
+    let span = (metadata $url).span
+    error make {
+      msg: "invalid filetype in url"
+      label: {
+        text: "the filetype in the url is not a supported archive extension"
+        start: $span.start
+        end: $span.end
+      }
+    }
+  }
+}
 
+def is_archive [url: string]: nothing -> bool {
+  let extensions = [
+    ".7z"
+    ".ar"
+    ".cpio"
+    ".iso"
+    ".jar"
+    ".rpm"
+    ".tar"
+    ".tar.Z"
+    ".tar.bz2"
+    ".tar.gz"
+    ".tar.lz"
+    ".tar.xz"
+    ".tar.zst"
+    ".tbz2"
+    ".tgz"
+    ".tlz"
+    ".txz"
+    ".xar"
+    ".zip"
+  ]
 
-def check_dependencies(dependencies):
-    """
-    Check if the required programs are installed
-    """
-    missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
-    if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
+  let filename = $url | parse -r '([^/]+$)' | get capture0.0
 
-
-def is_archive(url):
-    """
-    Check if the file from the URL is an archive
-    """
-    # extensions supported by bsdtar
-    extensions = [
-        ".7z",
-        ".ar",
-        ".cpio",
-        ".iso",
-        ".jar",
-        ".rpm",
-        ".tar",
-        ".tar.Z",
-        ".tar.bz2",
-        ".tar.gz",
-        ".tar.lz",
-        ".tar.xz",
-        ".tar.zst",
-        ".tbz2",
-        ".tgz",
-        ".tlz",
-        ".txz",
-        ".xar",
-        ".zip",
-    ]
-
-    match = re.search(r"[^/]+$", url)
-
-    return (any(extension in file_name for extension in extensions) if
-            (file_name := match.group()) else False)
-
-
-def download_and_extract(url, output_dir):
-    """
-    Download the file and extract it automatically
-    """
-    curl_command = ["curl", "-L", url]
-    bsdtar_command = ["bsdtar", "-xf", "-", "--directory", output_dir]
-
-    curl_process = subprocess.Popen(curl_command, stdout=subprocess.PIPE)
-    bsdtar_process = subprocess.Popen(bsdtar_command,
-                                      stdin=curl_process.stdout)
-
-    bsdtar_process.wait()
-
-
-def parse_args(argv):
-    """
-    Parse arguments given to the program
-    """
-    parser = argparse.ArgumentParser(
-        prog="curltar",
-        description="Download files and extract them automatically")
-    parser.add_argument(
-        "-u",
-        "--url",
-        dest="url",
-        help="The link to the file you want to download",
-        required=True,
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        dest="output_dir",
-        help="The directory where the file will be downloaded to",
-    )
-    return parser.parse_args(argv)
-
-
-def main(argv):
-    dependencies = ["curl", "bsdtar"]
-    check_dependencies(dependencies)
-
-    args = parse_args(argv)
-
-    output_dir = args.output_dir if args.output_dir else os.getcwd()
-    url = args.url
-
-    if not os.path.exists(output_dir) or not os.path.isdir(output_dir):
-        print("Output directory doesn't exist")
-
-    if is_archive(url):
-        download_and_extract(url, output_dir)
-    else:
-        print("The file is not an archive")
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    try:
-        main(sys.argv[1:])
-    except KeyboardInterrupt:
-        print("\nScript aborted")
-        sys.exit(1)
+  $extensions | any { |x| $filename | str ends-with $x }
+}

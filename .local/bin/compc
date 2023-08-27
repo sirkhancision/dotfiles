@@ -1,79 +1,22 @@
-#!/usr/bin/env python3
+#!/usr/bin/env nu
 
-import os
-import re
-import subprocess
-import sys
-from shutil import which
+export def main [...files: path] {
+  if ($files | length) > 0 {
+    (compile_files $files)
+    print "The files finished compiling"
+  } else {
+    error make { msg: "missing file parameters" }
+  }
+}
 
-
-def check_dependencies(dependencies):
-    """
-    Check if the required programs are installed
-    """
-    missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
-    if missing_deps:
-        print("The following dependencies are missing:")
-        print("\n".join(missing_deps))
-        sys.exit(1)
-
-
-def is_c_file(file):
-    """
-    Check if the given file has a .c extension
-    """
-    return re.search(r"\.c$", file) is not None
-
-
-def compile_c_file(file):
-    """
-    Compile a C file using gcc
-    """
-    output_file = file.replace(".c", "")
-    subprocess.run([
-        "gcc",
-        "-o",
-        output_file,
-        file,
-        "-O2",
-        "-pedantic",
-        "-pipe",
-        "-Wall",
-        "-Werror",
-        "-lm",
-    ])
-
-
-def compile_c_files(files):
-    """
-    Compile multiple C files
-    """
-    for file in files:
-        if not os.path.isfile(file):
-            print(f"{file} not found, ignoring")
-        elif not is_c_file(file):
-            print(f"{file} is not a C file, ignoring")
-        else:
-            compile_c_file(file)
-
-
-def main(argv):
-    """
-    Takes one or more C files and compiles them with the same input name
-    """
-    dependencies = ["gcc"]
-    check_dependencies(dependencies)
-
-    if not argv or argv[0] in ("-h", "--help"):
-        print("usage: compc [-h] file_1.c [file_2.c ...]")
-        sys.exit(0)
-
-    compile_c_files(argv)
-
-
-if __name__ == "__main__":
-    try:
-        main(sys.argv[1:])
-    except KeyboardInterrupt:
-        print("\nScript aborted")
-        sys.exit(1)
+def compile_files [files] {
+  $files | each {
+    |file| if ($file | str ends-with ".c") {
+      ^gcc -o ($file | str replace -s ".c" "") $file -O2 -pedantic -pipe -Wall -Werror -lm
+    } else if not ($file | path exists) {
+      print $"($file) not found, ignoring..."
+    } else {
+      print $"($file) is not a C file, ignoring..."
+    }
+  }
+}
