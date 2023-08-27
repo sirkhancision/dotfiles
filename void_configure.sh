@@ -109,7 +109,6 @@ runit_services() {
 		"bluetoothd"
 		"chrony"
 		"dbus"
-		"elogind"
 		"greetd"
 		"thermald"
 	)
@@ -204,13 +203,6 @@ dotfiles() {
 	cd dotfiles && ./dotman
 }
 
-## INSTALL OH-MY-ZSH
-oh_my_zsh() {
-	printf "Installing oh-my-zsh\n\n"
-
-	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-}
-
 disable_bitmap() {
 	printf "Disabling bitmap fonts\n\n"
 	doas ln -sf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/70-no-bitmaps.conf
@@ -226,11 +218,11 @@ enable_light() {
 }
 
 # read arguments/flags
-while getopts ":hmpDHsfcbwngdlz" OPT; do
+while getopts ":hmpDHsfcbwngdl" OPT; do
 	case $OPT in
 	h)
 		printf "void_configure: script to install and configure stuff on my system\n\n"
-		printf "[USAGE] ./void_configure.sh [-h|m|p|H|s|f|c|b|w|n|g|d|z]\n\n"
+		printf "[USAGE] ./void_configure.sh [-h|m|p|H|s|f|c|b|w|n|g|d|l]\n\n"
 		echo "-h: print help text"
 		echo "-m: add repository mirrors"
 		echo "-p: install listed packages"
@@ -245,7 +237,6 @@ while getopts ":hmpDHsfcbwngdlz" OPT; do
 		echo "-g: clone void-packages and install listed packages"
 		echo "-d: clone my dotfiles and run dotman"
 		echo "-l: enable backlight controlling"
-		echo "-z: install oh-my-zsh"
 		exit 0
 		;;
 	m) add_repos_mirrors && exit 0 ;;
@@ -261,7 +252,6 @@ while getopts ":hmpDHsfcbwngdlz" OPT; do
 	g) void_packages_git && exit 0 ;;
 	d) dotfiles && exit 0 ;;
 	l) enable_light && exit 0 ;;
-	z) oh_my_zsh && exit 0 ;;
 	\?)
 		echo "Invalid option: -$OPTARG"
 		return 1
@@ -290,6 +280,5 @@ rustup-init
 void_packages_git
 dotfiles
 enable_light
-oh_my_zsh
 
 echo "Installation complete! :)"
