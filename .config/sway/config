@@ -3,7 +3,7 @@
 set $mod Mod4
 set $term foot
 set $calculator qalculate-gtk
-set $file_manager nnn -a
+set $file_manager thunar
 set $lock_config $HOME/.config/sway/swaylock_config
 set $launcher $HOME/.config/rofi/launchers/type-3/launcher.sh | xargs swaymsg exec --
 set $logout $HOME/.config/rofi/applets/bin/powermenu.sh | xargs swaymsg exec --
@@ -68,8 +68,6 @@ exec copyq &
 exec gammastep -l "-22.8:-43.3" &
 # Starts qbittorrent
 exec qbittorrent &
-# Starts sway-audio-idle-inhibit
-exec sway-audio-idle-inhibit &
 # Starts lxpolkit
 exec lxpolkit &
 # Starts playerctld
@@ -91,7 +89,7 @@ bar {
     # Start a terminal
     bindsym $mod+Return exec $term
     # Open the default file manager
-    bindsym $mod+e exec $term $file_manager
+    bindsym $mod+e exec $file_manager
     # Start your launcher
     bindsym Menu exec $launcher
     # Lock the screen
@@ -229,7 +227,7 @@ for_window [class="^steam_app_\d+$"] floating enable
 for_window [class=".+\.exe$"] floating enable
 for_window [app_id="thunar" title="Progresso da operação de arquivo"] floating enable
 for_window [app_id="com\.github\.hluk\.copyq"] floating enable
-for_window [app_id="gsimplecal"] floating enable, move position 1097 px -10 px
+for_window [app_id="gsimplecal"] floating enable, move position 1108 px 0 px
 for_window [class="gamescope"] floating enable
 
 include /etc/sway/config.d/*
