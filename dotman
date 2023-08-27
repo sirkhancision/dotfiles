@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 export def main [] {
-  let repo_dir = ("~/dotfiles" | path expand)
+  let repo_dir = "~/dotfiles" | path expand
   let dotman_files = $"($repo_dir)/dotman_files"
 
   if not ($repo_dir | path exists) {
@@ -11,30 +11,30 @@ export def main [] {
     error make {msg: "No files added to dotman_files, please add at least one file"}
   }
 
-  let deps_table = (check_deps ["bat" "fd" "gitui" "sk"])
-  if not ($deps_table | get missing | all { is-empty }) {
+  let deps_table = check_deps ["bat" "fd" "gitui" "sk"]
+  if not ($deps_table | get missing | any { is-empty }) {
     print "There are dependencies missing:"
     return ($deps_table)
   }
 
-  let files = (open $"($repo_dir)/dotman_files"
+  let files = open $"($repo_dir)/dotman_files"
     | parse -r '~/(\S+)'
     | values
-    | flatten)
+    | flatten
 
-  let all_deps = (check_deps [
+  let all_deps = check_deps [
     "bat"
     "dunstify"
     "fd"
     "gitui"
     "grimshot"
+    "mpv"
     "pactl"
-    "paplay"
     "sk"
     "swaymsg"
     "wl-copy"
     "xdg-user-dir"
-  ])
+  ]
 
   print "dotman - Dotfiles Manager"
   print "by sirkhancision\n"
@@ -66,28 +66,29 @@ export def main [] {
   }
 }
 
-def check_deps [deps] {
-  let deps_table = ([[dependencies]; [null]]
+def check_deps [deps: list<string>]: nothing -> table<any> {
+  let deps_table = [[dependencies]; [null]]
     | upsert dependencies $deps
-    | flatten)
-  let missing_deps = ($deps_table
+    | flatten
+  let missing_deps = $deps_table
     | each {|x|
-    if (which $x.dependencies
-    | is-empty) { $x.dependencies } })
+    if (which $x.dependencies | is-empty) { $x.dependencies } }
+  let missing_deps_num = $missing_deps | length
 
   $deps_table | enumerate | each {|x|
-  if $x.index < ($missing_deps | length) {
+  if $x.index < ($missing_deps_num) {
       upsert missing $missing_deps
     } else {
       upsert missing null
     }
-  } | flatten
+  }
+  | flatten
 }
 
-def edit_files [repo_dir: string] {
+def edit_files [repo_dir: path] {
   if ($env.EDITOR | is-empty) {
     print "Default editor not set, defaulting to vi"
-    let-env EDITOR = "vi"
+    $env.EDITOR = "vi"
     sleep 2sec
   }
 
@@ -108,9 +109,8 @@ def edit_files [repo_dir: string] {
   }
 }
 
-def link_files [files, repo_dir: string] {
-  let files_paths = (
-  [null]
+def link_files [files: list<string>, repo_dir: path] {
+  let files_paths = [null]
     | append (
       $files
       | par-each {|x|

@@ -13,11 +13,10 @@ export def main [change: string] {
     }
   }
 
-  change_volume (get_target_volume (get_volume) ($change == "increase")
-    | into int)
+  change_volume (get_target_volume (get_volume ]) ($change == "increase") ])
 }
 
-def get_volume [] {
+def get_volume []: nothing -> int {
   ^pactl get-sink-volume @DEFAULT_SINK@
     | parse -r '(\d+)%'
     | get capture0.0
@@ -27,7 +26,7 @@ def get_volume [] {
 def get_target_volume [
   volume: int
   do_increase: bool
-  ] {
+  ]: nothing -> int {
   let values = [0, 8, 17, 25, 33, 39, 50, 58, 67, 75, 83, 90, 100]
 
   if ($volume in $values) {
@@ -37,26 +36,20 @@ def get_target_volume [
       $values | each while { |x| if $x < $volume { $x } } | last
     }
   } else {
-    let closest_value_index = (
-      $values
-        | par-each {|x| ($x - $volume) | math abs }
-        | enumerate
-        | where item == ($in.item | math min)
-        | get index.0
-        | into int
-    )
+    let closest_value_index = $values
+      | par-each { |x| ($x - $volume) | math abs }
+      | enumerate
+      | where item == ($in.item | math min)
+      | get index.0
 
-    if $do_increase {
-      $values
-        | enumerate
-        | where index == ($closest_value_index + 1)
-        | get item.0
-    } else {
-      $values
-        | enumerate
-        | where index == ($closest_value_index - 1)
-        | get item.0
-    }
+    $values
+      | enumerate
+      | where index == (if $do_increase {
+          $closest_value_index + 1
+        } else {
+          $closest_value_index - 1
+        })
+      | get item.0
   }
 }
 

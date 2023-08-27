@@ -1,4 +1,4 @@
-export def xrst [search_term: string] {
+export def xrst [search_term: string]: nothing -> table<> {
   ^xrs $search_term
   | parse -r '(?<installed>\[[-*]\])\s+(?<package>\S+)-(?<version>[\S+]+_\d+)\s+(?<description>.+)'
   | move version --after description

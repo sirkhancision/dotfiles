@@ -20,7 +20,7 @@ def "nu-complete archive" [] {
     "zip"
     "zst"
   ]
-  }
+}
 
 # Function to create archives with different extensions.
 export def archive [
@@ -45,7 +45,7 @@ export def archive [
                    ['zip'                  'zip -rull']
                    ['zst'                'zstd -c -T0']
                  ]
-  let maybe_handler = ($handlers | where $extension =~ $it.extension)
+  let maybe_handler = $handlers | where $extension =~ $it.extension
 
   if ($maybe_handler | is-empty) {
     let span = (metadata $extension).span
@@ -58,7 +58,7 @@ export def archive [
       }
     }
   } else {
-    let handler = ($maybe_handler | first)
+    let handler = $maybe_handler | first
     let extensions_with_name_prefix = [
       "7z"
       "rar"

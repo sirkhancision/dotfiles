@@ -16,11 +16,11 @@ export def extract [name:string] {
                    ['Z'                 'uncompress']
                    ['7z'                '7za x']
                  ]
-  let maybe_handler = ($handlers | where $name =~ $'\.(($it.extension))$')
+  let maybe_handler = $handlers | where $name =~ $'\.(($it.extension))$'
   if ($maybe_handler | is-empty) {
     error make { msg: "unsupported file extension" }
   } else {
-    let handler = ($maybe_handler | first)
+    let handler = $maybe_handler | first
     nu -c ($handler.command + ' ' + $name)
   }
 }
