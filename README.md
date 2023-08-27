@@ -61,10 +61,6 @@ A set of configuration files for my personal system (Void Linux). See **dotman**
 
 `xbps-install doas`
 
-**.config/nnn:** Configuration for the file manager nnn.
-
-`xbps-install nnn`
-
 **.config/waybar:** Configuration for waybar.
 
 `xbps-install Waybar`
@@ -94,7 +90,5 @@ A set of configuration files for my personal system (Void Linux). See **dotman**
 **void_install.sh:** Script to do a lot of post-install stuff on my Void Linux system.
 
 **void_packages:** File to be sourced by void_install.sh, containing packages to be downloaded by it.
-
-**.zshrc:** ZSH's main file with configurations, aliases and functions.
 
 **.profile:** File sourced at login.
