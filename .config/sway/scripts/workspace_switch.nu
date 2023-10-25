@@ -5,7 +5,7 @@ def main [target: int] {
     | from json
     | par-each { |x| $x.name | into int }
 
-  ^swaymsg workspace (get_workspace $workspaces $target ])
+  ^swaymsg workspace (get_workspace $workspaces $target)
 }
 
 def get_workspace [

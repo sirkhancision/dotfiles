@@ -13,7 +13,7 @@ export def main [change: string] {
     }
   }
 
-  change_volume (get_target_volume (get_volume ]) ($change == "increase") ])
+  change_volume (get_target_volume (get_volume) ($change == "increase"))
 }
 
 def get_volume []: nothing -> int {

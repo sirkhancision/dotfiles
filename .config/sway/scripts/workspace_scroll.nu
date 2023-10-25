@@ -10,7 +10,7 @@ def main [] {
     | get name.0
     | into int
 
-  ^swaymsg workspace (get_next_workspace $workspaces_list $current ])
+  ^swaymsg workspace (get_next_workspace $workspaces_list $current)
 }
 
 def get_next_workspace [

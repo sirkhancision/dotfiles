@@ -2,7 +2,7 @@
 
 def main [shot_type: string] {
   let images_dir = (^xdg-user-dir PICTURES)
-  let image_name = $"(date now | date format "%Y-%m-%d_%H-%M-%S").png"
+  let image_name = $"(date now | format date "%Y-%m-%d_%H-%M-%S").png"
   let screenshots_dir = $"($images_dir)/Screenshots"
   let image_path = $"($screenshots_dir)/($image_name)"
 
