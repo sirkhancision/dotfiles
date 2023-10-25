@@ -12,7 +12,7 @@ export def main [...files: path] {
 def compile_files [files] {
   $files | each {
     |file| if ($file | str ends-with ".c") {
-      ^gcc -o ($file | str replace -s ".c" "") $file -O2 -pedantic -pipe -Wall -Werror -lm
+      ^gcc -o ($file | str replace ".c" "") $file -O2 -pedantic -pipe -Wall -Werror -lm
     } else if not ($file | path exists) {
       print $"($file) not found, ignoring..."
     } else {

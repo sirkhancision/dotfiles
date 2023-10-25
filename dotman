@@ -126,6 +126,6 @@ def link_files [files: list<string>, repo_dir: path] {
   )
 
   $files_paths | par-each {|x|
-    ^ln -sfv $x ($x | str replace 'dotfiles/' '' | path dirname)
+    ^ln -sfv $x ($x | str replace --regex 'dotfiles/' '' | path dirname)
   }
 }
