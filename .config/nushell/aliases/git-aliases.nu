@@ -1,5 +1,5 @@
 def git_current_branch [] {
-    git branch --show-current | str trim
+    (gstat).branch
 }
 
 def git_main_branch [] {
@@ -8,7 +8,7 @@ def git_main_branch [] {
         | str trim
         | find --regex 'HEAD .*?[：: ].+'
         | first
-        | str replace --regex 'HEAD .*?[：: ](.+)' '$1'
+        | str replace 'HEAD .*?[：: ](.+)' '$1'
 }
 
 #
