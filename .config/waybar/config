@@ -93,7 +93,9 @@
         "",
         "",
         ""
-      ]
+      ],
+      "on-click": "xbacklight -inc 25",
+      "on-click-right": "xbacklight -dec 25"
     },
     "pulseaudio": {
       "format": "{icon}",
