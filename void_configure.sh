@@ -132,6 +132,13 @@ add_flathub() {
 	doas flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 }
 
+## INSTALLS FLATPAK PACKAGES
+install_flatpaks() {
+	printf "Installing flatpak packages\n\n"
+
+	flatpak install com.heroicgameslauncher.hgl org.audacityteam.Audacity org.musescore.MuseScore
+}
+
 ## CHANGE PAPIRUS' FOLDERS COLORS
 change_folders_colors() {
 	printf "Changing folder colors to black (for Papirus icon theme)\n\n"
@@ -218,7 +225,7 @@ enable_light() {
 }
 
 # read arguments/flags
-while getopts ":hmpDHsfcbwngdl" OPT; do
+while getopts ":hmpDHsfFcbwngdl" OPT; do
 	case $OPT in
 	h)
 		printf "void_configure: script to install and configure stuff on my system\n\n"
@@ -230,6 +237,7 @@ while getopts ":hmpDHsfcbwngdl" OPT; do
 		echo "-H: create XDG home directories"
 		echo "-s: enable runit services"
 		echo "-f: add flathub as a flatpak remote"
+		echo "-F: install flatpak packages"
 		echo "-c: change colors of papirus folders"
 		echo "-b: disable bitmap fonts"
 		echo "-w: update winetricks"
@@ -245,6 +253,7 @@ while getopts ":hmpDHsfcbwngdl" OPT; do
 	H) create_home_dirs && exit 0 ;;
 	s) runit_services && exit 0 ;;
 	f) add_flathub && exit 0 ;;
+	F) install_flatpaks && exit 0 ;;
 	c) change_folders_colors && exit 0 ;;
 	b) disable_bitmap && exit 0 ;;
 	w) update_winetricks && exit 0 ;;
@@ -272,6 +281,7 @@ tldr --update
 create_home_dirs
 runit_services
 add_flathub
+install_flatpaks
 change_folders_colors
 disable_bitmap
 update_winetricks
