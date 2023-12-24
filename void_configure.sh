@@ -31,8 +31,8 @@ read_prompt() {
 add_repos_mirrors() {
 	printf "Adding nonfree and multilib repos, also changing mirrors to Chicago (USA)\n\n"
 
-	doas xbps-install -S xmirror void-repo-{nonfree,multilib,multilib-nonfree}
-	doas xmirror -s "https://repo-fastly.voidlinux.org/current"
+	sudo xbps-install -S xmirror void-repo-{nonfree,multilib,multilib-nonfree}
+	sudo xmirror -s "https://repo-fastly.voidlinux.org/current"
 }
 
 ## INSTALL PACKAGES AND UPDATE SYSTEM
@@ -78,7 +78,7 @@ install_packages() {
 
 	# shellcheck disable=2086
 	# this is by design so that the packages are sequential
-	doas xbps-install -Su $PACKAGES
+	sudo xbps-install -Su $PACKAGES
 }
 
 set_doas() {
@@ -107,7 +107,7 @@ runit_services() {
 
 	services=("NetworkManager"
 		"bluetoothd"
-		"chrony"
+		"chronyd"
 		"dbus"
 		"greetd"
 		"thermald"
@@ -136,14 +136,14 @@ add_flathub() {
 install_flatpaks() {
 	printf "Installing flatpak packages\n\n"
 
-	flatpak install com.heroicgameslauncher.hgl org.audacityteam.Audacity org.musescore.MuseScore
+	doas flatpak install com.heroicgameslauncher.hgl org.audacityteam.Audacity org.musescore.MuseScore
 }
 
 ## CHANGE PAPIRUS' FOLDERS COLORS
 change_folders_colors() {
 	printf "Changing folder colors to black (for Papirus icon theme)\n\n"
 
-	papirus-folders -C black
+	doas papirus-folders -C black
 }
 
 ## UPDATE WINETRICKS
@@ -173,7 +173,6 @@ void_packages_git() {
 
 	printf "Cloning the void-packages git repo, and building and installing the following packages:\n"
 	echo "${PACKAGES[*]}"
-	print_void_packages
 
 	mkdir "$HOME/Github"
 
@@ -217,7 +216,7 @@ disable_bitmap() {
 
 enable_light() {
 	printf "Enabling the light backlight controller\n\n"
-	mkdir -p /etc/udev/rules.d
+	doas mkdir -p /etc/udev/rules.d
 	doas echo "SUBSYSTEM==\"backlight\", ACTION==\"add\", \
   RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\", \
   RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" >/etc/udev/rules.d/90-backlight.rules
@@ -247,20 +246,20 @@ while getopts ":hmpDHsfFcbwngdl" OPT; do
 		echo "-l: enable backlight controlling"
 		exit 0
 		;;
-	m) add_repos_mirrors && exit 0 ;;
-	p) install_packages && exit 0 ;;
-	D) set_doas && exit 0 ;;
-	H) create_home_dirs && exit 0 ;;
-	s) runit_services && exit 0 ;;
-	f) add_flathub && exit 0 ;;
-	F) install_flatpaks && exit 0 ;;
-	c) change_folders_colors && exit 0 ;;
-	b) disable_bitmap && exit 0 ;;
-	w) update_winetricks && exit 0 ;;
-	n) npm_install && exit 0 ;;
-	g) void_packages_git && exit 0 ;;
-	d) dotfiles && exit 0 ;;
-	l) enable_light && exit 0 ;;
+	m) add_repos_mirrors ; exit 0 ;;
+	p) install_packages ; exit 0 ;;
+	D) set_doas ; exit 0 ;;
+	H) create_home_dirs ; exit 0 ;;
+	s) runit_services ; exit 0 ;;
+	f) add_flathub ; exit 0 ;;
+	F) install_flatpaks ; exit 0 ;;
+	c) change_folders_colors ; exit 0 ;;
+	b) disable_bitmap ; exit 0 ;;
+	w) update_winetricks ; exit 0 ;;
+	n) npm_install ; exit 0 ;;
+	g) void_packages_git ; exit 0 ;;
+	d) dotfiles ; exit 0 ;;
+	l) enable_light ; exit 0 ;;
 	\?)
 		echo "Invalid option: -$OPTARG"
 		return 1
