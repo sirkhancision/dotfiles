@@ -1,6 +1,16 @@
 # dotfiles
 
-![desktop + dunst + terminal](screenshots/2023-07-01_01-40-57.png)
+<details>
+<summary>Laptop</summary>
+
+![laptop + dunst + terminal](screenshots/2023-07-01_01-40-57.png)
+</details>
+
+<details>
+<summary>Desktop</summary>
+
+![desktop + terminal](screenshots/2023-12-24_15-56-46.png)
+</details>
 
 A set of configuration files for my personal system (Void Linux). See **dotman** to automate much of this process. There's also **void_configure.sh**, to automate things after installing Void Linux.
 
