@@ -39,7 +39,7 @@
     },
     "sway/window": {
       "format": " <span color=\"#dbcccf\">{title}</span>",
-      "max-length": 50,
+      "max-length": 50
     },
     "sway/mode": {
       "tooltip": false,
@@ -166,7 +166,7 @@
       "on-click": "playerctl play-pause",
       "on-click-right": "playerctl stop",
       "exec": "~/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
-    },
+    }
   },
   {
     "name": "bottombar",
