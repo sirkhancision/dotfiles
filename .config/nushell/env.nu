@@ -104,4 +104,5 @@ $env.NU_PLUGIN_DIRS = [
 # $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
-zoxide init nushell | save -f ~/.zoxide.nu
+# zoxide init nushell | save -f ~/.zoxide.nu
+zoxide init nushell | str replace "def-env" "def --env" --all | save -f ~/.zoxide.nu
