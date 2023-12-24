@@ -113,18 +113,18 @@ PACKAGES="CopyQ \
 	mpg123 \
 	mpv \
 	mpv-mpris \
-	musescore \
 	ncurses \
 	neofetch \
 	nerd-fonts \
-	nnn \
 	nomacs \
 	noto-fonts-cjk \
 	noto-fonts-emoji \
+	nushell \
 	obs \
 	ocl-icd \
 	ocl-icd-32bit \
 	okular \
+	opendoas \
 	p7zip \
 	p7zip-unrar \
 	papirus-folders \
