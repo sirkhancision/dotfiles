@@ -16,7 +16,7 @@ set $scroll_workspace $HOME/.config/sway/scripts/workspace_scroll.nu
 set $add_workspace $HOME/.config/sway/scripts/workspace_add.nu
 set $switch_workspace $HOME/.config/sway/scripts/workspace_switch.nu
 set $volume_change $HOME/.config/sway/scripts/volume_change.nu
-set $wallpaper $HOME/dotfiles/lain-pink-laptop.png
+set $wallpaper $HOME/dotfiles/lain-pink.png
 
 # Keyboard
 input * {
