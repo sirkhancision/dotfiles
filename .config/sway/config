@@ -213,7 +213,7 @@ bindsym Ctrl+Shift+x exec dunstctl close-all
 for_window [app_id="Firefox" title="Picture-in-Picture"] \
     floating enable, sticky enable, resize set 854 480
 for_window [app_id="update_module"] \
-    floating enable, move position -111 px -34 px, resize set 36 ppt 64 ppt
+    floating enable, move position 10 px 92 px, resize set 36 ppt 64 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [app_id="Firefox" title="Firefox - Indicador de compartilhamento"] \
     floating enable, move position 900 0
