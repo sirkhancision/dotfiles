@@ -1,4 +1,5 @@
 .config/qt5ct/qt5ct.conf
+.config/qt6ct/qt6ct.conf
 .icons/*.png
 .config/fontconfig/conf.d/78-Reject.conf
 .config/nnn/finderbms
