@@ -227,7 +227,7 @@ for_window [class="^steam_app_\d+$"] floating enable
 for_window [class=".+\.exe$"] floating enable
 for_window [app_id="thunar" title="Progresso da operação de arquivo"] floating enable
 for_window [app_id="com\.github\.hluk\.copyq"] floating enable
-for_window [app_id="gsimplecal"] floating enable, move position 1108 px 0 px
+for_window [app_id="gsimplecal"] floating enable, move position 1661 px 0 px
 for_window [class="gamescope"] floating enable
 
 include /etc/sway/config.d/*
