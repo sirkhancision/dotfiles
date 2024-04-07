@@ -19,12 +19,12 @@ file-types = ["xml", "musicxml"]
 
 [[language]]
 name = "nix"
-file-types = ["nix", { suffix = "picom/picom.conf" }]
+file-types = ["nix", { glob = "picom/picom.conf" }]
 
 [[language]]
 name = "ini"
-file-types = ["ini", "desktop", { suffix = "redshift/redshift.conf" }]
+file-types = ["ini", "desktop", { glob = "redshift/redshift.conf" }]
 
 [[language]]
 name = "json"
-file-types = ["json", "jsonc", "arb", "ipynb", "geojson", { suffix = "waybar/config" }]
+file-types = ["json", "jsonc", "arb", "ipynb", "geojson", { glob = "waybar/config" }]
