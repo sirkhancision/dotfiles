@@ -4,9 +4,10 @@ theme = "merionette"
 cursorline = true
 bufferline = "multiple"
 color-modes = true
+auto-save = true
 
 [editor.statusline]
-left = ["mode", "diagnostics", "version-control"]
+left = ["mode", "diagnostics", "version-control", "read-only-indicator", "file-modification-indicator"]
 center = ["file-name", "spinner"]
 right = ["file-type", "separator", "file-encoding", "position", "position-percentage"]
 
