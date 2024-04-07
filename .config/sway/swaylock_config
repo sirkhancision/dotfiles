@@ -2,7 +2,7 @@ color=000000
 daemonize
 font="sans-serif"
 hide-keyboard-layout
-image="$HOME/dotfiles/lain-white-lock-laptop.png"
+image="$HOME/dotfiles/lain-white-lock.png"
 indicator-radius=200
 indicator-thickness=8
 inside-caps-lock-color=00000088
