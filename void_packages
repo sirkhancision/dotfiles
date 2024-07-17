@@ -42,6 +42,7 @@ PACKAGES="CopyQ \
 	freetype \
 	fzf \
 	gamemode \
+	gamescope \
 	gammastep \
 	ghostwriter \
 	git \
@@ -72,6 +73,7 @@ PACKAGES="CopyQ \
 	jq \
 	kcharselect \
 	kdenlive \
+	keepassxc \
 	krita \
 	libXcomposite \
 	libXinerama \
@@ -132,6 +134,7 @@ PACKAGES="CopyQ \
 	patch \
 	pavucontrol \
 	picard \
+	piper \
 	pipewire \
 	playerctl \
 	pmount \
