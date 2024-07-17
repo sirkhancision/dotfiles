@@ -3,7 +3,7 @@
 def main [target: int] {
   let workspaces = ^swaymsg -t get_workspaces
     | from json
-    | par-each { |x| $x.name | into int }
+    | par-each { |workspace| $workspace.name | into int }
 
   ^swaymsg workspace (get_workspace $workspaces $target)
 }
