@@ -2,16 +2,15 @@
 
 export def main [url: string, dir: path = "."] {
   if (is_archive $url) {
-    (print "Downloading file...")
+    print "Downloading file..."
     http get $url | bsdtar -xf - --directory $dir
   } else {
     let span = (metadata $url).span
     error make {
-      msg: "invalid filetype in url"
+      msg: "invalid filetype in URL"
       label: {
-        text: "the filetype in the url is not a supported archive extension"
-        start: $span.start
-        end: $span.end
+        text: "The filetype in the URL is not a supported archive extension"
+        span: $span
       }
     }
   }
@@ -19,28 +18,12 @@ export def main [url: string, dir: path = "."] {
 
 def is_archive [url: string]: nothing -> bool {
   let extensions = [
-    ".7z"
-    ".ar"
-    ".cpio"
-    ".iso"
-    ".jar"
-    ".rpm"
-    ".tar"
-    ".tar.Z"
-    ".tar.bz2"
-    ".tar.gz"
-    ".tar.lz"
-    ".tar.xz"
-    ".tar.zst"
-    ".tbz2"
-    ".tgz"
-    ".tlz"
-    ".txz"
-    ".xar"
-    ".zip"
+    ".7z", ".ar", ".cpio", ".iso", ".jar", ".rpm", ".tar", ".tar.Z",
+    ".tar.bz2", ".tar.gz", ".tar.lz", ".tar.xz", ".tar.zst",
+    ".tbz2", ".tgz", ".tlz", ".txz", ".xar", ".zip"
   ]
 
   let filename = $url | parse -r '([^/]+$)' | get capture0.0
 
-  $extensions | any { |x| $filename | str ends-with $x }
+  $extensions | any { |ext| $filename | str ends-with $ext }
 }
