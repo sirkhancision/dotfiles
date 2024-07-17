@@ -6,9 +6,8 @@ export def main [change: string] {
     error make {
       msg: "invalid operation parameter",
       label: {
-        text: "has to be either increase or decrease",
-        start: $span.start,
-        end: $span.end
+        text: "has to be either 'increase' or 'decrease'",
+        span: $span
       }
     }
   }
@@ -36,6 +35,9 @@ def get_target_volume [
       $values | each while { |x| if $x < $volume { $x } } | last
     }
   } else {
+    # this calculates the distance between the current volume
+    # and the values in the list of possible volumes, and gets the value
+    # with the shortest distance
     let closest_value_index = $values
       | par-each { |x| ($x - $volume) | math abs }
       | enumerate
