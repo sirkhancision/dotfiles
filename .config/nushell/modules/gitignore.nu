@@ -3,9 +3,10 @@ def "nu-complete gi" [] {
 }
 
 export def gi [...parameters: string@"nu-complete gi"] {
-  match $parameters {
-    "list" => { get_command_list }
-    _ => { get_ignore_file ($parameters | split words) }
+  if ($parameters | first) == "list" {
+    get_command_list
+  } else {
+    get_ignore_file $parameters
   }
 }
 
