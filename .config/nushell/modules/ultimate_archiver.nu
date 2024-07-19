@@ -53,8 +53,7 @@ export def archive [
       msg: "unsupported file extension"
       label: {
         text: "the file extension provided is not supported",
-        start: $span.start,
-        end: $span.end
+        span: $span
       }
     }
   } else {
