@@ -38,8 +38,9 @@
       }
     },
     "sway/window": {
+      "tooltip": false,
       "format": " <span color=\"#dbcccf\">{title}</span>",
-      "max-length": 50,
+      "max-length": 50
     },
     "sway/mode": {
       "tooltip": false,
@@ -145,9 +146,11 @@
       "tooltip-format-wifi": "{essid}",
       "tooltip-format-ethernet": "",
       "tooltip-format-disconnected": "Disconnected",
-      "max-length": 7
+      "max-length": 7,
+      "on-click": "foot --app-id network_module sh -c 'nmtui'"
     },
     "clock": {
+      "tooltip": false,
       "format": "{:%H:%M}",
       "format-alt": "{:%d/%m/%Y}",
       "locale": "pt_BR.UTF-8",
@@ -166,7 +169,7 @@
       "on-click": "playerctl play-pause",
       "on-click-right": "playerctl stop",
       "exec": "~/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
-    },
+    }
   },
   {
     "name": "bottombar",

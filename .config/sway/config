@@ -214,6 +214,8 @@ for_window [app_id="Firefox" title="Picture-in-Picture"] \
     floating enable, sticky enable, resize set 854 480
 for_window [app_id="update_module"] \
     floating enable, move position -111 px -34 px, resize set 36 ppt 64 ppt
+for_window [app_id="network_module"] \
+    floating enable, move position 771 px -14 px, resize set 36 ppt 64 ppt
 for_window [title="(?:Open | Save) (?:File|Folder|As)"] floating enable
 for_window [app_id="Firefox" title="Firefox - Indicador de compartilhamento"] \
     floating enable, move position 900 0
@@ -227,7 +229,7 @@ for_window [class="^steam_app_\d+$"] floating enable
 for_window [class=".+\.exe$"] floating enable
 for_window [app_id="thunar" title="Progresso da operação de arquivo"] floating enable
 for_window [app_id="com\.github\.hluk\.copyq"] floating enable
-for_window [app_id="gsimplecal"] floating enable, move position 1108 px 0 px
+for_window [app_id="gsimplecal"] floating enable, move position 1156 px 0 px
 for_window [class="gamescope"] floating enable
 
 include /etc/sway/config.d/*
