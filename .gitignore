@@ -1,4 +1,5 @@
 .config/qt5ct/qt5ct.conf
+.config/gtk-3.0
 .icons/*.png
 .config/fontconfig/conf.d/78-Reject.conf
 .config/nnn/finderbms
