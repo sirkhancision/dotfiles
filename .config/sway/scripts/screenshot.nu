@@ -11,9 +11,8 @@ def main [shot_type: string] {
     error make {
       msg: "invalid type parameter",
       label: {
-        text: "has to be either screen, active or area",
-        start: $span.start,
-        end: $span.end
+        text: "has to be either 'screen', 'active' or 'area'",
+        span: $span
       }
     }
   }

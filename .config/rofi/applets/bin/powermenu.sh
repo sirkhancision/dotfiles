@@ -24,19 +24,19 @@ fi
 # Options
 layout=$(grep <"${theme}" 'USE_ICON' | cut -d'=' -f2)
 if [[ $layout == 'NO' ]]; then
-	option_1=" Deslogar"
+	option_1=" Deslogar"
 	option_2="󰤄 Hibernar"
-	option_3=" Reiniciar"
-	option_4=" Desligar"
-	yes=' Sim'
-	no=' Não'
+	option_3=" Reiniciar"
+	option_4="󰐥 Desligar"
+	yes='󰄬 Sim'
+	no=' Não'
 else
-	option_1=""
+	option_1=""
 	option_2="󰤄"
-	option_3=""
-	option_4=""
-	yes=''
-	no=''
+	option_3=""
+	option_4="󰐥"
+	yes='󰄬'
+	no=''
 fi
 
 # Rofi CMD

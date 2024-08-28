@@ -1,26 +1,41 @@
 /* waybar style.css */
 @define-color dark_gray #221717;
-@define-color white #dbcccf;
-@define-color pink #c79295;
-@define-color orange #eb842b;
-@define-color red #d2505f;
 @define-color gray #704144;
+@define-color orange #eb842b;
+@define-color pink #c79295;
+@define-color red #d2505f;
+@define-color white #dbcccf;
 
 /* Reset all styles */
 * {
-	border: none;
 	border-radius: 0;
-	min-height: 32px;
+	border: none;
 	font-family: monospace;
-	font-size: 14px;
+	font-size: 16px;
 	margin: 0;
+	min-height: 32px;
 	padding: 0;
 }
 
-#waybar {
-	margin: 24;
-	background: @dark_gray;
+#waybar,
+#workspaces button {
 	color: @white;
+}
+
+#workspaces button {
+	margin: 0 5px;
+}
+
+#workspaces button:hover {
+	background: @hover;
+	box-shadow: inherit;
+	text-shadow: inherit;
+	transition: none;
+}
+
+#waybar {
+	background: @dark_gray;
+	margin: 24;
 }
 
 .topbar {
@@ -31,93 +46,88 @@
 	border-top: 1px solid @red;
 }
 
+#backlight,
+#battery,
+#cpu,
+#custom-calendar,
+#custom-flatpak,
+#custom-scratchpad_indicator,
+#custom-xbps,
+#language,
+#memory,
+#network,
+#pulseaudio,
+#tray,
+#window,
+#workspaces button.focused,
+#workspaces button:hover {
+	color: @pink;
+}
+
+#backlight,
+#battery,
+#clock,
+#cpu,
+#custom-calendar,
+#custom-flatpak,
+#custom-scratchpad_indicator,
+#custom-xbps,
+#keyboard-state,
+#language,
+#memory,
+#network,
+#pulseaudio,
+#tray,
+#window,
 #workspaces button {
 	background: transparent;
-	margin: 0 5px;
-	color: @white;
 }
 
-#workspaces button.focused {
-	background: transparent;
-	color: @pink;
+#backlight,
+#battery,
+#clock,
+#cpu,
+#custom-calendar,
+#custom-flatpak,
+#custom-xbps,
+#memory,
+#network,
+#pulseaudio,
+#tray {
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
-#workspaces button.urgent {
-	background: transparent;
-	color: @orange;
-}
-
-#workspaces button:hover {
-	background: @hover;
-	color: @pink;
-	transition: none;
-	box-shadow: inherit;
-	text-shadow: inherit;
+#idle_inhibitor,
+#custom-powermenu {
+	background: @red;
+	font-size: 24px;
 }
 
 #idle_inhibitor {
-	background: @red;
-	font-size: 22px;
 	padding-left: 15px;
 	padding-right: 15px;
 }
 
 #custom-powermenu {
-	background: @red;
-	font-size: 22px;
 	padding-left: 20px;
 	padding-right: 20px;
 }
 
+#custom-scratchpad_indicator,
 #window {
-	background: transparent;
-	color: @pink;
 	padding-left: 10px;
 }
 
-#keyboard-state {
-	background: transparent;
-	color: @orange
+#language {
+	padding-right: 10px;
 }
 
-#language,
-#custom-scratchpad_indicator {
-	background: transparent;
-	padding-left: 10px;
-	color: @pink;
-}
-
-#cpu,
-#memory,
-#tray,
-#battery,
-#backlight,
-#pulseaudio,
-#network,
-#custom-calendar,
-#custom-flatpak,
-#custom-xbps {
-	background: transparent;
-	color: @pink;
-	padding-left: 8px;
-	padding-right: 8px;
-}
-
-#network.disconnected {
-	color: @orange;
-}
-
-#clock {
-	background: transparent;
-	padding-left: 8px;
-	padding-right: 8px;
-}
-
-#cpu.critical {
-	color: @orange;
-}
-
-#memory.critical {
+#cpu.critical,
+#keyboard-state,
+#memory.critical,
+#network.disconnected,
+#workspaces button.urgent {
 	color: @orange;
 }
 
@@ -127,27 +137,12 @@
 	}
 }
 
-#battery.plugged {
-	animation-name: blink1;
-	animation-duration: 0.5s;
-	animation-timing-function: linear;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
-}
-
 @keyframes blink2 {
 	to {
 		background-color: @orange;
 	}
 }
 
-#battery.warning:not(.charging) {
-	animation-name: blink2;
-	animation-duration: 0.7s;
-	animation-timing-function: ease-in-out;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
-}
 
 @keyframes blink3 {
 	to {
@@ -155,10 +150,30 @@
 	}
 }
 
-#battery.critical:not(.charging) {
-	animation-name: blink3;
-	animation-duration: 0.8s;
-	animation-timing-function: ease-in-out;
-	animation-iteration-count: infinite;
+#battery.critical:not(.charging),
+#battery.plugged,
+#battery.warning:not(.charging) {
 	animation-direction: alternate;
+	animation-iteration-count: infinite;
+}
+
+#battery.critical:not(.charging),
+#battery.warning:not(.charging) {
+	animation-timing-function: ease-in-out;
+}
+
+#battery.critical:not(.charging) {
+	animation-duration: 0.8s;
+	animation-name: blink3;
+}
+
+#battery.plugged {
+	animation-duration: 0.5s;
+	animation-name: blink1;
+	animation-timing-function: linear;
+}
+
+#battery.warning:not(.charging) {
+	animation-duration: 0.7s;
+	animation-name: blink2;
 }

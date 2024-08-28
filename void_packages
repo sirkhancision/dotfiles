@@ -42,6 +42,7 @@ PACKAGES="CopyQ \
 	freetype \
 	fzf \
 	gamemode \
+	gamescope \
 	gammastep \
 	ghostwriter \
 	git \
@@ -72,6 +73,7 @@ PACKAGES="CopyQ \
 	jq \
 	kcharselect \
 	kdenlive \
+	keepassxc \
 	krita \
 	libXcomposite \
 	libXinerama \
@@ -113,18 +115,18 @@ PACKAGES="CopyQ \
 	mpg123 \
 	mpv \
 	mpv-mpris \
-	musescore \
 	ncurses \
 	neofetch \
 	nerd-fonts \
-	nnn \
 	nomacs \
 	noto-fonts-cjk \
 	noto-fonts-emoji \
+	nushell \
 	obs \
 	ocl-icd \
 	ocl-icd-32bit \
 	okular \
+	opendoas \
 	p7zip \
 	p7zip-unrar \
 	papirus-folders \
@@ -132,6 +134,7 @@ PACKAGES="CopyQ \
 	patch \
 	pavucontrol \
 	picard \
+	piper \
 	pipewire \
 	playerctl \
 	pmount \

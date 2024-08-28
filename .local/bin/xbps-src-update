@@ -7,33 +7,35 @@ import subprocess
 import sys
 
 
+def run_subprocess(command, capture_output=False):
+    """
+    Run a subprocess command and return the output
+    """
+    result = subprocess.run(command, capture_output=capture_output, text=True)
+    if result.returncode != 0:
+        raise subprocess.CalledProcessError(
+            f"Error running {' '.join(command)}")
+    if capture_output:
+        return result.stdout.strip()
+    return None
+
+
 def get_updates_names():
     """
     Get a list of the packages with available updates
     """
-    updates = subprocess.run(["xbps-checkvers", "-If%n"],
-                             capture_output=True,
-                             text=True)
-    if updates.returncode != 0:
-        raise subprocess.CalledProcessError("Error running xbps-checkvers")
-
-    return updates.stdout.strip().split()
+    output = run_subprocess(["xbps-checkvers", "-If%n"], capture_output=True)
+    return output.split()
 
 
 def get_updates_version():
     """
     Get a list of the package versions with available updates
     """
-    updates = subprocess.run(["xbps-checkvers", "-If%r %s"],
-                             capture_output=True,
-                             text=True)
-    if updates.returncode != 0:
-        raise subprocess.CalledProcessError("Error running xbps-checkvers")
-
-    output_lines = updates.stdout.strip().split('\n')
-    updates_list = [line.split() for line in output_lines]
-
-    return updates_list
+    output = run_subprocess(["xbps-checkvers", "-If%r %s"],
+                            capture_output=True)
+    updates = output.split('\n')
+    return [line.split() for line in updates]
 
 
 def select_packages(num_updates, updates):
@@ -57,7 +59,7 @@ def select_packages(num_updates, updates):
             invalid_selections.add(item)
 
     valid_indexes = set(range(num_updates))
-    selected_indexes = selected_indexes.intersection(valid_indexes)
+    selected_indexes.intersection_update(valid_indexes)
     invalid_selections -= valid_indexes
 
     packages = [updates[index] for index in selected_indexes]
@@ -73,9 +75,19 @@ def update_all(XBPS_SRC):
     Update all packages that have updates available
     """
     print("\nUpdating packages...")
-    result = subprocess.run([XBPS_SRC, "update-sys"])
-    if result.returncode != 0:
-        raise subprocess.CalledProcessError("Error running xbps-src")
+    run_subprocess([XBPS_SRC, "update-sys"])
+
+
+def update_selected_packages(XBPS_SRC, packages):
+    """
+    Updates selected packages with xbps-install
+    """
+    for pkg in packages:
+        print(f"\nUpdating package: {pkg}")
+        run_subprocess([XBPS_SRC, "pkg", pkg])
+
+    xbps_install_cmd = ["xi"] + packages
+    run_subprocess(xbps_install_cmd)
 
 
 def update_packages(XBPS_SRC, updates):
@@ -104,22 +116,6 @@ def update_packages(XBPS_SRC, updates):
             print("Invalid option")
 
 
-def update_selected_packages(XBPS_SRC, packages):
-    """
-    Updates selected packages with xbps-install
-    """
-    for pkg in packages:
-        print(f"\nUpdating package: {pkg}")
-        result = subprocess.run([XBPS_SRC, "pkg", pkg])
-        if result.returncode != 0:
-            raise subprocess.CalledProcessError(f"Error packaging {pkg}")
-
-    xbps_install_cmd = "xi " + " ".join(packages)
-    result = subprocess.run(xbps_install_cmd, shell=True)
-    if result.returncode != 0:
-        raise subprocess.CalledProcessError("Error running xbps-install")
-
-
 def pull_changes(VOID_PKGS_DIR):
     """
     Pull changes from the remote repository
@@ -142,13 +138,13 @@ def pull_changes(VOID_PKGS_DIR):
 
 
 def is_pkg_restricted(VOID_PKGS_DIR, pkg):
-    pkg_template = os.path.join(VOID_PKGS_DIR, f"srcpkgs/{pkg}/template")
+    """
+    Checks if a package is marked as restricted
+    """
+    pkg_template_path = os.path.join(VOID_PKGS_DIR, f"srcpkgs/{pkg}/template")
 
-    with open(pkg_template, 'r') as pkg_template:
-        for line in pkg_template:
-            if "restricted=yes" in line:
-                return True
-    return False
+    with open(pkg_template_path, 'r') as pkg_template:
+        return any("restricted=yes" in line for line in pkg_template)
 
 
 def print_updates(VOID_PKGS_DIR, updates):

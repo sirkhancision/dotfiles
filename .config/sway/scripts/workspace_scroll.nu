@@ -3,7 +3,7 @@
 def main [] {
   let workspaces_table = ^swaymsg -t get_workspaces | from json
   let workspaces_list = $workspaces_table
-    | par-each { |x| $x.name | into int }
+    | par-each { |workspace| $workspace.name | into int }
 
   let current = $workspaces_table
     | where focused == true
