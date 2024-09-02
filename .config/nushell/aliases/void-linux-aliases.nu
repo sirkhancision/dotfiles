@@ -11,7 +11,6 @@ export alias xdba = doas xbps-pkgdb -a
 export alias xf = xbps-fetch
 export alias xqh = xbps-query -H
 export alias xqo = xbps-query -O
-export alias xr = doas xbps-remove
 export alias xrc = doas xbps-reconfigure
 export alias xrca = doas xbps-reconfigure -a
 export alias xrr = doas xbps-remove -R
