@@ -3,13 +3,13 @@
 import argparse
 import subprocess
 import sys
-from datetime import datetime, timedelta
+from datetime import timedelta
 from shutil import which
 
 
 def check_dependencies(dependencies):
     """
-    Check if the required programs are installed
+    Check if the required programs are installed.
     """
     missing_deps = [cmd for cmd in dependencies if which(cmd) is None]
     if missing_deps:
@@ -25,27 +25,33 @@ def parse_time(time):
         MM:SS
         SS
 
-    Returns a corresponding datetime object
+    Returns a corresponding timedelta object.
     """
-    parts = time.split(":")
-    time_values = [int(part) for part in parts]
-    time_values += [0] * (3 - len(time_values))
-    return datetime(1, 1, 1, *time_values)
+    parts = list(map(int, time.split(":")))
+    if len(parts) == 1:
+        return timedelta(seconds=parts[0])
+    elif len(parts) == 2:
+        return timedelta(minutes=parts[0], seconds=parts[1])
+    elif len(parts) == 3:
+        return timedelta(hours=parts[0], minutes=parts[1], seconds=parts[2])
 
 
 def download_cropped_video(start_time, end_time, video_link, audio_link,
                            output_file):
     """
-    Download a portion of a video, using ffmpeg and yt-dlp
+    Download a portion of a video using ffmpeg and yt-dlp.
     """
-    print(f"Downloading video from {start_time} to {end_time}, "
-          f"into {output_file}.mkv")
+    print(
+        f"Downloading video from {start_time} to {end_time}, into {output_file}.mkv"
+    )
 
     command = [
         "ffmpeg",
         "-hide_banner",
         "-loglevel",
         "error",
+        "-progress",
+        "pipe:1",  # Display progress
         "-ss",
         str(start_time),
         "-i",
@@ -55,7 +61,7 @@ def download_cropped_video(start_time, end_time, video_link, audio_link,
         "-i",
         audio_link,
         "-t",
-        str(end_time),
+        str(end_time - start_time),
         "-map",
         "0:v",
         "-map",
@@ -69,53 +75,45 @@ def download_cropped_video(start_time, end_time, video_link, audio_link,
 
     try:
         subprocess.check_call(command)
-        print("Download complete")
-    except subprocess.CalledProcessError:
-        print("Error running ffmpeg, exiting")
+        print("Download complete.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error running ffmpeg: {e}. Command used: {' '.join(command)}")
         sys.exit(1)
 
 
 def parse_args(argv):
     """
-    Parse arguments given to the program
+    Parse arguments given to the program.
     """
     parser = argparse.ArgumentParser(
         prog="ytmkvcrop",
         description="Video downloader with partial download support")
-    parser.add_argument(
-        "-l",
-        "--link",
-        dest="video_link",
-        help="The link to the video you want to download",
-        required=True,
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        dest="output_file",
-        help="Output file name, without the extension",
-        required=True,
-    )
-    parser.add_argument(
-        "-s",
-        "--start",
-        dest="start_time",
-        help="The time you want the video to start from",
-    )
-    parser.add_argument(
-        "-e",
-        "--end",
-        dest="end_time",
-        help="The time you want the video to end at",
-        required=True,
-    )
+    parser.add_argument("-l",
+                        "--link",
+                        dest="video_link",
+                        help="The link to the video you want to download",
+                        required=True)
+    parser.add_argument("-o",
+                        "--output",
+                        dest="output_file",
+                        help="Output file name, without the extension",
+                        required=True)
+    parser.add_argument("-s",
+                        "--start",
+                        dest="start_time",
+                        help="The time you want the video to start from",
+                        required=True)
+    parser.add_argument("-e",
+                        "--end",
+                        dest="end_time",
+                        help="The time you want the video to end at",
+                        required=True)
     return parser.parse_args(argv)
 
 
 def main(argv):
     """
-    Video downloader that supports downloading only a specific part
-    of the video
+    Video downloader that supports downloading only a specific part of the video.
     """
     dependencies = ["ffmpeg", "yt-dlp"]
     check_dependencies(dependencies)
@@ -124,33 +122,12 @@ def main(argv):
 
     video_link = args.video_link
     output_file = args.output_file
-    start_time = (parse_time(args.start_time) if args.start_time else datetime(
-        1, 1, 1, 0, 0, 0))
+    start_time = parse_time(args.start_time)
     end_time = parse_time(args.end_time)
 
-    links = (subprocess.check_output(["yt-dlp", "-g", video_link
-                                      ]).decode("utf-8").splitlines())
-
-    video_link = links[0] if links else None
-    audio_link = links[1] if len(links) > 1 else None
-
-    if not video_link or not audio_link:
-        print("Video link is required")
-        sys.exit(1)
-
-    if start_time:
-        time_diff = start_time - end_time
-        end_time = start_time - timedelta(seconds=time_diff.total_seconds())
-    start_time = start_time.strftime("%H:%M:%S")
-    end_time = end_time.strftime("%H:%M:%S")
-
-    download_cropped_video(start_time, end_time, video_link, audio_link,
+    download_cropped_video(start_time, end_time, video_link, video_link,
                            output_file)
 
 
 if __name__ == "__main__":
-    try:
-        main(sys.argv[1:])
-    except KeyboardInterrupt:
-        print("\nScript aborted")
-        sys.exit(1)
+    main(sys.argv[1:])
